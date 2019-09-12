@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
+
+import Personnel from "@/views/Personnel"
+import PersonnelDashboard from "@/components/personnel/PersonnelDashboard"
+
+import Mentorship from "@/components/personnel/mentor/Mentorship"
+import MentoringSession from "@/components/personnel/mentor/mentoring/MentoringSession"
 
 Vue.use(Router)
 
@@ -9,7 +15,29 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Personnel
+    },
+    {
+      path: '/personnel',
+      name: 'Personnel',
+      component: Personnel,
+      children:[
+        {
+          path: "/personnel/dashboard",
+          name: "Personnel Dashboard",
+          component: PersonnelDashboard
+        },
+        {
+          path: "/personnel/mentor",
+          name: "Mentor Dashboard",
+          component: Mentorship
+        },
+        {
+          path: "/personnel/mentor/:mentorId/mentoring",
+          name: "Mentoring Session",
+          component: MentoringSession
+        },
+      ]
     },
     {
       path: '/about',
