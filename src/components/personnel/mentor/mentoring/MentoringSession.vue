@@ -1,7 +1,7 @@
 <template>
   <v-container>
+    <!-- {{dataList}} -->
     <v-layout>
-      <!-- {{dataList}} -->
       <v-flex md12>
         <v-data-table
           :loading="tableLoad"
@@ -10,7 +10,10 @@
           class="elevation-1"
         >
           <template v-slot:item.status="{ item }">
-            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+            <v-flex>
+              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+            </v-flex>
+            <v-flex>{{item.note}}</v-flex>
           </template>
           <template v-slot:item.action="{ item }">
             <template v-if="item.status == 'proposed'">
@@ -32,13 +35,13 @@ export default {
       tableLoad: false,
       dataList: { total: 0, list: [] },
       headers: [
-        { text: "Name", value: "mentoring.name" },
+        { text: "Name", value: "mentoring.name", sortable: false },
         { text: "participant", value: "participant.team.name" },
-        { text: "Schedule", value: "mentoring.start_date" },
-        { text: "Media", value: "media" },
-        { text: "Rating", value: "rating_from_participant" },
-        { text: "Status", value: "status" },
-        { text: "", value: "action" }
+        { text: "Schedule", value: "start_time" },
+        { text: "Media", value: "media", sortable: false },
+        { text: "Rating", value: "rating_from_participant", sortable: false },
+        { text: "Status", value: "status", sortable: false },
+        { text: "", value: "action", align: "right" }
       ]
     };
   },

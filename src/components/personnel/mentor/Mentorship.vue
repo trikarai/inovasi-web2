@@ -13,7 +13,7 @@
             <!-- {{item}} -->
             <v-btn disabled class="mr-2">Participant</v-btn>
             <v-btn @click="gotoMentoring(item.id)" color="primary" class="mr-2">Mentoring</v-btn>
-            <v-btn disabled class="mr-2">Phase</v-btn>
+            <v-btn @click="gotoPhase(item)" color="primary" class="mr-2">Phase</v-btn>
             <v-btn disabled class="mr-2">Feedback</v-btn>
           </template>
         </v-data-table>
@@ -62,6 +62,9 @@ export default {
     },
     gotoMentoring: function(mentorId) {
       this.$router.push({ path: "/personnel/mentor/" + mentorId + "/mentoring" });
+    },
+    gotoPhase: function(item) {
+      this.$router.push({ path: "/personnel/mentor/" + item.id + "/program/" + item.programme.id +"/phase" });
     }
   }
 };
