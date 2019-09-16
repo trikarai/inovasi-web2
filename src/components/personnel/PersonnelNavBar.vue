@@ -23,7 +23,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-avatar>
-            <!-- <img src="/img/avatar2.png" /> -->
+            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{user.name}}</v-list-item-title>
@@ -47,6 +47,39 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-navigation-drawer temporary right v-model="rightDrawer" fixed>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content></v-list-item-content>
+          <v-list-item-action>
+            <v-btn small color="red" @click="logout">
+              <span>Sign Out</span>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>language</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content></v-list-item-content>
+          <v-list-item-action>
+            <!-- <LocaleSwitcher /> -->
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>brightness_4</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>Dark Theme</v-list-item-content>
+          <v-list-item-action>
+            <v-switch color="black" @change="switchTheme"></v-switch>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </nav>
 </template>
 <script>
@@ -56,6 +89,7 @@ export default {
   data() {
     return {
       drawer: true,
+      rightDrawer: false,
       rightDrawer: false,
       miniVariant: false,
       clipped: false,
@@ -70,7 +104,7 @@ export default {
         {
           icon: "person_outline",
           text: "Coordinator",
-          route: "/personnel/dashboard"
+          route: "/personnel/coordinator"
         },
         {
           icon: "person",
@@ -86,6 +120,14 @@ export default {
   methods: {
     goback: function() {
       this.$router.go(-1);
+    },
+    switchTheme: function() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+    logout: function() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("access_data");
+      this.$router.replace({ path: "/" });
     }
   }
 };
