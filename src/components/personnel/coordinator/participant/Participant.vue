@@ -1,0 +1,186 @@
+<template>
+  <v-container>
+    <!-- {{participant}} -->
+    <v-card class="elevation-0 mb-3">
+      <v-card-title>
+        <div class="flex-grow-1"></div>
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+      </v-card-title>
+      <v-layout>
+        <v-flex md12>
+          <v-data-table
+            dark
+            :search="search"
+            :loading="tableLoad"
+            :headers="headers"
+            :items="participant.list"
+            class="elevation-1"
+          >
+            <template v-slot:item.team.name="{item}">{{item.team.name | truncate(30)}}</template>
+            <template v-slot:item.status="{item}">
+              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+            </template>
+            <template v-slot:item.action="{ item }">
+              <template v-if="item.status == 'active'">
+                <template v-if="item.id != selectedFail">
+                  <v-btn
+                    @click="actionParticipant(item.id, 'pass')"
+                    small
+                    class="mr-2"
+                    color="warning"
+                  >Pass</v-btn>
+                  <v-btn @click="failAct(item.id)" small class="mr-2" color="danger">Fail</v-btn>
+                </template>
+                <v-expand-transisition>
+                  <div v-if="item.id == selectedFail">
+                    Are You Sure to Fail this Team ?!
+                    <br />
+                    <v-btn
+                      color="red"
+                      class="mt-2 mb-2 mr-2"
+                      @click="actionParticipant(item.id, 'fail')"
+                    >Yes</v-btn>
+                    <v-btn
+                      color="warning"
+                      class="mt-2 mb-2 mr-2"
+                      @click="selectedFail = null"
+                    >Cancel</v-btn>
+                  </div>
+                </v-expand-transisition>
+              </template>
+              <template v-if="item.status == 'registered'">
+                <v-btn
+                  @click="actionParticipant(item.id, 'accept')"
+                  small
+                  class="mr-2"
+                  color="green"
+                >Accept</v-btn>
+                <v-btn @click="rejectAct(item.id)" small class="mr-2" color="danger">Reject</v-btn>
+
+                <v-expand-transisition>
+                  <div v-if="item.id == selectedReject">
+                    Are You Sure to Reject this Team ?!
+                    <br />
+                    <v-btn
+                      color="red"
+                      class="mt-2 mb-2 mr-2"
+                      @click="actionParticipant(item.id, 'reject')"
+                    >Yes</v-btn>
+                    <v-btn
+                      color="warning"
+                      class="mt-2 mb-2 mr-2"
+                      @click="selectedReject = null"
+                    >Cancel</v-btn>
+                  </div>
+                </v-expand-transisition>
+              </template>
+            </template>
+          </v-data-table>
+        </v-flex>
+      </v-layout>
+    </v-card>
+  </v-container>
+</template>
+<script>
+import auth from "@/config/auth";
+import * as config from "@/config/app.config";
+import { statusMixins } from "@/mixins/statusMixins";
+
+export default {
+  mixins: [statusMixins],
+  data: function() {
+    return {
+      selectedReject: "",
+      selectedFail: "",
+      search: "",
+      tableLoad: false,
+      participant: { total: 0, list: [] },
+      headers: [
+        { text: "Team", value: "team.name", sortable: false },
+        {
+          text: "Registration Time",
+          value: "registration_time",
+          sortable: false
+        },
+        { text: "Current Phase", value: "current_phase.name", sortable: false },
+        { text: "Status", value: "status", sortable: false },
+        { text: "", value: "action", sortable: false, align: "right" }
+      ]
+    };
+  },
+  watch: {},
+  created: function() {},
+  mounted: function() {
+    this.getParticipant();
+  },
+  methods: {
+    getParticipant: function() {
+      this.tableLoad = true;
+      this.axios
+        .get(
+          config.APIENDPOINT +
+            "/programme/" +
+            this.$route.params.programId +
+            "/participant",
+          {
+            headers: auth.getAuthHeader()
+          }
+        )
+        .then(res => {
+          if (res.data.data) {
+            this.participant = res.data.data;
+          } else {
+            this.participant = { total: 0, list: [] };
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.tableLoad = false;
+        });
+    },
+    rejectAct: function(id) {
+      if (this.selectedReject == id) {
+        this.selectedReject = null;
+      } else {
+        this.selectedReject = id;
+      }
+    },
+    failAct: function(id) {
+      if (this.selectedFail == id) {
+        this.selectedFail = null;
+      } else {
+        this.selectedFail = id;
+      }
+    },
+    actionParticipant: function(id, action) {
+      this.tableLoad = true;
+      this.axios
+        .put(
+          config,
+          APIENDPOINT +
+            "/programme/" +
+            this.$route.params.programId +
+            "/participant/" +
+            id +
+            "/" +
+            action
+        )
+        .then(() => {
+          this, getParticipant();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.selectedReject = null;
+          this.selectedFail = null;
+          this.tableLoad = false;
+        });
+    }
+  }
+};
+</script>
+<style scoped>
+</style>

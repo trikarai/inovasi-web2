@@ -37,7 +37,7 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn :disabled="!valid" color="primary">Submit</v-btn>
+            <v-btn @click="submit" :disabled="!valid" color="primary">Submit</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
