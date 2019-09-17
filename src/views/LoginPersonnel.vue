@@ -133,7 +133,7 @@ export default {
         })
         .then(res => {
           localStorage.setItem("access_data", JSON.stringify(res.data.data));
-          localStorage.setItem("access_token", response.headers.get("token"));
+          localStorage.setItem("access_token", res.headers["token"]);
           localStorage.setItem("role", "Personnel");
           this.$router.push("/personnel/dashboard");
         })
