@@ -2,6 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import Home from './views/Home.vue'
 
+import TalentLogin from "@/views/LoginTalent"
+import Talent from "@/views/Talent"
+import TalentDashboard from "@/components/talent/TalentDashboard"
+import TalentTeam from "@/components/talent/team/TalentTeam"
+import TalentTeamDetail from "@/components/talent/team/TalentTeamDetail"
+
+import AdminLogin from "@/views/LoginAdmin"
+
 import PersonnelLogin from "@/views/LoginPersonnel"
 import Personnel from "@/views/Personnel"
 import PersonnelDashboard from "@/components/personnel/PersonnelDashboard"
@@ -28,12 +36,49 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: PersonnelLogin
+      component: TalentLogin
+    },
+    {
+      path: '/login',
+      name: 'Login Talent',
+      component: TalentLogin
     },
     {
       path: '/personnel/login',
       name: 'Login Personnel',
       component: PersonnelLogin
+    },
+    {
+      path: '/admin/login',
+      name: 'Login Admin',
+      component: AdminLogin
+    },
+    {
+      path: '/talent',
+      name: 'Talent',
+      component: Talent,
+      children: [
+        {
+          path: "/talent/dashboard",
+          name: "Talent Dashboard",
+          component: TalentDashboard
+        },
+        {
+          path: "/talent/profile",
+          name: "Talent Profile",
+          component: TalentDashboard
+        },
+        {
+          path: "/talent/team",
+          name: "Team Membership",
+          component: TalentTeam
+        },
+        {
+          path: "/talent/team/:teamId/membership/:membershipId",
+          name: "Team Detail",
+          component: TalentTeamDetail
+        }
+      ]
     },
     {
       path: '/personnel',

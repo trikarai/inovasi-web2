@@ -30,7 +30,7 @@
               <!-- </v-toolbar-items> -->
             </v-toolbar>
             <v-card style="padding:20px 30px 30px 30px;" class="text-center">
-              <h3 class="font-weight-light mt-4 mb-1">Login Personnel</h3>
+              <h3 class="font-weight-light mt-4 mb-1">Login Talent</h3>
               <v-card-text style="pa-4">
                 <div>
                   <v-form v-model="valid" ref="form">
@@ -127,15 +127,15 @@ export default {
     login: function() {
       this.loader = true;
       this.axios
-        .post(config.baseUri + "/login/personnel", {
+        .post(config.baseUri + "/login/talent", {
           username: this.username,
           password: this.password
         })
         .then(res => {
           localStorage.setItem("access_data", JSON.stringify(res.data.data));
           localStorage.setItem("access_token", res.headers["token"]);
-          localStorage.setItem("role", "Personnel");
-          this.$router.push("/personnel/dashboard");
+          localStorage.setItem("role", "Talent");
+          this.$router.push("/talent/dashboard");
         })
         .catch(error => {
           console.log(error);

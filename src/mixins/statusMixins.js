@@ -8,7 +8,9 @@ export const statusMixins = {
             } else if (status == "registered") {
                 return "blue";
             } else if (status == "rejected") {
-                return "red"
+                return "red";
+            }else if(status == "resigned"){
+                return "red";
             }
         }
     },
