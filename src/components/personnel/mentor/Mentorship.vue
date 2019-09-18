@@ -45,7 +45,7 @@ export default {
     getMentorship: function() {
       this.tableLoad = true;
       this.axios
-        .get(config.APIENDPOINT + "/tutor", { headers: auth.getAuthHeader() })
+        .get(config.baseUri + "/tutor", { headers: auth.getAuthHeader() })
         .then(res => {
           if (res.data.data) {
             this.mentorship = res.data.data;

@@ -69,7 +69,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/tutor/" +
             this.$route.params.mentorId +
             "/score",

@@ -56,7 +56,7 @@ export default {
     getCoordinatorship: function() {
       this.tableLoad = true;
       this.axios
-        .get(config.APIENDPOINT + "/coordinator", {
+        .get(config.baseUri + "/coordinator", {
           headers: auth.getAuthHeader()
         })
         .then(res => {

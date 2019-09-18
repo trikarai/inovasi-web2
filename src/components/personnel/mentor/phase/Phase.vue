@@ -45,7 +45,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/phase",

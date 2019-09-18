@@ -153,7 +153,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/phase",
@@ -232,7 +232,7 @@ export default {
       this.onsubmit = true;
       this.axios
         .put(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.programId +
             "/phase/" +

@@ -100,7 +100,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/participant",
@@ -124,7 +124,7 @@ export default {
       this.templateLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/team/form_template/" +
             this.$route.params.templateId,
           { headers: auth.getAuthHeader() }
@@ -162,7 +162,7 @@ export default {
       this.templateLoad = true;
       this.axios
         .post(
-          config.APIENDPOINT +
+          config.baseUri +
             "/tutor/" +
             this.$route.params.mentorId +
             "/score",

@@ -10,4 +10,4 @@ if (process.env.NODE_ENV === 'production') {
 //   baseUrl = 'https://start.mikti.id/inovasi'
 //   baseUrl = 'http://103.23.22.223/inovasi'
 }
-export const APIENDPOINT = baseUrl
+export const baseUri = baseUrl

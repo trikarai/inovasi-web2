@@ -155,7 +155,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .get(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/registration",
@@ -195,7 +195,7 @@ export default {
       this.onsubmit = true;
       this.axios
         .post(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.programId +
             "/registration/",
@@ -225,7 +225,7 @@ export default {
       this.tableLoad = true;
       this.axios
         .delete(
-          config.APIENDPOINT +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/registration/" +
