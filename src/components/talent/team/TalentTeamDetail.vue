@@ -132,13 +132,26 @@
               class="elevation-1"
             >
               <template v-slot:item.status="{item}">
+                <template v-if="item.is_admin">
+                  <v-icon small color="yellow">star</v-icon>
+                </template>
                 <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+              </template>
+              <template v-slot:item.action="{item}">
+                <template v-if="item.status == 'active'">
+                  <template v-if="dataUser.id !== item.talent.id">
+                    <v-btn small color="red">Expell</v-btn>
+                  </template>
+                </template>
+                <template v-if="item.status == 'invited'">
+                  <v-btn small color="warning">Cancel</v-btn>
+                </template>
               </template>
             </v-data-table>
           </v-card-text>
           <v-card-actions>
-            <v-btn>
-              <v-icon>person_add</v-icon>
+            <v-btn color="primary">
+              <v-icon left>person_add</v-icon> Invite Registered Talent
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -154,6 +167,7 @@ export default {
   mixins: [statusMixins],
   data() {
     return {
+      dataUser: "",
       valid: false,
       editTeam: false,
       isUpdated: false,
@@ -183,6 +197,9 @@ export default {
   mounted: function() {
     this.getTeamDetail();
     this.getDataList();
+  },
+  created() {
+    this.dataUser = auth.getAuthData();
   },
   watch: {},
   methods: {
