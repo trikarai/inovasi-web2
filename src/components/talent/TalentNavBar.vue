@@ -13,7 +13,7 @@
 
     <v-btn text @click="goback()">back</v-btn>
 
-    <v-navigation-drawer app v-model="drawer" :mini-variant.sync="miniVariant">
+    <v-navigation-drawer app v-model="drawer" :mini-variant.sync="miniVariant" color="sidebar">
       <!-- list head-->
       <v-list class="pa-1">
         <v-list-item v-if="miniVariant" @click.stop="miniVariant = !miniVariant">
