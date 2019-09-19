@@ -9,43 +9,43 @@ export const notifMixins = {
             };
         },
         showError(res) {
-            if (res.status >= 500) {
+            if (res.response.status >= 500) {
                 this.err_msg = {
-                    code: res.status,
-                    type: res.statusText,
+                    code: res.response.status,
+                    type: res.response.statusText,
                     details: ["Internal Server Error | Don't Panic it's not your fault..."]
                 };
-            } else if (res.status === 405) {
+            } else if (res.response.status === 405) {
                 this.err_msg = {
-                    code: res.status,
-                    type: res.statusText,
+                    code: res.response.status,
+                    type: res.response.statusText,
                     details: ["Method Not Allowed"]
                 };
-            } else if (res.status >= 400) {
-                this.err_msg = res.body.meta;
-            } else if (res.status >= 300) {
-                this.err_msg = res.body.meta;
+            } else if (res.response.status >= 400) {
+                this.err_msg = res.response.data.meta;
+            } else if (res.response.status >= 300) {
+                this.err_msg = res.response.data.meta;
             } else {
-                this.err_msg = res.body.meta;
+                this.err_msg = res.response.response.data.meta;
             }
             this.status.error = true;
         },
         showInfo(res, details) {
             this.err_msg = {
-                code: res.status,
-                type: res.statusText,
+                code: res.response.status,
+                type: res.response.statusText,
                 details: details
             };
             this.status.info = true;
         },
         showWarning(res) {
             this.status.warning = true;
-            this.err_msg = res.body.meta;
+            this.err_msg = res.response.data.meta;
         },
         showSuccess(res, details) {
             this.err_msg = {
-                code: res.status,
-                type: res.statusText,
+                code: res.response.status,
+                type: res.response.statusText,
                 details: details
             };
             this.status.success = true;

@@ -6,9 +6,13 @@ import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
 import TalentDashboard from "@/components/talent/TalentDashboard"
 import TalentTeam from "@/components/talent/team/TalentTeam"
-import TalentTeamCreate from "@/components/talent/team/TalentTeamCreate"
-import TalentTeamDetail from "@/components/talent/team/TalentTeamDetail"
-import TalentTeamSearch from "@/components/talent/team/browse/browse"
+import TalentTeamCreate from "@/components/talent/team/manage/TalentTeamCreate"
+import TalentTeamDetail from "@/components/talent/team/manage/TalentTeamDetail"
+import TalentTeamSearch from "@/components/talent/team/manage/browse/browse"
+import TalentTeamParticipation from "@/components/talent/team/participation/TalentTeamParticipation"
+import TalentTeamParticipationRegister from "@/components/talent/team/participation/TalentTeamParticipationRegister"
+
+import TalentTeamIdea from "@/components/talent/team/idea/TeamIdeaList"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -89,7 +93,22 @@ export default new Router({
           path: "/talent/team/:teamId/membership/:membershipId/search",
           name: "Talent Search",
           component: TalentTeamSearch
-        }
+        },
+        {
+          path: "/talent/team/:teamId/participation",
+          name: "Talent Program Participation",
+          component: TalentTeamParticipation
+        },
+        {
+          path: "/talent/team/:teamId/participation/register",
+          name: "Talent Register Program Participation",
+          component: TalentTeamParticipationRegister
+        },
+        {
+          path: "/talent/team/:teamId/idea",
+          name: "Team Idea",
+          component: TalentTeamIdea
+        },
       ]
     },
     {

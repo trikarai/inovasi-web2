@@ -150,7 +150,7 @@
             </v-data-table>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary">
+            <v-btn color="primary" @click="gotoTalentSearch">
               <v-icon left>person_add</v-icon> Invite Registered Talent
             </v-btn>
           </v-card-actions>
@@ -280,6 +280,9 @@ export default {
             easing: "linear"
           });
         });
+    },
+    gotoTalentSearch(){
+      this.$router.push({ path: "/talent/team/" + this.$route.params.teamId + "/membership/" + this.$route.params.membershipId + "/search" });
     }
   }
 };

@@ -19,7 +19,7 @@ Vue.mixin({
         info: false,
         warning: false
       },
-      err_msg: { details: [""] },
+      err_msg: { error_details: [""] },
     }
   }
 })

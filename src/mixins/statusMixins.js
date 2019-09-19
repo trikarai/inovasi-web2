@@ -4,13 +4,17 @@ export const statusMixins = {
             if (status == "active") {
                 return "green";
             } else if (status == "cancelled") {
-                return "yellow";
+                return "#FFD700";
             } else if (status == "registered") {
                 return "blue";
             } else if (status == "rejected") {
                 return "red";
             }else if(status == "resigned"){
                 return "red";
+            }else if(status == "failed"){
+                return "#8B0000";
+            }else if(status == "graduated"){
+                return "blue";
             }
         }
     },
