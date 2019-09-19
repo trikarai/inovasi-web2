@@ -6,6 +6,24 @@ import vuetify from './plugins/vuetify';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+//global component
+import Notification from "@/components/Notification";
+Vue.component('notification', Notification);
+
+Vue.mixin({
+  data() {
+    return {
+      status: {
+        success: false,
+        error: false,
+        info: false,
+        warning: false
+      },
+      err_msg: { details: [""] },
+    }
+  }
+})
+
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false
 
