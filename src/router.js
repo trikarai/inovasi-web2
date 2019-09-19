@@ -6,7 +6,9 @@ import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
 import TalentDashboard from "@/components/talent/TalentDashboard"
 import TalentTeam from "@/components/talent/team/TalentTeam"
+import TalentTeamCreate from "@/components/talent/team/TalentTeamCreate"
 import TalentTeamDetail from "@/components/talent/team/TalentTeamDetail"
+import TalentTeamSearch from "@/components/talent/team/browse/browse"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -74,9 +76,19 @@ export default new Router({
           component: TalentTeam
         },
         {
+          path: "/talent/team/create",
+          name: "Create Team",
+          component: TalentTeamCreate
+        },
+        {
           path: "/talent/team/:teamId/membership/:membershipId",
           name: "Team Detail",
           component: TalentTeamDetail
+        },
+        {
+          path: "/talent/team/:teamId/membership/:membershipId/search",
+          name: "Talent Search",
+          component: TalentTeamSearch
         }
       ]
     },
