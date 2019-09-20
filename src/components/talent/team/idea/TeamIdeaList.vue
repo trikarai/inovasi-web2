@@ -34,7 +34,13 @@
             >
               <template v-slot:item.menu="{ item }">
                 <div>
-                  <v-btn class="ma-2 elevation-0" small fab color="primary">
+                  <v-btn
+                    @click="gotoIdeaDetail(item.id)"
+                    class="ma-2 elevation-0"
+                    small
+                    fab
+                    color="primary"
+                  >
                     <v-icon>zoom_in</v-icon>
                   </v-btn>
                 </div>
@@ -57,7 +63,7 @@
       </v-flex>
     </v-layout>
 
-    <idea-form v-model="dialogIdea" :edit="edit"></idea-form>
+    <idea-form v-if="dialogIdea" :edit="edit" @close="dialogIdea = false" @refresh="refresh"></idea-form>
   </v-container>
 </template>
 <script>
@@ -75,6 +81,11 @@ export default {
   },
   data() {
     return {
+      params: {
+        id: "",
+        name: "",
+        description: ""
+      },
       dialogIdea: false,
       edit: false,
       search: "",
@@ -113,7 +124,6 @@ export default {
   methods: {
     getDataList: function() {
       this.tableLoad = true;
-      // this.resetNotif();
       this.axios
         .get(config.baseUri + "/team/" + this.$route.params.teamId + "/idea", {
           headers: auth.getAuthHeader()
@@ -145,11 +155,11 @@ export default {
           {},
           { headers: auth.getAuthHeader() }
         )
-        .then(res => {
+        .then((res) => {
           this.showSuccess(res, ["Success Set As Main Idea"]);
           this.getDataList();
         })
-        .catch(error => {
+        .catch((error) => {
           this.showError(error);
         })
         .finally(() => {
@@ -158,16 +168,17 @@ export default {
     },
     deleteData(id) {
       this.tableLoad = true;
+      this.resetNotif();
       this.axios
         .delete(
           config.baseUri + "/team/" + this.$route.params.teamId + "/idea/" + id,
           { headers: auth.getAuthHeader() }
         )
-        .then(res => {
+        .then((res) => {
           this.showInfo(res, ["Selected Idea Deleted"]);
-          this.getDataList();
+          this.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           this.showError(error);
         })
         .finally(() => {
@@ -180,8 +191,12 @@ export default {
       });
     },
     openIdeaForm() {
-      // this.edit = true;
+      this.edit = false;
       this.dialogIdea = true;
+    },
+    refresh(){
+      this.dialogIdea = false;
+      this.getDataList();
     }
   }
 };
