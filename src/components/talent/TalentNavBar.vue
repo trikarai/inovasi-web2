@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar text app>
+    <v-app-bar text app color="bgcolor">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="text-uppercase black--text">
         <span class="font-weight-light">START MIKTI</span>
@@ -11,9 +11,14 @@
       </v-btn>
     </v-app-bar>
 
-    <v-btn text @click="goback()">back</v-btn>
+    <v-btn class="ma-3" text @click="goback()"><v-icon left>keyboard_backspace</v-icon>Back</v-btn>
 
-    <v-navigation-drawer app v-model="drawer" :mini-variant.sync="miniVariant" color="sidebar">
+    <v-navigation-drawer
+      app
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      color="sidebar"
+    >
       <!-- list head-->
       <v-list class="pa-1">
         <v-list-item v-if="miniVariant" @click.stop="miniVariant = !miniVariant">
@@ -89,7 +94,6 @@ export default {
   data() {
     return {
       drawer: true,
-      rightDrawer: false,
       rightDrawer: false,
       miniVariant: false,
       clipped: false,
