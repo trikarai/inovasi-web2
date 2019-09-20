@@ -46,7 +46,7 @@
               <template v-slot:item.action="{ item }">
                 <template v-if="item.status == 'active'">
                   <v-btn small class="mr-2 mt-2" @click="gotoTeamDetail(item)">Manage</v-btn>
-                  <v-btn small class="mr-2 mt-2">Idea</v-btn>
+                  <v-btn small class="mr-2 mt-2" @click="gotoTeamIdea(item)">Idea</v-btn>
                   <v-btn small class="mr-2 mt-2" @click="gotoParticipation(item)">Program</v-btn>
                   <v-btn
                     small
@@ -144,6 +144,11 @@ export default {
     gotoTeamDetail(item) {
       this.$router.push({
         path: "/talent/team/" + item.team.id + "/membership/" + item.id
+      });
+    },
+    gotoTeamIdea(item) {
+      this.$router.push({
+        path: "/talent/team/" + item.team.id + "/idea"
       });
     },
     gotoParticipation(item) {
