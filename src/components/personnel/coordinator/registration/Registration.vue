@@ -235,7 +235,7 @@ export default {
           }
         )
         .then(() => {
-          getRegistration();
+          this.getRegistration();
         })
         .catch()
         .finally(() => {
