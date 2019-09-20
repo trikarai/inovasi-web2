@@ -13,6 +13,7 @@ import TalentTeamParticipation from "@/components/talent/team/participation/Tale
 import TalentTeamParticipationRegister from "@/components/talent/team/participation/TalentTeamParticipationRegister"
 
 import TalentTeamIdea from "@/components/talent/team/idea/TeamIdeaList"
+import TalentTeamIdeaDetail from "@/components/talent/team/idea/TeamIdeaDetail"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -108,6 +109,11 @@ export default new Router({
           path: "/talent/team/:teamId/idea",
           name: "Team Idea",
           component: TalentTeamIdea
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId",
+          name: "Team Idea Detail",
+          component: TalentTeamIdeaDetail
         },
       ]
     },
