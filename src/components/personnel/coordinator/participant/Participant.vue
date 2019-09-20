@@ -168,7 +168,7 @@ export default {
             action
         )
         .then(() => {
-          this, getParticipant();
+          this.getParticipant();
         })
         .catch(error => {
           console.log(error);
