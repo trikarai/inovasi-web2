@@ -1,43 +1,74 @@
 <template>
-  <v-dialog :value="value" persistent @input="$emit('input')" width="400">
-    <notification :err_msg2="err_msg" :status2="status" />
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper" @click="$emit('close')">
+        <div class="modal-container" @click.stop>
+          <!-- <v-dialog :value="value" persistent @input="$emit('input')" width="400"> -->
+          <notification :err_msg2="err_msg" :status2="status" />
 
-    <v-card class="pr-3 pl-3">
-      <v-form ref="form" v-model="valid">
-        <v-card-title>{{value}}</v-card-title>
-        <v-card-text>
-          <v-layout row>
-            <v-flex md12>
-              <v-text-field label="Idea Name" :rules="rules" v-model="params.name"></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-textarea
-                v-model="params.description"
-                label="Elevator Pitch"
-                :rules="rules"
-                counter="250"
-                maxlength="250"
-              ></v-textarea>
-            </v-flex>
-          </v-layout>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" class="ma-1" :disabled="!valid" @click="submit" :loading="loadBtn">
-            <v-icon small left>add</v-icon>
-            {{$vuetify.lang.t('$vuetify.action.add')}}
-          </v-btn>
-          <v-fade-transition>
-            <v-btn
-              v-show="!loadBtn"
-              color="red"
-              class="ma-1"
-              @click.native="$emit('input')"
-            >{{$vuetify.lang.t('$vuetify.action.cancel')}}</v-btn>
-          </v-fade-transition>
-        </v-card-actions>
-      </v-form>
-    </v-card>
-  </v-dialog>
+          <v-card class="pr-3 pl-3">
+            <v-form ref="form" v-model="valid">
+              <v-card-title>
+                <template v-if="!edit">{{$vuetify.lang.t('$vuetify.action.add')}}</template>
+                <template v-else>{{$vuetify.lang.t('$vuetify.action.edit')}}</template>
+                {{$vuetify.lang.t('$vuetify.idea.idea')}}
+              </v-card-title>
+              <v-card-text>
+                <!-- {{singleData}} -->
+                <v-layout row>
+                  <v-flex md12>
+                    <v-text-field label="Idea Name" :rules="rules" v-model="params.name"></v-text-field>
+                  </v-flex>
+                  <v-flex md12>
+                    <v-textarea
+                      v-model="params.description"
+                      label="Elevator Pitch"
+                      :rules="rules"
+                      counter="500"
+                      maxlength="500"
+                    ></v-textarea>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  v-if="!edit"
+                  color="primary"
+                  class="ma-1"
+                  :disabled="!valid"
+                  @click="submit"
+                  :loading="loadBtn"
+                >
+                  <v-icon small left>add</v-icon>
+                  {{$vuetify.lang.t('$vuetify.action.add')}}
+                </v-btn>
+                <v-btn
+                  v-if="edit"
+                  color="primary"
+                  class="ma-1"
+                  :disabled="!valid"
+                  @click="update"
+                  :loading="loadBtn"
+                >
+                  <v-icon small left>edit</v-icon>
+                  {{$vuetify.lang.t('$vuetify.action.update')}}
+                </v-btn>
+                <v-fade-transition>
+                  <v-btn
+                    v-show="!loadBtn"
+                    color="red"
+                    class="ma-1"
+                    @click.native="$emit('close')"
+                  >{{$vuetify.lang.t('$vuetify.action.cancel')}}</v-btn>
+                </v-fade-transition>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+          <!-- </v-dialog> -->
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 <script>
 import auth from "@/config/auth";
@@ -46,14 +77,14 @@ import { statusMixins } from "@/mixins/statusMixins";
 import { notifMixins } from "@/mixins/notifMixins";
 
 export default {
-  props: ["value", "edit"],
+  props: ["value", "edit", "singleData"],
   mixins: [statusMixins, notifMixins],
-
   data() {
     return {
       valid: false,
       rules: [v => !!v || "Field is required"],
       loadBtn: false,
+      loadForm: false,
       params: {
         name: "",
         description: "",
@@ -64,32 +95,70 @@ export default {
       }
     };
   },
+  created: function() {
+    if (this.edit) {
+      this.getSingleData();
+    }
+  },
   methods: {
+    getSingleData() {
+      this.loadForm = true;
+      this.params = this.singleData;
+    },
     submit() {
+      if (this.$refs.form.validate()) {
+        this.addData();
+      }
+    },
+    update() {
       if (this.$refs.form.validate()) {
         this.addData();
       }
     },
     addData() {
       this.loadBtn = true;
-      this.axios
-        .post(
-          config.baseUri + "/team/" + this.$route.params.teamId + "/idea",
-          this.params,
-          { headers: auth.getAuthHeader() }
-        )
-        .then(() => {
-          this.$emit("input");
-        })
-        .catch(error => {
-          this.showError(error);
-        })
-        .finally(() => {
-          this.loadBtn = false;
-        });
+      if (!this.edit) {
+        this.axios
+          .post(
+            config.baseUri + "/team/" + this.$route.params.teamId + "/idea",
+            this.params,
+            { headers: auth.getAuthHeader() }
+          )
+          .then(() => {
+            this.$emit("refresh");
+          })
+          .catch(error => {
+            this.showError(error);
+          })
+          .finally(() => {
+            this.loadBtn = false;
+          });
+      } else {
+        this.axios
+          .put(
+            config.baseUri +
+              "/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId,
+            this.params,
+            { headers: auth.getAuthHeader() }
+          )
+          .then(() => {
+            this.$emit("refresh");
+          })
+          .catch(error => {
+            this.showError(error);
+          })
+          .finally(() => {
+            this.loadBtn = false;
+          });
+      }
     }
   }
 };
 </script>
 <style scoped>
+@import "../../../css/modal.css";
+
 </style>
