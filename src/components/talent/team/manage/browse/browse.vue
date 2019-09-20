@@ -166,7 +166,7 @@ export default {
             this.notfoundTalent = true;
           }
         })
-        .catch(error => {
+        .catch(() => {
           this.notfoundTalent = true;
         })
         .finally(() => {
