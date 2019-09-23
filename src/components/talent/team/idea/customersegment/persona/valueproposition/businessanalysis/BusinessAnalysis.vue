@@ -150,6 +150,245 @@
             </v-flex>
           </v-layout>
         </v-tab-item>
+        <v-tab-item value="tab-leancanvas">
+          <v-layout>
+            <v-flex>
+              <div class="lean-grid-container">
+                <div class="lean-Problem">
+                  <v-card>
+                    <template v-if="loadLean">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataLean.fields.length != 0">
+                        <v-card-title>Problem</v-card-title>
+                        <v-card-text>{{dataLean.fields[0].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-Solution">
+                  <v-card>
+                    <template v-if="loadSolution">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataSolution.fields.length != 0">
+                        <v-card-title>{{dataSolution.fields[0].field_template.name}}</v-card-title>
+                        <v-card-text>{{dataSolution.fields[0].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-metrics">
+                  <v-card>
+                    <template v-if="dataLean.fields.length != 0">
+                      <v-card-title>Metrics</v-card-title>
+                      <v-card-text>{{dataLean.fields[2].value}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-vp">
+                  <v-card>
+                    <template v-if="loadVP">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <v-card-title>Value Proposition</v-card-title>
+                      <v-card-text>{{parentValueproposition.description}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-unfair">
+                  <v-card>
+                    <template v-if="loadLean">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataLean.fields.length != 0">
+                        <v-card-title>Unfair</v-card-title>
+                        <v-card-text>{{dataLean.fields[1].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-channel">
+                  <v-card>
+                    <template v-if="dataLean.fields.length != 0">
+                      <v-card-title>Channel</v-card-title>
+                      <v-card-text>{{dataLean.fields[3].value}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-customersegment">
+                  <v-card>
+                    <v-card-title>Customer Segment</v-card-title>
+                    <v-card-text>{{parentCustomersegment.name}}</v-card-text>
+                    <v-card-text>{{parentCustomersegment.description}}</v-card-text>
+                  </v-card>
+                </div>
+                <div class="lean-cost">
+                  <v-card>
+                    <template v-if="loadLean">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataLean.fields.length != 0">
+                        <v-card-title>Cost Structure</v-card-title>
+                        <v-card-text>{{dataLean.fields[4].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-revenue">
+                  <v-card>
+                    <template v-if="loadLean">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataLean.fields.length != 0">
+                        <v-card-title>Revenue Stream</v-card-title>
+                        <v-card-text>{{dataLean.fields[5].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-tab-item>
+        <v-tab-item value="tab-bmc">
+          <v-layout>
+            <!-- {{dataBMC}} -->
+            <v-flex>
+              <div class="lean-grid-container">
+                <div class="lean-Problem">
+                  <v-card>
+                    <template v-if="loadBMC">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataBMC.fields.length != 0">
+                        <v-card-title>Key Partner</v-card-title>
+                        <v-card-text>{{dataBMC.fields[0].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-Solution">
+                  <v-card>
+                    <template v-if="loadBMC">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataBMC.fields.length != 0">
+                        <v-card-title>Key Activities</v-card-title>
+                        <v-card-text>{{dataBMC.fields[1].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-metrics">
+                  <v-card>
+                    <template v-if="dataBMC.fields.length != 0">
+                      <v-card-title>Key Resource</v-card-title>
+                      <v-card-text>{{dataBMC.fields[2].value}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-vp">
+                  <v-card>
+                    <template v-if="loadVP">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <v-card-title>Value Proposition</v-card-title>
+                      <v-card-text>{{parentValueproposition.description}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-unfair">
+                  <v-card>
+                    <template v-if="loadBMC">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataBMC.fields.length != 0">
+                        <v-card-title>Relationship</v-card-title>
+                        <v-card-text>{{dataBMC.fields[3].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-channel">
+                  <v-card>
+                    <template v-if="dataBMC.fields.length != 0">
+                      <v-card-title>Channel</v-card-title>
+                      <v-card-text>{{dataBMC.fields[4].value}}</v-card-text>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-customersegment">
+                  <v-card>
+                    <v-card-title>Customer Segment</v-card-title>
+                    <v-card-text>{{parentCustomersegment.name}}</v-card-text>
+                    <v-card-text>{{parentCustomersegment.description}}</v-card-text>
+                  </v-card>
+                </div>
+                <div class="lean-cost">
+                  <v-card>
+                    <template v-if="loadBMC">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataBMC.fields.length != 0">
+                        <v-card-title>Cost Structure</v-card-title>
+                        <v-card-text>{{dataBMC.fields[5].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+                <div class="lean-revenue">
+                  <v-card>
+                    <template v-if="loadBMC">
+                      <v-card-text>
+                        <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+                      </v-card-text>
+                    </template>
+                    <template v-else>
+                      <template v-if="dataBMC.fields.length != 0">
+                        <v-card-title>Revenue Stream</v-card-title>
+                        <v-card-text>{{dataBMC.fields[6].value}}</v-card-text>
+                      </template>
+                    </template>
+                  </v-card>
+                </div>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-tab-item>
       </v-tabs-items>
     </v-card>
   </v-container>
@@ -164,21 +403,33 @@ export default {
   data() {
     return {
       tab: null,
-      parentValueproposition: "",
+      parentValueproposition: { name: "", description: "" },
       loadVP: false,
-      parentCustomersegment: "",
+      parentCustomersegment: { name: "", description: "" },
       loadCS: false,
       parentPersona: "",
       loadPersona: false,
-      dataSolution: "",
-      loadSolution: false
+      dataSolution: {
+        fields: []
+      },
+      loadSolution: false,
+      dataLean: {
+        fields: []
+      },
+      loadLean: false,
+      dataBMC: {
+        fields: []
+      },
+      loadBMC: false
     };
   },
   mounted() {
-    // this.getValueProposition();
-    // this.getCustomersegment();
+    this.getValueProposition();
+    this.getCustomersegment();
     this.getPersona();
     this.getSolutionCanvas();
+    this.getLeanCanvas();
+    this.getBMC();
   },
   methods: {
     getValueProposition() {
@@ -285,6 +536,66 @@ export default {
         .finally(() => {
           this.loadSolution = false;
         });
+    },
+    getLeanCanvas() {
+      var canvasname = "Lean Canvas";
+      this.loadLean = true;
+      this.axios
+        .get(
+          config.baseUri +
+            "/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customer_segment/" +
+            this.$route.params.customersegmentId +
+            "/persona/" +
+            this.$route.params.personaId +
+            "/value_proposition/" +
+            this.$route.params.valuepropositionId +
+            "/business_structure/template_name/" +
+            encodeURI(canvasname),
+          { headers: auth.getAuthHeader() }
+        )
+        .then(res => {
+          this.dataLean = res.data.data;
+        })
+        .catch(res => {
+          this.showError(res);
+        })
+        .finally(() => {
+          this.loadLean = false;
+        });
+    },
+    getBMC() {
+      var canvasname = "Business Model Canvas";
+      this.loadBMC = true;
+      this.axios
+        .get(
+          config.baseUri +
+            "/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customer_segment/" +
+            this.$route.params.customersegmentId +
+            "/persona/" +
+            this.$route.params.personaId +
+            "/value_proposition/" +
+            this.$route.params.valuepropositionId +
+            "/business_structure/template_name/" +
+            encodeURI(canvasname),
+          { headers: auth.getAuthHeader() }
+        )
+        .then(res => {
+          this.dataBMC = res.data.data;
+        })
+        .catch(res => {
+          this.showError(res);
+        })
+        .finally(() => {
+          this.loadBMC = false;
+        });
     }
   }
 };
@@ -295,6 +606,8 @@ export default {
   /* grid-template-columns: 1fr 1fr; */
   grid-template-columns: repeat(auto-fit, 50%);
   grid-template-rows: 1fr 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
 }
 
 .lt-Gain {
@@ -307,5 +620,49 @@ export default {
 
 .lt-Goal {
   grid-area: 1 / 2 / 3 / 3;
+}
+
+.lean-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+.lean-problem {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.lean-solution {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.lean-metrics {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.lean-vp {
+  grid-area: 1 / 3 / 3 / 5;
+}
+
+.lean-unfair {
+  grid-area: 1 / 5 / 2 / 6;
+}
+
+.lean-channel {
+  grid-area: 2 / 5 / 3 / 6;
+}
+
+.lean-customersegment {
+  grid-area: 1 / 6 / 3 / 7;
+}
+
+.lean-cost {
+  grid-area: 3 / 1 / 4 / 4;
+}
+
+.lean-revenue {
+  grid-area: 3 / 4 / 4 / 7;
 }
 </style>
