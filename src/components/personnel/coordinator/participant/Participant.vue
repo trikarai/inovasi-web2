@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <!-- {{participant}} -->
+    <notification :err_msg2="err_msg" :status2="status" />
     <v-card class="elevation-0 mb-3">
       <v-card-title>
         <div class="flex-grow-1"></div>
@@ -8,77 +9,97 @@
       </v-card-title>
       <v-layout>
         <v-flex md12>
-          <v-data-table
-            dark
-            :search="search"
-            :loading="tableLoad"
-            :headers="headers"
-            :items="participant.list"
-            class="elevation-1"
-          >
-            <template v-slot:item.team.name="{item}">{{item.team.name | truncate(30)}}</template>
-            <template v-slot:item.status="{item}">
-              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
-            </template>
-            <template v-slot:item.action="{ item }">
-              <template v-if="item.status == 'active'">
-                <template v-if="item.id != selectedFail">
+          <v-card-text>
+            <v-data-table
+              :search="search"
+              :loading="tableLoad"
+              :headers="headers"
+              :items="participant.list"
+              class="elevation-1"
+            >
+              <template v-slot:item.team.name="{item}">
+                <!-- <v-btn icon><v-icon>zoom_in</v-icon></v-btn> -->
+                {{item.team.name | truncate(30)}}
+              </template>
+              <template v-slot:item.status="{item}">
+                <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+              </template>
+              <template v-slot:item.action="{ item }">
+                <template v-if="item.status == 'active'">
+                  <template v-if="item.id != selectedFail">
+                    <v-btn
+                      small
+                      class="mr-2"
+                      color="warning"
+                      @click="leftAct(item.id, 'pass', item.team.name)"
+                    >Pass</v-btn>
+                    <!-- @click="actionParticipant(item.id, 'pass')" -->
+                    <v-btn @click="failAct(item.id)" small class="mr-2" color="danger">Fail</v-btn>
+                  </template>
+                  <v-expand-transisition>
+                    <div v-if="item.id == selectedFail">
+                      Are You Sure to Fail this Team ?!
+                      <br />
+                      <v-btn
+                        color="red"
+                        class="mt-2 mb-2 mr-2"
+                        @click="actionParticipant(item.id, 'fail')"
+                      >Yes</v-btn>
+                      <v-btn
+                        color="warning"
+                        class="mt-2 mb-2 mr-2"
+                        @click="selectedFail = null"
+                      >Cancel</v-btn>
+                    </div>
+                  </v-expand-transisition>
+                </template>
+                <template v-if="item.status == 'registered'">
                   <v-btn
-                    @click="actionParticipant(item.id, 'pass')"
+                    @click="leftAct(item.id, 'accept', item.team.name)"
                     small
                     class="mr-2"
-                    color="warning"
-                  >Pass</v-btn>
-                  <v-btn @click="failAct(item.id)" small class="mr-2" color="danger">Fail</v-btn>
-                </template>
-                <v-expand-transisition>
-                  <div v-if="item.id == selectedFail">
-                    Are You Sure to Fail this Team ?!
-                    <br />
-                    <v-btn
-                      color="red"
-                      class="mt-2 mb-2 mr-2"
-                      @click="actionParticipant(item.id, 'fail')"
-                    >Yes</v-btn>
-                    <v-btn
-                      color="warning"
-                      class="mt-2 mb-2 mr-2"
-                      @click="selectedFail = null"
-                    >Cancel</v-btn>
-                  </div>
-                </v-expand-transisition>
-              </template>
-              <template v-if="item.status == 'registered'">
-                <v-btn
-                  @click="actionParticipant(item.id, 'accept')"
-                  small
-                  class="mr-2"
-                  color="green"
-                >Accept</v-btn>
-                <v-btn @click="rejectAct(item.id)" small class="mr-2" color="danger">Reject</v-btn>
+                    color="green"
+                  >Accept</v-btn>
 
-                <v-expand-transisition>
-                  <div v-if="item.id == selectedReject">
-                    Are You Sure to Reject this Team ?!
-                    <br />
-                    <v-btn
-                      color="red"
-                      class="mt-2 mb-2 mr-2"
-                      @click="actionParticipant(item.id, 'reject')"
-                    >Yes</v-btn>
-                    <v-btn
-                      color="warning"
-                      class="mt-2 mb-2 mr-2"
-                      @click="selectedReject = null"
-                    >Cancel</v-btn>
-                  </div>
-                </v-expand-transisition>
+                  <v-btn @click="rejectAct(item.id)" small class="mr-2" color="danger">Reject</v-btn>
+
+                  <v-expand-x-transisition>
+                    <div v-if="item.id == selectedReject">
+                      Are You Sure to Reject this Team ?!
+                      <br />
+                      <v-btn
+                        color="red"
+                        class="mt-2 mb-2 mr-2"
+                        @click="actionParticipant(item.id, 'reject')"
+                      >Yes</v-btn>
+                      <v-btn
+                        color="warning"
+                        class="mt-2 mb-2 mr-2"
+                        @click="selectedReject = null"
+                      >Cancel</v-btn>
+                    </div>
+                  </v-expand-x-transisition>
+                </template>
               </template>
-            </template>
-          </v-data-table>
+            </v-data-table>
+          </v-card-text>
         </v-flex>
       </v-layout>
     </v-card>
+
+    <v-dialog v-model="dialogPass" width="300" :persistent="true">
+      <v-card>
+        <v-card-title>
+          <p class="text-capitalize">{{leftAction}}</p>
+        </v-card-title>
+        <v-card-text>{{leftName}}</v-card-text>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn color="green" @click="actionParticipant(leftId, leftAction)">Yes</v-btn>
+          <v-btn color="red" @click="dialogPass = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -90,9 +111,13 @@ export default {
   mixins: [statusMixins],
   data: function() {
     return {
+      dialogPass: false,
       selectedReject: "",
       selectedFail: "",
       search: "",
+      leftName: "",
+      leftId: "",
+      leftAction: "",
       tableLoad: false,
       participant: { total: 0, list: [] },
       headers: [
@@ -154,8 +179,15 @@ export default {
         this.selectedFail = id;
       }
     },
+    leftAct: function(id, action, name) {
+      this.dialogPass = true;
+      this.leftId = id;
+      this.leftName = name;
+      this.leftAction = action;
+    },
     actionParticipant: function(id, action) {
       this.tableLoad = true;
+      // alert(id + " : " + action);
       this.axios
         .put(
           config,
@@ -171,12 +203,13 @@ export default {
           this.getParticipant();
         })
         .catch(error => {
-          console.log(error);
+          this.showError(error);
         })
         .finally(() => {
           this.selectedReject = null;
           this.selectedFail = null;
           this.tableLoad = false;
+          this.dialogPass = false;
         });
     }
   }

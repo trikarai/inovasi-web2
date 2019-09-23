@@ -1,16 +1,17 @@
 <template>
   <v-layout>
+    <!-- {{field}} -->
     <v-flex xs12 sm12>
-      <v-text-field
+      <v-textarea
         v-model="value"
+        :id="field.id"
+        :name="field.id"
         :label="field.name"
         :hint="field.description"
-        :max="field.max_size"
-        :min="field.min_size"
-        :rules="rules"
+        counter="500"
+        maxlength="500"
         :clearable="clearable"
-        type="number"
-      ></v-text-field>
+      ></v-textarea>
     </v-flex>
   </v-layout>
 </template>
@@ -25,15 +26,12 @@ export default {
     return {
       clearable: true,
       value: "",
-      rules: [
-        v => !!v || "This field is required",
-        v => v >= this.field.min_size || "Min value is " + this.field.min_size,
-        v => v <= this.field.max_size || "Max value is " + this.field.max_size
-      ]
+      rules: [v => !!v || "This field is required"]
     };
   }
 };
 </script>
+
 <style scoped>
 </style>
 

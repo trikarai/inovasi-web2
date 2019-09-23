@@ -6,9 +6,8 @@
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadParent">
           <v-card-title>{{parentData.name}}</v-card-title>
           <v-card-text>{{parentData.description}}</v-card-text>
-          <v-card-text>{{parentData.initator.talent.name}}</v-card-text>
           <v-card-actions>
-            <v-btn color="primary" small fab @click="openIdeaForm()">
+            <v-btn color="primary" small fab @click="openParentForm()">
               <v-icon>edit</v-icon>
             </v-btn>
           </v-card-actions>
@@ -16,10 +15,11 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadChild">
-          <v-card-title>{{$vuetify.lang.t('$vuetify.idea.customersegment')}}</v-card-title>
+          <v-card-title>Persona</v-card-title>
           <v-card-text>
+            <!-- {{childData.list}} -->
             <v-list v-for="data in childData.list" :key="data.id">
-              <v-list-item three-line >
+              <v-list-item three-line>
                 <v-list-item-avatar>
                   <v-btn text small fab @click="gotoChild(data.id)">
                     <v-icon>zoom_in</v-icon>
@@ -30,41 +30,53 @@
                   <v-list-item-subtitle>{{data.description}}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-btn small color="warning" @click="deleteAct(data.id)">
-                    <v-icon small>delete</v-icon>
-                  </v-btn>
+                  <div>
+                    <v-btn
+                      @click="setMain(data.id)"
+                      small
+                      class="mr-2"
+                      v-if="!data.is_main_persona"
+                    >
+                      <v-icon small>star</v-icon>
+                    </v-btn>
+                    <v-icon v-else large class="mr-3" color="yellow">star</v-icon>
+
+                    <v-btn small color="warning" @click="deleteAct(data.id)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </div>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="accent" @click="openCS">
-              <v-icon>add</v-icon>{{$vuetify.lang.t('$vuetify.action.add')}} {{$vuetify.lang.t('$vuetify.idea.customersegment')}}
+            <v-btn color="accent" @click="openChildForm">
+              <v-icon>add</v-icon>{{$vuetify.lang.t('$vuetify.action.add')}} {{$vuetify.lang.t('$vuetify.idea.persona')}}
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
 
-    <idea-form
-      v-if="dialogIdea"
+    <customersegment-form
+      v-if="dialogParent"
       :edit="edit"
       :singleData="parentData"
-      @close="dialogIdea = false"
+      @close="dialogParent = false"
       @refresh="refreshParent"
-    ></idea-form>
-
-    <customersegment-form
-      v-if="dialogCS"
-      :edit="edit"
-      @close="dialogCS = false"
-      @refresh="refreshChild"
     ></customersegment-form>
+
+    <persona-form
+      v-if="dialogChild"
+      :edit="edit"
+      @close="dialogChild = false"
+      @refresh="refreshChild"
+    ></persona-form>
 
     <v-dialog v-model="dialogDelete" width="300" :loading="loadChild">
       <v-card>
-        <v-card-title>Delete Customer Segment</v-card-title>
-        <v-card-text>Are you sure want to Delete this Customer Segment ?!</v-card-text>
+        <v-card-title>Delete Persona</v-card-title>
+        <v-card-text>Are you sure want to Delete this Persona ?!</v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
           <v-btn
@@ -86,8 +98,8 @@ import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { notifMixins } from "@/mixins/notifMixins";
 
-import IdeaForm from "./IdeaForm";
-import CustomersegmentForm from "./customersegment/CustomerSegmentForm";
+import CustomersegmentForm from "./CustomerSegmentForm";
+import PersonaForm from "./persona/PersonaForm";
 
 export default {
   mixins: [notifMixins],
@@ -96,26 +108,20 @@ export default {
       dialogDelete: "",
       deleteId: "",
       parentData: {
-        initator: {
-          talent: {
-            name: ""
-          }
-        },
         name: "",
-        description: "",
-        is_main_idea: false
+        description: ""
       },
       loadParent: false,
-      dialogIdea: false,
-      dialogCS: false,
+      dialogChild: false,
+      dialogParent: false,
       edit: false,
       childData: {},
       loadChild: false
     };
   },
   components: {
-    IdeaForm,
-    CustomersegmentForm
+    CustomersegmentForm,
+    PersonaForm
   },
   mounted() {
     this.getParentData();
@@ -130,7 +136,9 @@ export default {
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
-            this.$route.params.ideaId,
+            this.$route.params.ideaId +
+            "/customer_segment/" +
+            this.$route.params.customersegmentId,
           { headers: auth.getAuthHeader() }
         )
         .then(res => {
@@ -154,7 +162,9 @@ export default {
             this.$route.params.teamId +
             "/idea/" +
             this.$route.params.ideaId +
-            "/customer_segment",
+            "/customer_segment/" +
+            this.$route.params.customersegmentId +
+            "/persona",
           { headers: auth.getAuthHeader() }
         )
         .then(res => {
@@ -169,13 +179,13 @@ export default {
           this.loadChild = false;
         });
     },
-    openIdeaForm() {
+    openParentForm() {
       this.edit = true;
-      this.dialogIdea = true;
+      this.dialogParent = true;
     },
-    openCS() {
+    openChildForm() {
       this.edit = false;
-      this.dialogCS = true;
+      this.dialogChild = true;
     },
     deleteAct(id) {
       this.deleteId = id;
@@ -191,25 +201,57 @@ export default {
             "/idea/" +
             this.$route.params.ideaId +
             "/customer_segment/" +
+            this.$route.params.customersegmentId +
+            +"/persona/" +
             id,
           { headers: auth.getAuthHeader() }
         )
         .then(res => {
           this.dialogDelete = false;
-          this.showInfo(res, ["Customer Segment Deleted"]);
+          this.showInfo(res, ["Persona Deleted"]);
           this.getChildData();
         })
-        .catch()
+        .catch(res => {
+          this.showError(res);
+        })
+        .finally(() => {
+          this.loadChild = false;
+        });
+    },
+    setMain: function(id) {
+      this.loadChild = true;
+      this.axios
+        .put(
+          config.baseUri +
+            "/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customer_segment/" +
+            this.$route.params.customersegmentId +
+            "/persona/" +
+            id +
+            "/assign_as_main_persona",
+          {},
+          { headers: auth.getAuthHeader() }
+        )
+        .then(res => {
+          this.showInfo(res, ["Success to Set as Main Persona"]);
+          this.getChildData();
+        })
+        .catch(res => {
+          this.showError(res);
+        })
         .finally(() => {
           this.loadChild = false;
         });
     },
     refreshParent() {
-      this.dialogIdea = false;
+      this.dialogParent = false;
       this.getParentData();
     },
     refreshChild() {
-      this.dialogCS = false;
+      this.dialogChild = false;
       this.getChildData();
     },
     gotoChild(id) {
@@ -220,6 +262,8 @@ export default {
           "/idea/" +
           this.$route.params.ideaId +
           "/customersegment/" +
+          this.$route.params.customersegmentId +
+          "/persona/" +
           id
       });
     }

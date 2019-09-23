@@ -50,7 +50,6 @@ import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 
 import { formMixins } from "@/mixins/formMixins";
-
 import FieldModule from "@/components/field/field";
 
 export default {

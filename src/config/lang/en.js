@@ -114,7 +114,12 @@ var _default = {
     persona: "Persona",
     valueproposition: "Value Proposition",
     ideaName: "Idea Name",
+    business: "Business",
     analysis: "Analysis",
+    businessAnalysis: "Business Analysis",
+    businessData: "Business Data",
+    metric: "Metric",
+    devPlan: "Development Plan",
     experiment: "Experiment",
     competitor: "Competitor"
   },

@@ -14,6 +14,10 @@ import TalentTeamParticipationRegister from "@/components/talent/team/participat
 
 import TalentTeamIdea from "@/components/talent/team/idea/TeamIdeaList"
 import TalentTeamIdeaDetail from "@/components/talent/team/idea/TeamIdeaDetail"
+import TalentTeamCustomerSegment from "@/components/talent/team/idea/customersegment/TeamIdeaCustomersegment"
+import TalentTeamPersona from "@/components/talent/team/idea/customersegment/persona/TeamIdeaPersona"
+import TalentTeamValueProposition from "@/components/talent/team/idea/customersegment/persona/valueproposition/TeamIdeaValueProposition"
+import TalentTeamValuePropositionBusinessAnalysis from "@/components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -114,6 +118,26 @@ export default new Router({
           path: "/talent/team/:teamId/idea/:ideaId",
           name: "Team Idea Detail",
           component: TalentTeamIdeaDetail
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId",
+          name: "Team Customer Segment",
+          component: TalentTeamCustomerSegment
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId",
+          name: "Team Persona",
+          component: TalentTeamPersona
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId",
+          name: "Team Value Proposition",
+          component: TalentTeamValueProposition
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/businessanalysis",
+          name: "Team Business Analysis",
+          component: TalentTeamValuePropositionBusinessAnalysis
         },
       ]
     },

@@ -9,7 +9,6 @@
       <v-layout>
         <v-flex md12>
           <v-data-table
-            dark
             :search="search"
             :loading="tableLoad"
             :headers="headers"
@@ -31,7 +30,7 @@
               >Mentoring</v-btn>
               <v-btn @click="gotoScoring(item.id)" small class="mr-2 mt-2" color="primary">Scoring</v-btn>
               <v-btn small class="mr-2 mt-2" color="primary" disabled>Workshop</v-btn>
-              <v-btn @click="gotoScoringRecap(item.id)" small class="mr-2 mt-2 mb-2" color="primary">Summary</v-btn>
+              <v-btn @click="gotoScoringRecap(item.id)" small class="mr-2 mt-2" color="primary">Summary</v-btn>
             </template>
           </v-data-table>
         </v-flex>

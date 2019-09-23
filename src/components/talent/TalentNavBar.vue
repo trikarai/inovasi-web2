@@ -11,8 +11,9 @@
       </v-btn>
     </v-app-bar>
 
-    <v-btn class="ma-3" text @click="goback()"><v-icon left>keyboard_backspace</v-icon>Back</v-btn>
-
+    <v-btn class="ml-3 mt-2 bm-2" text @click="goback()"><v-icon left>keyboard_backspace</v-icon>Back</v-btn>
+    <p class="ml-3 mb-2">{{$route.name}}</p>
+    
     <v-navigation-drawer
       app
       v-model="drawer"

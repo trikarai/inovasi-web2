@@ -8,6 +8,7 @@
       </v-card-title>
       <v-layout>
         <v-flex md12>
+          <v-card-text>
           <v-data-table
             :search="search"
             :loading="tableLoad"
@@ -22,6 +23,7 @@
               <v-btn @click="gotoPhase(item)" class="mr-2" color="primary">Phase</v-btn>
             </template>
           </v-data-table>
+          </v-card-text>
         </v-flex>
       </v-layout>
     </v-card>

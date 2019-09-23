@@ -4,23 +4,28 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
           <notification :err_msg2="err_msg" :status2="status" />
+
           <v-card class="pr-3 pl-3">
             <v-form ref="form" v-model="valid">
               <v-card-title>
                 <template v-if="!edit">{{$vuetify.lang.t('$vuetify.action.add')}}</template>
                 <template v-else>{{$vuetify.lang.t('$vuetify.action.edit')}}</template>
-                {{$vuetify.lang.t('$vuetify.idea.idea')}}
+                {{$vuetify.lang.t('$vuetify.idea.customersegment')}}
               </v-card-title>
               <v-card-text>
                 <!-- {{singleData}} -->
                 <v-layout row>
                   <v-flex md12>
-                    <v-text-field label="Idea Name" :rules="rules" v-model="params.name"></v-text-field>
+                    <v-text-field
+                      label="Customer Segment Name"
+                      :rules="rules"
+                      v-model="params.name"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex md12>
                     <v-textarea
                       v-model="params.description"
-                      label="Elevator Pitch"
+                      label="Description"
                       :rules="rules"
                       counter="500"
                       maxlength="500"
@@ -84,11 +89,7 @@ export default {
       loadForm: false,
       params: {
         name: "",
-        description: "",
-        target_customer: "-",
-        problem_confront: "-",
-        value_proposed: "-",
-        revenue_model: "-"
+        description: ""
       }
     };
   },
@@ -117,7 +118,12 @@ export default {
       if (!this.edit) {
         this.axios
           .post(
-            config.baseUri + "/team/" + this.$route.params.teamId + "/idea",
+            config.baseUri +
+              "/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId +
+              "/customer_segment",
             this.params,
             { headers: auth.getAuthHeader() }
           )
@@ -137,7 +143,9 @@ export default {
               "/team/" +
               this.$route.params.teamId +
               "/idea/" +
-              this.$route.params.ideaId,
+              this.$route.params.ideaId +
+              "/customer_segment/" +
+              this.$route.params.customersegmentId,
             this.params,
             { headers: auth.getAuthHeader() }
           )
@@ -156,5 +164,5 @@ export default {
 };
 </script>
 <style scoped>
-@import "../../../css/modal.css";
+@import "../../../../css/modal.css";
 </style>

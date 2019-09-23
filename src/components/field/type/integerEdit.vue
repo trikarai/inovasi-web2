@@ -3,10 +3,10 @@
     <v-flex xs12 sm12>
       <v-text-field
         v-model="value"
-        :label="field.name"
-        :hint="field.description"
-        :max="field.max_size"
-        :min="field.min_size"
+        :label="field.field_template.name"
+        :hint="field.field_template.description"
+        :max="field.field_template.max_size"
+        :min="field.field_template.min_size"
         :rules="rules"
         :clearable="clearable"
         type="number"
@@ -21,14 +21,21 @@ export default {
   mixins: [formMixins],
   props: ["field", "index"],
   components: {},
+  created() {
+    this.value = this.field.value;
+  },
   data: function() {
     return {
       clearable: true,
       value: "",
       rules: [
         v => !!v || "This field is required",
-        v => v >= this.field.min_size || "Min value is " + this.field.min_size,
-        v => v <= this.field.max_size || "Max value is " + this.field.max_size
+        v =>
+          v >= this.field.field_template.min_size ||
+          "Min value is " + this.field.field_template.min_size,
+        v =>
+          v <= this.field.field_template.max_size ||
+          "Max value is " + this.field.field_template.max_size
       ]
     };
   }

@@ -4,24 +4,23 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
           <notification :err_msg2="err_msg" :status2="status" />
-          <v-card class="pr-3 pl-3">
+
+          <v-card class="pr-3 pl-3" width="500">
             <v-form ref="form" v-model="valid">
               <v-card-title>
                 <template v-if="!edit">{{$vuetify.lang.t('$vuetify.action.add')}}</template>
                 <template v-else>{{$vuetify.lang.t('$vuetify.action.edit')}}</template>
-                {{$vuetify.lang.t('$vuetify.idea.idea')}}
+                {{$vuetify.lang.t('$vuetify.idea.valueproposition')}}
               </v-card-title>
               <v-card-text>
                 <!-- {{singleData}} -->
                 <v-layout row>
                   <v-flex md12>
-                    <v-text-field label="Idea Name" :rules="rules" v-model="params.name"></v-text-field>
-                  </v-flex>
-                  <v-flex md12>
                     <v-textarea
                       v-model="params.description"
-                      label="Elevator Pitch"
+                      label="Description"
                       :rules="rules"
+                      rows="5"
                       counter="500"
                       maxlength="500"
                     ></v-textarea>
@@ -83,12 +82,7 @@ export default {
       loadBtn: false,
       loadForm: false,
       params: {
-        name: "",
-        description: "",
-        target_customer: "-",
-        problem_confront: "-",
-        value_proposed: "-",
-        revenue_model: "-"
+        description: ""
       }
     };
   },
@@ -99,7 +93,7 @@ export default {
   },
   methods: {
     getSingleData() {
-      this.loadForm = true;
+      // this.loadForm = true;
       this.params = this.singleData;
     },
     submit() {
@@ -117,7 +111,17 @@ export default {
       if (!this.edit) {
         this.axios
           .post(
-            config.baseUri + "/team/" + this.$route.params.teamId + "/idea",
+            config.baseUri +
+              "/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId +
+              "/customer_segment/" +
+              this.$route.params.customersegmentId +
+              "/persona/" +
+              this.$route.params.personaId +
+              "/value_proposition",
+
             this.params,
             { headers: auth.getAuthHeader() }
           )
@@ -137,7 +141,13 @@ export default {
               "/team/" +
               this.$route.params.teamId +
               "/idea/" +
-              this.$route.params.ideaId,
+              this.$route.params.ideaId +
+              "/customer_segment/" +
+              this.$route.params.customersegmentId +
+              "/persona/" +
+              this.$route.params.personaId +
+              "/value_proposition/" +
+              this.$route.params.valuepropositionId,
             this.params,
             { headers: auth.getAuthHeader() }
           )
@@ -156,5 +166,5 @@ export default {
 };
 </script>
 <style scoped>
-@import "../../../css/modal.css";
+@import "../../../../../../css/modal.css";
 </style>

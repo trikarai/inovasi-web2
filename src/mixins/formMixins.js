@@ -19,5 +19,12 @@ export const formMixins = {
             }
             this.params.data = array;
         },
+        setFormJSONPersona: function (data) {
+            var array = [];
+            for (var i = 0; i < data.list.length; i++) {
+                array.push(new Object({ field_template_id: data.list[i].id, value: "" }));
+            }
+            this.params.aspects = array;
+        },
     }
 }

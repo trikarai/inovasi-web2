@@ -1,17 +1,17 @@
 <template>
   <div>
     <!-- <string-field v-bind:index="index" v-bind:field="fields" v-if="fields.type === 'string'"></string-field> -->
-    <text-field v-bind:index="index" v-bind:field="fields" v-if="fields.type === 'string'"></text-field>
-    <integer-field v-bind:index="index" v-bind:field="fields" v-if="fields.type === 'integer'"></integer-field>
-    <select-field v-bind:index="index" v-bind:field="fields" v-if="fields.type === 'select'"></select-field>
+    <text-field v-bind:index="index" v-bind:field="fields" v-if="fields.field_template.type === 'string'"></text-field>
+    <integer-field v-bind:index="index" v-bind:field="fields" v-if="fields.field_template.type === 'integer'"></integer-field>
+    <select-field v-bind:index="index" v-bind:field="fields" v-if="fields.field_template.type === 'select'"></select-field>
     <!-- <attachment-field  v-bind:index="index" v-bind:field="fields" v-if="fields.type === 'att'"></attachment-field> -->
   </div>
 </template>
 
 <script>
-import integer from "./type/integer";
+import integer from "./type/integerEdit";
 // import string from "./type/string";
-import text from "./type/text";
+import text from "./type/textEdit";
 import select from "./type/select";
 //   import attachment from '/./type/attachment'
 

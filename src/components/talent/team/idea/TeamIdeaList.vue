@@ -52,7 +52,7 @@
                 </v-btn>
               </template>
               <template v-slot:item.action="{ item }">
-                <v-btn small color="red" @click="deleteData(item.id)">
+                <v-btn small color="red" @click="deleteAct(item.id)">
                   <v-icon small left>delete</v-icon>
                   {{$vuetify.lang.t('$vuetify.action.delete')}}
                 </v-btn>
@@ -62,6 +62,18 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="dialogDelete" width="300">
+      <v-card>
+        <v-card-title>Delete Idea</v-card-title>
+        <v-card-text>Are you sure want to Delete this Idea ?!</v-card-text>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn @click="deleteData(item.id)" color="red">{{$vuetify.lang.t('$vuetify.action.yes')}}</v-btn>
+          <v-btn @click="dialogDelete = false">{{$vuetify.lang.t('$vuetify.action.cancel')}}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <idea-form v-if="dialogIdea" :edit="edit" @close="dialogIdea = false" @refresh="refresh"></idea-form>
   </v-container>
@@ -81,6 +93,8 @@ export default {
   },
   data() {
     return {
+      dialogDelete: false,
+      deleteId: "",
       params: {
         id: "",
         name: "",
@@ -155,16 +169,20 @@ export default {
           {},
           { headers: auth.getAuthHeader() }
         )
-        .then((res) => {
+        .then(res => {
           this.showSuccess(res, ["Success Set As Main Idea"]);
           this.getDataList();
         })
-        .catch((error) => {
+        .catch(error => {
           this.showError(error);
         })
         .finally(() => {
           this.tableLoad = false;
         });
+    },
+    deleteAct(id) {
+      this.deleteId = id;
+      this.dialogDelete = true;
     },
     deleteData(id) {
       this.tableLoad = true;
@@ -174,11 +192,11 @@ export default {
           config.baseUri + "/team/" + this.$route.params.teamId + "/idea/" + id,
           { headers: auth.getAuthHeader() }
         )
-        .then((res) => {
+        .then(res => {
           this.showInfo(res, ["Selected Idea Deleted"]);
           this.refresh();
         })
-        .catch((error) => {
+        .catch(error => {
           this.showError(error);
         })
         .finally(() => {
@@ -194,7 +212,7 @@ export default {
       this.edit = false;
       this.dialogIdea = true;
     },
-    refresh(){
+    refresh() {
       this.dialogIdea = false;
       this.getDataList();
     }

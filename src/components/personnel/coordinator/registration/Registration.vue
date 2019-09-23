@@ -10,7 +10,6 @@
       <v-layout>
         <v-flex md12>
           <v-data-table
-            dark
             :search="search"
             :loading="tableLoad"
             :headers="headers"

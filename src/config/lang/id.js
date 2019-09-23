@@ -112,11 +112,16 @@ var _default = {
   idea: {
     idea: "Ide",
     setMainIdea: "Jadikan Ide Utama",
-    customersegment: "Segmen Pelanggan",
-    persona: "Persona",
+    customersegment: "Tipe Pengguna",
+    persona: "Segmen Pelanggan",
     valueproposition: "Value Proposition",
     ideaName: "Nama Ide",
+    business: "Bisnis",
     analysis: "Analisa",
+    businessAnalysis: "Analisa Bisnis",
+    businessData: "Data Bisnis",
+    metric: "Metrik",
+    devPlan: "Rencana Pengembangan",
     experiment: "Eksperimen",
     competitor: "Kompetitor"
 
