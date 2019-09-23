@@ -23,6 +23,7 @@ export default {
   components: {},
   created() {
     this.value = this.field.value;
+    this.fieldId = this.field.field_template.id;
   },
   data: function() {
     return {

@@ -7,9 +7,10 @@ export const formMixins = {
     },
     watch: {
         value: function () {
-            var params = { field_template_id: this.field.id, value: this.value };
+            var params = { field_template_id: this.fieldId, value: this.value };
             bus.$emit("getValue", params, this.index);
-        }
+        },
+        
     },
     methods: {
         setFormJSONTemplate: function (data) {

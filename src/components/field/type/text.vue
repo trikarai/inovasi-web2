@@ -8,8 +8,8 @@
         :name="field.id"
         :label="field.name"
         :hint="field.description"
-        counter="500"
-        maxlength="500"
+        counter="512"
+        maxlength="512"
         :clearable="clearable"
       ></v-textarea>
     </v-flex>
@@ -22,10 +22,14 @@ export default {
   mixins: [formMixins],
   props: ["field", "index"],
   components: {},
+  created() {
+    this.fieldId = this.field.id;
+  },
   data: function() {
     return {
       clearable: true,
       value: "",
+      fieldId: "",
       rules: [v => !!v || "This field is required"]
     };
   }

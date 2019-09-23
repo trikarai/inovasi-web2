@@ -8,8 +8,8 @@
         :name="field.field_template.id"
         :label="field.field_template.name"
         :hint="field.field_template.description"
-        counter="500"
-        maxlength="500"
+        counter="512"
+        maxlength="512"
         :clearable="clearable"
       ></v-textarea>
     </v-flex>
@@ -24,11 +24,13 @@ export default {
   components: {},
   created() {
     this.value = this.field.value;
+    this.fieldId = this.field.field_template.id;
   },
   data: function() {
     return {
       clearable: true,
       value: "",
+      fieldId: "",
       rules: [v => !!v || "This field is required"]
     };
   }

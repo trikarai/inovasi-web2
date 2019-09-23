@@ -21,6 +21,9 @@ export default {
   mixins: [formMixins],
   props: ["field", "index"],
   components: {},
+  created() {
+    this.fieldId = this.field.id;
+  },
   data: function() {
     return {
       clearable: true,
