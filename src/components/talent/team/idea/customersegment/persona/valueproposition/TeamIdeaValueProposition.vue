@@ -32,7 +32,7 @@
                 </v-list-item-content>
                 <v-list-item-action>
                   <div>
-                    <v-btn small color="primary" @click="gotoChild(index)">
+                    <v-btn :disabled="menu.disabled" small color="primary" @click="gotoChild(index)">
                       <v-icon small>zoom_in</v-icon>
                     </v-btn>
                   </div>
@@ -80,23 +80,28 @@ export default {
       menus: [
         {
           icon: "business_center",
-          name: this.$vuetify.lang.t("$vuetify.idea.businessAnalysis")
+          name: this.$vuetify.lang.t("$vuetify.idea.businessAnalysis"),
+          disabled: false
         },
         {
           icon: "recent_actors",
-          name: this.$vuetify.lang.t("$vuetify.idea.experiment")
+          name: this.$vuetify.lang.t("$vuetify.idea.experiment"),
+          disabled: true
         },
         {
           icon: "scatter_plot",
-          name: this.$vuetify.lang.t("$vuetify.idea.metric")
+          name: this.$vuetify.lang.t("$vuetify.idea.metric"),
+          disabled: true
         },
         {
           icon: "dynamic_feed",
-          name: this.$vuetify.lang.t("$vuetify.idea.devPlan")
+          name: this.$vuetify.lang.t("$vuetify.idea.devPlan"),
+          disabled: true
         },
         {
           icon: "work",
-          name: this.$vuetify.lang.t("$vuetify.idea.businessData")
+          name: this.$vuetify.lang.t("$vuetify.idea.businessData"),
+          disabled: true
         }
       ]
     };
