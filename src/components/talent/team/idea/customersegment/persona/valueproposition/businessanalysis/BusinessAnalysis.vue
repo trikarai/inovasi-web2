@@ -65,19 +65,27 @@
                   <div class="lt-grid-container">
                     <div class="lt-Gain">
                       <v-card flat>
-                        <v-card-title>{{dataSolution.fields[0].field_template.name}}</v-card-title>
-                        <v-card-text style="white-space: pre-wrap;">{{dataSolution.fields[0].value}}</v-card-text>
+                        <template v-if="dataSolution.fields.length != 0">
+                          <v-card-title>{{dataSolution.fields[0].field_template.name}}</v-card-title>
+                          <v-card-text
+                            style="white-space: pre-wrap;"
+                          >{{dataSolution.fields[0].value}}</v-card-text>
+                        </template>
                       </v-card>
                     </div>
                     <div class="lt-Pain">
                       <v-card flat>
-                        <v-card-title>{{dataSolution.fields[1].field_template.name}}</v-card-title>
+                        <template v-if="dataSolution.fields.length != 0">
+                          <v-card-title>{{dataSolution.fields[1].field_template.name}}</v-card-title>
+                        </template>
                         <v-card-text style="white-space: pre-wrap;">{{dataSolution.fields[1].value}}</v-card-text>
                       </v-card>
                     </div>
                     <div class="lt-Goal">
                       <v-card flat>
-                        <v-card-title>{{dataSolution.fields[2].field_template.name}}</v-card-title>
+                        <template v-if="dataSolution.fields.length != 0">
+                          <v-card-title>{{dataSolution.fields[2].field_template.name}}</v-card-title>
+                        </template>
                         <v-card-text style="white-space: pre-wrap;">{{dataSolution.fields[2].value}}</v-card-text>
                       </v-card>
                     </div>
@@ -95,15 +103,17 @@
                     </template>
                     <v-expansion-panel-content v-else>
                       <v-list>
-                        <v-list-item
-                          v-for="aspect in parentPersona.aspect.slice(0,3)"
-                          :key="aspect.id"
-                        >
-                          <v-list-item-content>
-                            <v-list-item-title>{{aspect.field_template.name}}</v-list-item-title>
-                            <v-list-item-subtitle style="white-space: pre-wrap;">{{aspect.value}}</v-list-item-subtitle>
-                          </v-list-item-content>
-                        </v-list-item>
+                        <template v-if="parentPersona.aspect.length != 0">
+                          <v-list-item
+                            v-for="aspect in parentPersona.aspect.slice(0,3)"
+                            :key="aspect.id"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title>{{aspect.field_template.name}}</v-list-item-title>
+                              <v-list-item-subtitle style="white-space: pre-wrap;">{{aspect.value}}</v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </template>
                       </v-list>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -118,26 +128,32 @@
                           <div class="lt-grid-container">
                             <div class="lt-Gain">
                               <v-card>
-                                <v-card-title>{{parentPersona.aspect[6].field_template.name}}</v-card-title>
-                                <v-card-text
-                                  style="white-space: pre-wrap;"
-                                >{{parentPersona.aspect[6].value}}</v-card-text>
+                                <template v-if="parentPersona.aspect.length != 0">
+                                  <v-card-title>{{parentPersona.aspect[6].field_template.name}}</v-card-title>
+                                  <v-card-text
+                                    style="white-space: pre-wrap;"
+                                  >{{parentPersona.aspect[6].value}}</v-card-text>
+                                </template>
                               </v-card>
                             </div>
                             <div class="lt-Pain">
                               <v-card>
-                                <v-card-title>{{parentPersona.aspect[4].field_template.name}}</v-card-title>
-                                <v-card-text
-                                  style="white-space: pre-wrap;"
-                                >{{parentPersona.aspect[4].value}}</v-card-text>
+                                <template v-if="parentPersona.aspect.length != 0">
+                                  <v-card-title>{{parentPersona.aspect[4].field_template.name}}</v-card-title>
+                                  <v-card-text
+                                    style="white-space: pre-wrap;"
+                                  >{{parentPersona.aspect[4].value}}</v-card-text>
+                                </template>
                               </v-card>
                             </div>
                             <div class="lt-Goal">
                               <v-card>
-                                <v-card-title>{{parentPersona.aspect[5].field_template.name}}</v-card-title>
-                                <v-card-text
-                                  style="white-space: pre-wrap;"
-                                >{{parentPersona.aspect[5].value}}</v-card-text>
+                                <template v-if="parentPersona.aspect.length != 0">
+                                  <v-card-title>{{parentPersona.aspect[5].field_template.name}}</v-card-title>
+                                  <v-card-text
+                                    style="white-space: pre-wrap;"
+                                  >{{parentPersona.aspect[5].value}}</v-card-text>
+                                </template>
                               </v-card>
                             </div>
                           </div>
@@ -407,7 +423,9 @@ export default {
       loadVP: false,
       parentCustomersegment: { name: "", description: "" },
       loadCS: false,
-      parentPersona: "",
+      parentPersona: {
+        aspect: []
+      },
       loadPersona: false,
       dataSolution: {
         fields: []
