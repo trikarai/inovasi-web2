@@ -648,17 +648,19 @@
         </v-tab-item>
 
         <v-tab-item value="tab-valuecurve">
-          <v-layout row wrap>
+          <v-layout>
             <flex v-if="dataVC.fields.length == 0">
-              <v-btn
-                color="primary"
-                class="ma-3"
-                @click="openBsForm('4e208600-abab-41ac-8864-a950ff74e0fb', 'Value Curve')"
-              >
-                <v-icon>add</v-icon>Add Value Curve
-              </v-btn>
+              <v-card flat>
+                <v-btn
+                  color="primary"
+                  class="ma-3"
+                  @click="openBsForm('4e208600-abab-41ac-8864-a950ff74e0fb', 'Value Curve')"
+                >
+                  <v-icon>add</v-icon>Add Value Curve
+                </v-btn>
+              </v-card>
             </flex>
-            <flex md12 v-else>
+            <v-flex md12 v-else>
               <!-- {{dataSwot}} -->
               <v-list v-for="data in dataVC.fields">
                 <v-list-item
@@ -695,8 +697,8 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </flex>
-            <v-card md12 flat>
+            </v-flex>
+            <v-card md12 flat v-if="dataVC.fields.length != 0">
               <v-card-actions>
                 <!-- <div class="flex-grow-1"></div> -->
                 <v-btn
