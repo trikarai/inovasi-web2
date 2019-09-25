@@ -361,7 +361,14 @@
         </v-tab-item>
 
         <v-tab-item value="tab-bmc">
-          <v-layout>
+          <template v-if="loadBMC">
+            <v-card>
+              <v-card-text>
+                <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </template>
+          <v-layout v-else>
             <!-- {{dataBMC}} -->
             <v-flex v-if="dataBMC.fields.length == 0">
               <v-btn
@@ -503,8 +510,15 @@
         </v-tab-item>
 
         <v-tab-item value="tab-ms">
-          <v-layout>
-            <flex md12 v-if="dataMS.fields.length == 0">
+          <template v-if="loadMS">
+            <v-card>
+              <v-card-text>
+                <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </template>
+          <v-layout v-else>
+            <v-flex md12 v-if="dataMS.fields.length == 0">
               <v-btn
                 color="primary"
                 class="ma-3"
@@ -512,8 +526,8 @@
               >
                 <v-icon>add</v-icon>Add Market Size
               </v-btn>
-            </flex>
-            <flex md12 v-else>
+            </v-flex>
+            <v-flex md12 v-else>
               <!-- {{dataMS}} -->
               <v-list v-for="field in dataMS.fields">
                 <v-list-item three-line :key="field.id">
@@ -523,7 +537,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </flex>
+            </v-flex>
             <v-flex md12 v-if="dataMS.fields.length != 0">
               <v-card flat class="elevation-0">
                 <v-card-actions>
@@ -552,8 +566,15 @@
         </v-tab-item>
 
         <v-tab-item value="tab-ma">
-          <v-layout>
-            <flex v-if="dataMA.fields.length == 0">
+          <template v-if="loadMA">
+            <v-card>
+              <v-card-text>
+                <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </template>
+          <v-layout v-else>
+            <v-flex v-if="dataMA.fields.length == 0">
               <v-btn
                 color="primary"
                 class="ma-3"
@@ -561,8 +582,8 @@
               >
                 <v-icon>add</v-icon>Add Market Analysis
               </v-btn>
-            </flex>
-            <flex v-else>
+            </v-flex>
+            <v-flex v-else>
               <!-- {{dataMA}} -->
               <v-list v-for="field in dataMA.fields">
                 <v-list-item three-line :key="field.id">
@@ -572,7 +593,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </flex>
+            </v-flex>
             <v-flex md12 v-if="dataMA.fields.length != 0">
               <v-card flat>
                 <v-card-actions>
@@ -587,7 +608,7 @@
                     <v-icon>delete</v-icon>
                   </v-btn>
                   <v-btn
-                    @click="editBsForm(dataMa, 'Market Analysis')"
+                    @click="editBsForm(dataMA, 'Market Analysis')"
                     small
                     class="ma-1"
                     color="primary"
@@ -601,8 +622,15 @@
         </v-tab-item>
 
         <v-tab-item value="tab-swot">
-          <v-layout>
-            <flex v-if="dataSwot.fields.length == 0">
+          <template v-if="loadVC">
+            <v-card>
+              <v-card-text>
+                <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </template>
+          <v-layout v-else>
+            <v-flex v-if="dataSwot.fields.length == 0">
               <v-btn
                 color="primary"
                 class="ma-3"
@@ -610,8 +638,8 @@
               >
                 <v-icon>add</v-icon>Add SWOT Analysis
               </v-btn>
-            </flex>
-            <flex v-else>
+            </v-flex>
+            <v-flex v-else>
               <!-- {{dataSwot}} -->
               <v-list v-for="field in dataSwot.fields">
                 <v-list-item three-line :key="field.id">
@@ -621,7 +649,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </flex>
+            </v-flex>
             <v-card flat>
               <v-card-actions>
                 <!-- <div class="flex-grow-1"></div> -->
@@ -648,8 +676,15 @@
         </v-tab-item>
 
         <v-tab-item value="tab-valuecurve">
-          <v-layout>
-            <flex v-if="dataVC.fields.length == 0">
+          <template v-if="loadVC">
+            <v-card>
+              <v-card-text>
+                <v-progress-circular size="70" width="7" color="primary" indeterminate></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </template>
+          <v-layout v-else>
+            <v-flex v-if="dataVC.fields.length == 0">
               <v-card flat>
                 <v-btn
                   color="primary"
@@ -659,9 +694,8 @@
                   <v-icon>add</v-icon>Add Value Curve
                 </v-btn>
               </v-card>
-            </flex>
+            </v-flex>
             <v-flex md12 v-else>
-              <!-- {{dataSwot}} -->
               <v-list v-for="data in dataVC.fields">
                 <v-list-item
                   :key="data.id"
@@ -1092,7 +1126,8 @@ export default {
           this.dataVC = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          // this.showError(res);
+          this.dataVC = { fields: [] };
         })
         .finally(() => {
           this.loadVC = false;
@@ -1143,17 +1178,17 @@ export default {
     refreshCanvas(name) {
       if (name == "Solution") {
         this.getSolutionCanvas();
-      } else if ((name, "Lean Canvas")) {
+      } else if (name == "Lean Canvas") {
         this.getLeanCanvas();
-      } else if ((name, "Business Model Canvas")) {
+      } else if (name == "Business Model Canvas") {
         this.getBMC();
-      } else if ((name, "Market Size")) {
+      } else if (name == "Market Size") {
         this.getMarketSize();
-      } else if ((name, "Market Analysis")) {
+      } else if (name == "Market Analysis") {
         this.getMarketAnalysis();
-      } else if ((name, "SWOT Analysis")) {
+      } else if (name == "SWOT Analysis") {
         this.getSwotAnalysis();
-      } else if ((name, "Value Curve")) {
+      } else if (name == "Value Curve") {
         this.getValueCurve();
       }
 
@@ -1162,17 +1197,17 @@ export default {
     refreshDelete(name) {
       if (name == "Solution") {
         this.dataSolution = { fields: [] };
-      } else if ((name, "Lean Canvas")) {
-        this.dataLean = { fields: [] };
-      } else if ((name, "Business Model Canvas")) {
-        this.dataBMC = { fields: [] };
-      } else if ((name, "Market Size")) {
+      } else if (name == "Lean Canvas") {
+        this.dataLean == { fields: [] };
+      } else if (name == "Business Model Canvas") {
+        this.dataBMC == { fields: [] };
+      } else if (name == "Market Size") {
         this.dataMS = { fields: [] };
-      } else if ((name, "Market Analysis")) {
+      } else if (name == "Market Analysis") {
         this.dataMA = { fields: [] };
-      } else if ((name, "SWOT Analysis")) {
-        this.dataSwot = { fields: [] };
-      } else if ((name, "Value Curve")) {
+      } else if (name == "SWOT Analysis") {
+        this.dataSwot == { fields: [] };
+      } else if (name == "Value Curve") {
         this.dataVC = { fields: [] };
       }
       this.dialogCanvas = false;
