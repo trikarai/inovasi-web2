@@ -8,6 +8,9 @@ export default {
     }
     return headers;
   },
+  getToken() {
+    return 'Bearer ' + window.localStorage.getItem('access_token')
+  },
   getAuthData() {
     const data = window.localStorage.getItem('access_data')
     return JSON.parse(data)
