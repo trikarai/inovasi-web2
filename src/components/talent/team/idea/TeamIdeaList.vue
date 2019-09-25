@@ -69,7 +69,7 @@
         <v-card-text>Are you sure want to Delete this Idea ?!</v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn @click="deleteData(item.id)" color="red">{{$vuetify.lang.t('$vuetify.action.yes')}}</v-btn>
+          <v-btn @click="deleteData(deleteId)" color="red">{{$vuetify.lang.t('$vuetify.action.yes')}}</v-btn>
           <v-btn @click="dialogDelete = false">{{$vuetify.lang.t('$vuetify.action.cancel')}}</v-btn>
         </v-card-actions>
       </v-card>
