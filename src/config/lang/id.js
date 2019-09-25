@@ -47,6 +47,7 @@ var _default = {
   },
   action: {
     save: "Simpan",
+    submit: "Kirimkan",
     create: "Buat",
     close: "Tutup",
     detail: "Detil",
@@ -105,7 +106,7 @@ var _default = {
     addMember: "Tambah Anggota",
     noProgram: "Program Anda belum diterima oleh Program Koordinator atau Anda belum mendaftar program"
   },
-  program:{
+  program: {
     program: "Program",
     programParticipation: "Partisipasi Program",
   },
@@ -153,7 +154,7 @@ var _default = {
     share: "Bagikan"
   },
   feedback: {
-    feedback : "Masukan",
+    feedback: "Masukan",
     post: "Kirim",
     reply: "Balas"
   }

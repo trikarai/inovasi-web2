@@ -46,6 +46,7 @@ var _default = {
   },
   action: {
     save: "Save",
+    submit: "Submit",
     create: "Create",
     close: "Close",
     detail: "Detail",
