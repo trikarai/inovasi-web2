@@ -32,7 +32,12 @@
                 </v-list-item-content>
                 <v-list-item-action>
                   <div>
-                    <v-btn :disabled="menu.disabled" small color="primary" @click="gotoChild(index)">
+                    <v-btn
+                      :disabled="menu.disabled"
+                      small
+                      color="primary"
+                      @click="gotoChild(index)"
+                    >
                       <v-icon small>zoom_in</v-icon>
                     </v-btn>
                   </div>
@@ -86,22 +91,22 @@ export default {
         {
           icon: "recent_actors",
           name: this.$vuetify.lang.t("$vuetify.idea.experiment"),
-          disabled: true
+          disabled: false
         },
         {
           icon: "scatter_plot",
           name: this.$vuetify.lang.t("$vuetify.idea.metric"),
-          disabled: true
+          disabled: false
         },
         {
           icon: "dynamic_feed",
           name: this.$vuetify.lang.t("$vuetify.idea.devPlan"),
-          disabled: true
+          disabled: false
         },
         {
           icon: "work",
           name: this.$vuetify.lang.t("$vuetify.idea.businessData"),
-          disabled: true
+          disabled: false
         }
       ]
     };
@@ -183,7 +188,55 @@ export default {
               this.$route.params.personaId +
               "/valueproposition/" +
               this.$route.params.valuepropositionId +
-              "/experiment"
+              "/javelin"
+          });
+          break;
+        case 2:
+          this.$router.push({
+            path:
+              "/talent/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId +
+              "/customersegment/" +
+              this.$route.params.customersegmentId +
+              "/persona/" +
+              this.$route.params.personaId +
+              "/valueproposition/" +
+              this.$route.params.valuepropositionId +
+              "/metric"
+          });
+          break;
+        case 3:
+          this.$router.push({
+            path:
+              "/talent/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId +
+              "/customersegment/" +
+              this.$route.params.customersegmentId +
+              "/persona/" +
+              this.$route.params.personaId +
+              "/valueproposition/" +
+              this.$route.params.valuepropositionId +
+              "/developmentplan"
+          });
+          break;
+        case 4:
+          this.$router.push({
+            path:
+              "/talent/team/" +
+              this.$route.params.teamId +
+              "/idea/" +
+              this.$route.params.ideaId +
+              "/customersegment/" +
+              this.$route.params.customersegmentId +
+              "/persona/" +
+              this.$route.params.personaId +
+              "/valueproposition/" +
+              this.$route.params.valuepropositionId +
+              "/businessdata"
           });
           break;
         default:
