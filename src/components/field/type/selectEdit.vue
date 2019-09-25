@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <!-- {{field}} -->
-    <v-flex xs12 sm12 v-if="field.min_size === 1">
-      {{field.name}}
+    <v-flex xs12 sm12 v-if="field.field_template.min_size === 1">
+      {{field.field_template.name}}
       <v-radio-group v-model="value">
         <v-radio
           color="primary"
-          v-for="option in field.options"
+          v-for="option in field.field_template.options"
           :key="option.id"
           :label="option.name"
           :value="option.id"
@@ -17,12 +17,10 @@
       <v-select
         class="ma-2"
         v-model="value"
-        :label="field.name"
-        :items="field.options"
+        :label="field.field_template.name"
+        :items="field.field_template.options"
         item-text="name"
         item-value="id"
-        :hint="field.description"
-        :clearable="clearable"
         chips
         multiple
       ></v-select>
@@ -30,10 +28,9 @@
   </v-row>
 </template>
 <script>
-import { formMixins } from "@/mixins/formMixins";
+import bus from "@/bus";
 
 export default {
-  mixins: [formMixins],
   props: ["field", "index"],
   components: {},
   data: function() {
@@ -41,6 +38,18 @@ export default {
       clearable: true,
       value: ""
     };
+  },
+  watch: {
+    value: function() {
+      var params = "";
+      if (this.field.field.minValue === 1) {
+        var arr = new Array(this.value);
+        params = { id: this.field.field.id, value: arr };
+      } else {
+        params = { id: this.field.field.id, value: this.value };
+      }
+      bus.$emit("getValue", params, this.index);
+    }
   }
 };
 </script>
