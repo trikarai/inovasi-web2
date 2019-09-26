@@ -11,7 +11,6 @@
           </v-toolbar>
           <v-tabs v-model="tab" background-color="sidebar">
             <v-tabs-slider></v-tabs-slider>
-
             <v-tab href="#tab-pitchdeck" @click="getBusinessStructure('Pitch Deck')">Pitch Deck</v-tab>
             <v-tab
               href="#tab-businessdata"
@@ -20,6 +19,7 @@
           </v-tabs>
 
           <v-tabs-items v-model="tab">
+            <v-tab-item value="tab-main" active-class></v-tab-item>
             <v-tab-item value="tab-businessdata">
               <template v-if="loadBS">
                 <v-progress-circular class="ma-5" size="50" color="primary" indeterminate></v-progress-circular>
@@ -172,7 +172,7 @@ export default {
       dataExp: { total: 0, list: [] },
       loadExpData: false,
       templateId: "",
-      tab: null,
+      tab: "tab-main",
       exptype: 0,
       dataJavelin: { total: 0, list: [] },
       loadJavelin: false,
