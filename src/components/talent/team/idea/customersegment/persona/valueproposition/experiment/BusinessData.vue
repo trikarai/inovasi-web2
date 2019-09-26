@@ -56,7 +56,7 @@
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </v-col>
-                    <canvas-list :template="dataBS"></canvas-list>
+                    <canvas-list :template="dataBS" />
                   </v-row>
                 </v-container>
               </template>
@@ -97,7 +97,7 @@
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </v-col>
-                    <canvas-list :template="dataBS"></canvas-list>
+                    <canvas-list :template="dataBS" />
                   </v-row>
                 </v-container>
               </template>
