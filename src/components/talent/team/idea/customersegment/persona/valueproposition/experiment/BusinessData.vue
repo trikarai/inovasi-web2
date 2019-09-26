@@ -337,16 +337,15 @@ export default {
       this.getExpData(id);
       this.dialogExp = false;
     },
-    refreshCanvas(id) {
-      this.getBsData(id);
-      this.dialogExp = false;
+    refreshCanvas(name) {
+      this.getBusinessStructure(name);
+      this.dialogCanvas = false;
     },
     refreshDeleteExp(id) {
       this.getExpData(id);
       this.dialogExp = false;
     },
     refreshDeleteBs(id) {
-      // this.getBsData(id);
       this.dataBS = { total: 0, list: [] };
       this.dialogCanvas = false;
     }
