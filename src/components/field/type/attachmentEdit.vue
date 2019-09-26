@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <!-- {{field}} -->
     <v-divider />
     {{field.field_template.name}}
     <!-- https://jsfiddle.net/meyubaraj/fLbe7r72/ -->
@@ -18,11 +17,22 @@
       </v-expand-x-transition>
       <v-expand-transition>
         <template v-if="!progressShow">
-          <v-img :src="imageUrl" contain max-height="150" v-if="imageUrl" />
+          <template v-if="ext == 'pdf'">
+            <v-img
+              src="https://www.sandhata.com/wp-content/uploads/2016/11/pdf-icon.png"
+              contain
+              max-height="150"
+              v-if="imageUrl"
+            />
+            {{imageUrl}}
+          </template>
+          <template v-else>
+            <v-img :src="imageUrl" contain max-height="150" v-if="imageUrl" />
+          </template>
         </template>
       </v-expand-transition>
-      <template v-if="!edit">
-        <template v-if="!uploaded">
+      <template v-if="!uploaded">
+        <template v-if="!edit">
           <v-btn
             @click.prevent="uploadFile"
             :disabled="progressShow"
@@ -35,9 +45,17 @@
           </v-btn>
         </template>
       </template>
-      <v-btn @click.prevent="removeAttachment" small fab color="red" v-else>
-        <v-icon>delete</v-icon>
-      </v-btn>
+      <template v-if="edit">
+        <v-btn
+          v-if="field.attachment.length != 0"
+          @click.prevent="removeAttachment"
+          small
+          fab
+          color="red"
+        >
+          <v-icon>delete</v-icon>
+        </v-btn>
+      </template>
       <v-btn fab small color="green" v-if="uploaded">
         <v-icon>check</v-icon>
       </v-btn>
@@ -49,7 +67,13 @@
         prepend-icon="attach_file"
       ></v-text-field>
       <!-- {{value}} -->
-      <input type="file" style="display: none" ref="image" accept="image/*" @change="onFilePicked" />
+      <input
+        type="file"
+        style="display: none"
+        ref="image"
+        accept="image/*, application/pdf"
+        @change="onFilePicked"
+      />
     </v-flex>
   </v-container>
 </template>
@@ -67,7 +91,7 @@ export default {
   components: {},
   data: function() {
     return {
-      edit: true,
+      edit: false,
       fieldId: "",
       response: "",
       clearable: true,
@@ -81,18 +105,21 @@ export default {
       progressShow: false,
       uploaded: false,
       fileInfo: { id: "", filePath: "" },
-      storageUri: "https://start.mikti.id/inovasi/public/uploads"
+      storageUri: "https://start.mikti.id/inovasi/public/uploads",
+      ext: ""
     };
   },
-  created() {
+  mounted() {
     this.fieldId = this.field.field_template.id;
-
-    this.imageUrl =
-      this.storageUri + this.field.attachment[0].file_meta.file_path;
-
-    this.value.push(this.field.attachment[0].file_meta.id);
-    this.fileInfo.id = this.field.attachment[0].file_meta.id;
-    this.fileInfo.filePath = this.field.attachment[0].file_meta.file_path;
+    if (this.field.attachment.length != 0) {
+      this.imageUrl =
+        this.storageUri + this.field.attachment[0].file_meta.file_path;
+      this.value.push(this.field.attachment[0].file_meta.id);
+      this.fileInfo.id = this.field.attachment[0].file_meta.id;
+      this.fileInfo.filePath = this.field.attachment[0].file_meta.file_path;
+      this.ext = this.fileInfo.filePath.split(".").pop();
+      this.edit = true;
+    }
   },
   watch: {
     fileInfo: function() {
@@ -100,7 +127,6 @@ export default {
       bus.$emit("getValue", params, this.index);
     }
   },
-  mounted() {},
   methods: {
     pickFile() {
       this.$refs.image.click();
@@ -122,6 +148,7 @@ export default {
           this.imageUrl = fr.result;
           this.imageFile = files[0]; // this is an image file that can be sent to server...
         });
+        this.ext = files[0].name.split(".").pop();
       } else {
         this.imageName = "";
         this.imageFile = "";

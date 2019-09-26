@@ -17,7 +17,17 @@
       </v-expand-x-transition>
       <v-expand-transition>
         <template v-if="!progressShow">
-          <v-img :src="imageUrl" contain max-height="150" v-if="imageUrl" />
+          <template v-if="ext == 'pdf'">
+            <v-img
+              src="https://www.sandhata.com/wp-content/uploads/2016/11/pdf-icon.png"
+              contain
+              max-height="150"
+            />
+            {{imageUrl}}
+          </template>
+          <template v-else>
+            <v-img :src="imageUrl" contain max-height="150" v-if="imageUrl" />
+          </template>
         </template>
       </v-expand-transition>
       <template v-if="!uploaded">
@@ -41,7 +51,13 @@
         v-model="imageName"
         prepend-icon="attach_file"
       ></v-text-field>
-      <input type="file" style="display: none" ref="image" accept="image/*" @change="onFilePicked" />
+      <input
+        type="file"
+        style="display: none"
+        ref="image"
+        accept="image/*, application/pdf"
+        @change="onFilePicked"
+      />
     </v-flex>
   </v-container>
 </template>
@@ -71,7 +87,8 @@ export default {
       headers: {},
       progressShow: false,
       uploaded: false,
-      fileInfo: { id: "", filePath: "" }
+      fileInfo: { id: "", filePath: "" },
+      ext: ""
     };
   },
   created() {
@@ -105,6 +122,7 @@ export default {
           this.imageUrl = fr.result;
           this.imageFile = files[0]; // this is an image file that can be sent to server...
         });
+        this.ext = files[0].name.split(".").pop();
       } else {
         this.imageName = "";
         this.imageFile = "";
