@@ -15,9 +15,8 @@
               </vue-plyr>
             </template>
           </v-card-text>
-
-          <v-card-text v-if="data.attachment" style="white-space: pre-wrap;" class="subtitle-1">
-            <template v-if="getExtension(data.attachment[0].file_meta.file_path) == 'pdf'">
+          <v-card-text v-for="data in data.attachment" class="subtitle-1">
+            <template v-if="getExtension(data.file_meta.file_path) == 'pdf'">
               <v-row>
                 <v-col md="4">
                   <v-img
@@ -31,7 +30,7 @@
                     fab
                     small
                     color="accent"
-                    :href="storageUri + data.attachment[0].file_meta.file_path"
+                    :href="storageUri + data.file_meta.file_path"
                     target="_blank"
                   >
                     <v-icon>pageview</v-icon>
