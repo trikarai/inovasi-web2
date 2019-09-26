@@ -56,7 +56,7 @@
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </v-col>
-                    {{dataBS}}
+                    <canvas-list :template="dataBS"></canvas-list>
                   </v-row>
                 </v-container>
               </template>
@@ -97,7 +97,7 @@
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </v-col>
-                    {{dataBS}}
+                    <canvas-list :template="dataBS"></canvas-list>
                   </v-row>
                 </v-container>
               </template>
@@ -152,12 +152,14 @@ import { notifMixins } from "@/mixins/notifMixins";
 
 import ExperimentForm from "../ExperimentForm";
 import CanvasForm from "../BusinessForm";
+import CanvasList from "../CanvasListModul";
 
 export default {
   mixins: [getbsMixins, experimentMixins, notifMixins],
   components: {
     ExperimentForm,
-    CanvasForm
+    CanvasForm,
+    CanvasList
   },
   data() {
     return {
