@@ -12,9 +12,9 @@ import VuePlyr from 'vue-plyr'
 
 //global component
 import Notification from "@/components/Notification";
+Vue.component('notification', Notification);
 
 import './registerServiceWorker'
-Vue.component('notification', Notification);
 
 Vue.mixin({
   data() {

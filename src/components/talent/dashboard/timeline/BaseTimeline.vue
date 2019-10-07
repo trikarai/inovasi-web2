@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification :err_msg2="err_msg" :status2="status" />
     <v-row>
       <!-- {{teamId}} -->
       <!-- {{program}} -->
@@ -123,7 +122,7 @@
                 <!-- <v-list-item @click="openMentoring">
                   <v-icon left small>insert_invitation</v-icon>
                   <v-list-item-title>Propose a Mentoring</v-list-item-title>
-                </v-list-item> -->
+                </v-list-item>-->
               </v-list>
             </v-menu>
             {{ $vuetify.lang.t('$vuetify.program.programParticipation')}}
@@ -453,12 +452,11 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 export default {
-  mixins: [notifMixins],
   props: ["teamId"],
   data: () => ({
     valid: false,
@@ -633,7 +631,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loaderProgram = false;
@@ -659,7 +657,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.customersegment = { total: 0, list: [] };
@@ -696,7 +694,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loaderCs = false;
@@ -733,7 +731,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loaderPersona = false;
@@ -772,7 +770,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loaderVp = false;
@@ -834,7 +832,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loader = false;

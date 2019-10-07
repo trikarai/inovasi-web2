@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification :err_msg2="err_msg" :status2="status" />
     <!-- {{dataList.list}} -->
     <v-layout>
       <v-flex md3>
@@ -76,13 +75,13 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 export default {
-  mixins: [statusMixins, notifMixins],
+  mixins: [statusMixins],
   data() {
     return {
       search: "",
@@ -122,8 +121,8 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -136,7 +135,9 @@ export default {
         .then(() => {
           this.getDataList();
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.tableLoad = false;
         });

@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification ref="notif" :err_msg2="err_msg" :status2="status" />
     <v-layout row wrap>
       <v-flex xs12 md6>
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadParent">
@@ -51,7 +50,7 @@
           <v-card-text>
             <!-- {{childData.list}} -->
             <v-list v-for="data in childData.list" :key="data.id">
-              <v-list-item three-line >
+              <v-list-item three-line>
                 <v-list-item-avatar>
                   <v-btn text small fab @click="gotoChild(data.id)">
                     <v-icon>zoom_in</v-icon>
@@ -78,7 +77,8 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="accent" @click="openChildForm">
-              <v-icon>add</v-icon>{{$vuetify.lang.t('$vuetify.action.add')}} Value Proposition
+              <v-icon>add</v-icon>
+              {{$vuetify.lang.t('$vuetify.action.add')}} Value Proposition
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -121,15 +121,14 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import PersonaForm from "./PersonaForm";
 import ValuepropositionForm from "./valueproposition/ValuePropositionForm";
 
 export default {
-  mixins: [notifMixins],
   data() {
     return {
       dialogDelete: "",
@@ -177,7 +176,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadParent = false;
@@ -205,7 +204,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadChild = false;
@@ -246,7 +245,7 @@ export default {
           this.getChildData();
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadChild = false;
@@ -276,7 +275,7 @@ export default {
           this.getChildData();
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadParent = false;

@@ -114,6 +114,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 export default {
@@ -169,8 +170,8 @@ export default {
             this.registration = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -194,10 +195,7 @@ export default {
       this.onsubmit = true;
       this.axios
         .post(
-          config.baseUri +
-            "/programme/" +
-            this.programId +
-            "/registration/",
+          config.baseUri + "/programme/" + this.programId + "/registration/",
           this.params,
           {
             headers: auth.getAuthHeader()
@@ -206,8 +204,8 @@ export default {
         .then(() => {
           this.dialogForm = false;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.onsubmit = false;
@@ -236,7 +234,9 @@ export default {
         .then(() => {
           this.getRegistration();
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.selectedId = null;
           this.tableLoad = false;

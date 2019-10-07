@@ -28,6 +28,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 export default {
   data: function() {
@@ -73,8 +74,8 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -93,11 +94,10 @@ export default {
           { headers: auth.getAuthHeader() }
         )
         .then(res => {
-          console.log(res);
           this.getDataList();
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -115,12 +115,11 @@ export default {
             "/approve",
           { headers: auth.getAuthHeader() }
         )
-        .then(res => {
-          console.log(res);
+        .then(() => {
           this.getDataList();
         })
         .catch(error => {
-          console.log(error);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;

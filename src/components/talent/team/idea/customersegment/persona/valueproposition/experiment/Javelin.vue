@@ -137,8 +137,16 @@
                               <template
                                 v-for="opt in reOrderField(javelin.fields)[i].selected_options"
                               >
-                                <v-icon left v-if="opt.option.name == 'Pivot'">call_split</v-icon>
-                                <v-icon left v-if="opt.option.name == 'Persevere'">lock</v-icon>
+                                <v-icon
+                                  :key="opt.id"
+                                  left
+                                  v-if="opt.option.name == 'Pivot'"
+                                >call_split</v-icon>
+                                <v-icon
+                                  :key="opt.id"
+                                  left
+                                  v-if="opt.option.name == 'Persevere'"
+                                >lock</v-icon>
                                 {{opt.option.name}}
                               </template>
                             </template>
@@ -239,6 +247,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { experimentMixins } from "@/mixins/experimentMixins";
 import { getexpMixins } from "@/mixins/getexpMixins";
@@ -327,7 +336,9 @@ export default {
         .then(res => {
           this.dataTemplate = res.data.data;
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.showTemplate = false;
         });
@@ -356,7 +367,7 @@ export default {
           this.dataExp = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadExpData = false;
@@ -403,7 +414,7 @@ export default {
           this.refreshDelete(templateId);
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadDelete = false;

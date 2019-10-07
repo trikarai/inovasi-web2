@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification :err_msg2="err_msg" :status2="status" />
     <!-- {{dataList.list}} -->
     <v-layout class="mb-3">
       <v-flex md3>
@@ -61,13 +60,13 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 export default {
-  mixins: [statusMixins, notifMixins],
+  mixins: [statusMixins],
   data() {
     return {
       search: "",
@@ -103,7 +102,6 @@ export default {
   methods: {
     getDataList: function() {
       this.tableLoad = true;
-      this.resetNotif();
       this.axios
         .get(
           config.baseUri +
@@ -121,8 +119,8 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -130,7 +128,6 @@ export default {
     },
     participationAction: function(id, action) {
       this.tableLoad = true;
-      this.resetNotif();
       this.axios
         .put(
           config.baseUri +
@@ -148,8 +145,8 @@ export default {
           this.showInfo(res, [action + " Success"]);
           this.getDataList();
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;

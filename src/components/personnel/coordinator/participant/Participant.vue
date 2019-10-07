@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <!-- {{participant}} -->
-    <notification :err_msg2="err_msg" :status2="status" />
     <v-card class="elevation-0 mb-3">
       <v-card-title>
         <div class="flex-grow-1"></div>
@@ -103,6 +102,7 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
@@ -158,8 +158,8 @@ export default {
             this.participant = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -202,8 +202,8 @@ export default {
         .then(() => {
           this.getParticipant();
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.selectedReject = null;

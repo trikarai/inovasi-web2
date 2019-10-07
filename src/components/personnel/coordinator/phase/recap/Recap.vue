@@ -27,6 +27,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
 
@@ -97,8 +98,8 @@ export default {
             this.scoringrecap = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;

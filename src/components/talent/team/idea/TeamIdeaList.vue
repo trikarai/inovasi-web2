@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification :err_msg2="err_msg" :status2="status" />
     <!-- {{dataList.list}} -->
     <v-layout class="mb-3">
       <v-flex md3>
@@ -69,7 +68,10 @@
         <v-card-text>Are you sure want to Delete this Idea ?!</v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn @click="deleteData(deleteId)" color="red">{{$vuetify.lang.t('$vuetify.action.yes')}}</v-btn>
+          <v-btn
+            @click="deleteData(deleteId)"
+            color="red"
+          >{{$vuetify.lang.t('$vuetify.action.yes')}}</v-btn>
           <v-btn @click="dialogDelete = false">{{$vuetify.lang.t('$vuetify.action.cancel')}}</v-btn>
         </v-card-actions>
       </v-card>
@@ -79,15 +81,15 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import IdeaForm from "./IdeaForm";
 
 export default {
-  mixins: [statusMixins, notifMixins],
+  mixins: [statusMixins],
   components: {
     IdeaForm
   },
@@ -149,8 +151,8 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -173,8 +175,8 @@ export default {
           this.showSuccess(res, ["Success Set As Main Idea"]);
           this.getDataList();
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -196,8 +198,8 @@ export default {
           this.showInfo(res, ["Selected Idea Deleted"]);
           this.refresh();
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;

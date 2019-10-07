@@ -97,6 +97,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 export default {
@@ -170,8 +171,8 @@ export default {
             this.phasementoring = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -213,8 +214,8 @@ export default {
         .then(() => {
           this.dialogForm = false;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.onsubmit = false;

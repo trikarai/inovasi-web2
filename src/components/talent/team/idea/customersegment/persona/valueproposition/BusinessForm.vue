@@ -3,8 +3,6 @@
     <div class="modal-mask">
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
-          <notification :err_msg2="err_msg" :status2="status" />
-
           <v-card class="pr-3 pl-3" :loading="loadForm" width="500">
             <v-form ref="form" v-model="valid">
               <v-card-title>
@@ -73,7 +71,6 @@ import bus from "@/bus";
 
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import { formMixins } from "@/mixins/formMixins";
 import FieldModule from "@/components/field/field";
@@ -88,7 +85,7 @@ export default {
     "templateId",
     "templateName"
   ],
-  mixins: [notifMixins, formMixins],
+  mixins: [formMixins],
   data() {
     return {
       formTemplate: { total: 0, fields: [] },
@@ -127,7 +124,7 @@ export default {
           this.setFormJSONTemplate(res.data.data);
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadForm = false;
@@ -170,7 +167,7 @@ export default {
             this.$emit("refresh", this.templateName);
           })
           .catch(res => {
-            this.showError(res);
+            bus.$emit("callNotif", "error", res);
           })
           .finally(() => {
             this.loadBtn = false;
@@ -198,7 +195,7 @@ export default {
             this.$emit("refresh", this.templateName);
           })
           .catch(res => {
-            this.showError(res);
+            bus.$emit("callNotif", "error", res);
           })
           .finally(() => {
             this.loadBtn = false;

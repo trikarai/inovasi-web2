@@ -3,7 +3,6 @@
     <div class="modal-mask">
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
-          <notification :err_msg2="err_msg" :status2="status" />
           <v-card class="pr-3 pl-3">
             <v-form ref="form" v-model="valid">
               <v-card-title>
@@ -69,13 +68,13 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 export default {
   props: ["value", "edit", "singleData"],
-  mixins: [statusMixins, notifMixins],
+  mixins: [statusMixins],
   data() {
     return {
       valid: false,
@@ -124,8 +123,8 @@ export default {
           .then(() => {
             this.$emit("refresh");
           })
-          .catch(error => {
-            this.showError(error);
+          .catch(res => {
+            bus.$emit("callNotif", "error", res);
           })
           .finally(() => {
             this.loadBtn = false;
@@ -144,8 +143,8 @@ export default {
           .then(() => {
             this.$emit("refresh");
           })
-          .catch(error => {
-            this.showError(error);
+          .catch(res => {
+            bus.$emit("callNotif", "error", res);
           })
           .finally(() => {
             this.loadBtn = false;

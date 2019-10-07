@@ -151,7 +151,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" @click="gotoTalentSearch">
-              <v-icon left>person_add</v-icon> Invite Registered Talent
+              <v-icon left>person_add</v-icon>Invite Registered Talent
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -161,6 +161,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
 export default {
@@ -216,7 +217,9 @@ export default {
           this.dataTeam = res.data.data;
           this.params = res.data.data.team;
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.teamLoad = false;
         });
@@ -271,7 +274,9 @@ export default {
           this.editTeam = false;
           this.getTeamDetail();
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.updateLoading = false;
           this.$vuetify.goTo(this.$refs.main, {
@@ -281,8 +286,15 @@ export default {
           });
         });
     },
-    gotoTalentSearch(){
-      this.$router.push({ path: "/talent/team/" + this.$route.params.teamId + "/membership/" + this.$route.params.membershipId + "/search" });
+    gotoTalentSearch() {
+      this.$router.push({
+        path:
+          "/talent/team/" +
+          this.$route.params.teamId +
+          "/membership/" +
+          this.$route.params.membershipId +
+          "/search"
+      });
     }
   }
 };

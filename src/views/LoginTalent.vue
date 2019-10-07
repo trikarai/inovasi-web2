@@ -1,8 +1,7 @@
 <template>
   <v-app>
     <div id="loginpage">
-      <v-layout align-center justify-center>
-      </v-layout>
+      <v-layout align-center justify-center></v-layout>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 elevation-12 class="text-xs-center">
@@ -83,6 +82,7 @@
   </v-app>
 </template>
 <script>
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 export default {
@@ -137,8 +137,8 @@ export default {
           localStorage.setItem("role", "Talent");
           this.$router.push("/talent/dashboard");
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loader = false;
@@ -152,6 +152,7 @@ export default {
 </script>
 <style scoped>
 #loginpage {
+  background-image: url("https://start.mikti.id/img/login-bg.png");
   background-size: cover;
   background-position: center center;
   overflow: hidden;

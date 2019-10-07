@@ -20,6 +20,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 export default {
   data: function() {
@@ -58,18 +59,36 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
         });
     },
     gotoScore: function(item) {
-      this.$router.push({ path: "/personnel/mentor/" + this.$route.params.mentorId + "/program/" + this.$route.params.programId +"/phase/" + item.id + "/score" });
+      this.$router.push({
+        path:
+          "/personnel/mentor/" +
+          this.$route.params.mentorId +
+          "/program/" +
+          this.$route.params.programId +
+          "/phase/" +
+          item.id +
+          "/score"
+      });
     },
     gotoScoring: function(item) {
-      this.$router.push({ path: "/personnel/mentor/" + this.$route.params.mentorId + "/program/" + this.$route.params.programId +"/phase/" + item.id + "/scoring" });
+      this.$router.push({
+        path:
+          "/personnel/mentor/" +
+          this.$route.params.mentorId +
+          "/program/" +
+          this.$route.params.programId +
+          "/phase/" +
+          item.id +
+          "/scoring"
+      });
     }
   }
 };

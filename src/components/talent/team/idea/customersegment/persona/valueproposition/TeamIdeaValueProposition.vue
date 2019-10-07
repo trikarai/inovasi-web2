@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification ref="notif" :err_msg2="err_msg" :status2="status" />
     <v-layout row wrap>
       <v-flex xs12 md6>
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadParent">
@@ -60,13 +59,12 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import ValuepropositionForm from "./ValuePropositionForm";
 
 export default {
-  mixins: [notifMixins],
   data() {
     return {
       dialogDelete: "",
@@ -143,7 +141,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadParent = false;

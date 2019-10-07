@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notification ref="notif" :err_msg2="err_msg" :status2="status" />
     <v-layout row wrap>
       <v-flex xs12 md6>
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadParent">
@@ -51,7 +50,8 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="accent" @click="openChildForm">
-              <v-icon>add</v-icon>{{$vuetify.lang.t('$vuetify.action.add')}} {{$vuetify.lang.t('$vuetify.idea.persona')}}
+              <v-icon>add</v-icon>
+              {{$vuetify.lang.t('$vuetify.action.add')}} {{$vuetify.lang.t('$vuetify.idea.persona')}}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -95,14 +95,13 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import CustomersegmentForm from "./CustomerSegmentForm";
 import PersonaForm from "./persona/PersonaForm";
 
 export default {
-  mixins: [notifMixins],
   data() {
     return {
       dialogDelete: "",
@@ -146,8 +145,8 @@ export default {
             this.parentData = res.data.data;
           }
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadParent = false;
@@ -172,8 +171,8 @@ export default {
             this.childData = res.data.data;
           }
         })
-        .catch(error => {
-          this.showError(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadChild = false;

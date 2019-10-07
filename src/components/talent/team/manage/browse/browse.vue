@@ -103,6 +103,7 @@ import VueLodash from "vue-lodash";
 const options = { name: "lodash" }; // customize the way you want to call it
 
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 Vue.use(VueLodash, options); // options is optional
@@ -166,8 +167,9 @@ export default {
             this.notfoundTalent = true;
           }
         })
-        .catch(() => {
+        .catch(res => {
           this.notfoundTalent = true;
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadingTalent = false;
@@ -196,7 +198,9 @@ export default {
         .then(() => {
           this.dialogForm = false;
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.inviteLoading = false;
         });

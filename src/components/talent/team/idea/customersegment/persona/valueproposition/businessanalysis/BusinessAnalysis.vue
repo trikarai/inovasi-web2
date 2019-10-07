@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <notification ref="notif" :err_msg2="err_msg" :status2="status" />
-
     <v-card>
       <v-tabs v-model="tab" background-color="sidebar" center-active show-arrows>
         <v-tabs-slider></v-tabs-slider>
@@ -676,6 +674,32 @@
         </v-tab-item>
 
         <v-tab-item value="tab-valuecurve">
+          <v-row>
+            <v-col>
+              <v-card md12 flat v-if="dataVC.fields.length != 0">
+                <v-card-actions>
+                  <!-- <div class="flex-grow-1"></div> -->
+                  <v-btn
+                    :loading="loadDelete"
+                    @click="deleteBS(dataVC.id, 'Value Curve')"
+                    small
+                    class="ma-1"
+                    color="warning"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  <v-btn
+                    @click="editBsForm(dataVC, 'Value Curve')"
+                    small
+                    class="ma-1"
+                    color="primary"
+                  >
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
           <template v-if="loadVC">
             <v-card>
               <v-card-text>
@@ -683,8 +707,8 @@
               </v-card-text>
             </v-card>
           </template>
-          <v-layout v-else>
-            <v-flex v-if="dataVC.fields.length == 0">
+          <v-row v-else>
+            <v-col v-if="dataVC.fields.length == 0">
               <v-card flat>
                 <v-btn
                   color="primary"
@@ -694,8 +718,8 @@
                   <v-icon>add</v-icon>Add Value Curve
                 </v-btn>
               </v-card>
-            </v-flex>
-            <v-flex md12 v-else>
+            </v-col>
+            <v-col md12 v-else>
               <v-list v-for="data in dataVC.fields">
                 <v-list-item
                   :key="data.id"
@@ -731,30 +755,8 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-flex>
-            <v-card md12 flat v-if="dataVC.fields.length != 0">
-              <v-card-actions>
-                <!-- <div class="flex-grow-1"></div> -->
-                <v-btn
-                  :loading="loadDelete"
-                  @click="deleteBS(dataVC.id, 'Value Curve')"
-                  small
-                  class="ma-1"
-                  color="warning"
-                >
-                  <v-icon>delete</v-icon>
-                </v-btn>
-                <v-btn
-                  @click="editBsForm(dataVC, 'Value Curve')"
-                  small
-                  class="ma-1"
-                  color="primary"
-                >
-                  <v-icon>edit</v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -863,7 +865,7 @@ export default {
           this.parentValueproposition = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadVP = false;
@@ -888,7 +890,7 @@ export default {
           this.parentPersona = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadPersona = false;
@@ -911,7 +913,7 @@ export default {
           this.parentCustomersegment = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadCS = false;
@@ -942,7 +944,7 @@ export default {
         })
         .catch(res => {
           this.dataSolution = { fields: [] };
-          //   this.showError(res);
+          // bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadSolution = false;
@@ -972,7 +974,7 @@ export default {
           this.dataLean = res.data.data;
         })
         .catch(res => {
-          //   this.showError(res);
+          // bus.$emit("callNotif", "error", res);
           this.dataLean = { fields: [] };
         })
         .finally(() => {
@@ -1003,7 +1005,7 @@ export default {
           this.dataBMC = res.data.data;
         })
         .catch(res => {
-          //   this.showError(res);
+          // bus.$emit("callNotif", "error", res);
           this.dataBMC = { fields: [] };
         })
         .finally(() => {
@@ -1034,7 +1036,7 @@ export default {
           this.dataMS = res.data.data;
         })
         .catch(res => {
-          //   this.showError(res);
+          // bus.$emit("callNotif", "error", res);
           this.dataMS = { fields: [] };
         })
         .finally(() => {
@@ -1065,7 +1067,7 @@ export default {
           this.dataMA = res.data.data;
         })
         .catch(res => {
-          //   this.showError(res);
+          // bus.$emit("callNotif", "error", res);
           this.dataMA = { fields: [] };
         })
         .finally(() => {
@@ -1096,7 +1098,7 @@ export default {
           this.dataSwot = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadSwot = false;
@@ -1126,7 +1128,7 @@ export default {
           this.dataVC = res.data.data;
         })
         .catch(res => {
-          // this.showError(res);
+          // bus.$emit("callNotif", "error", res);
           this.dataVC = { fields: [] };
         })
         .finally(() => {
@@ -1169,7 +1171,7 @@ export default {
           this.refreshCanvas(name);
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadDelete = false;

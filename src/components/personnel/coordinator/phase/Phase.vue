@@ -30,7 +30,12 @@
               >Mentoring</v-btn>
               <v-btn @click="gotoScoring(item.id)" small class="mr-2 mt-2" color="primary">Scoring</v-btn>
               <v-btn small class="mr-2 mt-2" color="primary" disabled>Workshop</v-btn>
-              <v-btn @click="gotoScoringRecap(item.id)" small class="mr-2 mt-2" color="primary">Summary</v-btn>
+              <v-btn
+                @click="gotoScoringRecap(item.id)"
+                small
+                class="mr-2 mt-2"
+                color="primary"
+              >Summary</v-btn>
             </template>
           </v-data-table>
         </v-flex>
@@ -106,6 +111,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 export default {
@@ -167,8 +173,8 @@ export default {
             this.phase = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -245,8 +251,8 @@ export default {
         .then(() => {
           this.dialogForm = false;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.onsubmit = false;

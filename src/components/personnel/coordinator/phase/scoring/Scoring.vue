@@ -97,6 +97,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 
 export default {
@@ -160,8 +161,8 @@ export default {
             this.phasescoring = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -194,7 +195,8 @@ export default {
             "/phase/" +
             this.phaseId +
             "/scoring/" +
-            this.scoringId + "/update_period",
+            this.scoringId +
+            "/update_period",
           this.params,
           {
             headers: auth.getAuthHeader()
@@ -203,8 +205,8 @@ export default {
         .then(() => {
           this.dialogForm = false;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.onsubmit = false;

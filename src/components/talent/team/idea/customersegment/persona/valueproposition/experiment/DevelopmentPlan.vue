@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <notification ref="notif" :err_msg2="err_msg" :status2="status" />
-
     <v-layout>
       <!-- {{dataTemplate}} -->
       <v-flex md12>
@@ -281,18 +279,18 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { experimentMixins } from "@/mixins/experimentMixins";
 // import { getexpMixins } from "@/mixins/getexpMixins";
 import { getbsMixins } from "@/mixins/getbsMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import ExperimentForm from "../ExperimentForm";
 import CanvasForm from "../BusinessForm";
 import CanvasList from "../CanvasListModul";
 
 export default {
-  mixins: [getbsMixins, experimentMixins, notifMixins],
+  mixins: [getbsMixins, experimentMixins],
   components: {
     ExperimentForm,
     CanvasForm,
@@ -348,7 +346,9 @@ export default {
         .then(res => {
           this.dataTemplate = res.data.data;
         })
-        .catch()
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
         .finally(() => {
           this.showTemplate = false;
         });
@@ -377,7 +377,7 @@ export default {
           this.dataExp = res.data.data;
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadExpData = false;
@@ -437,7 +437,7 @@ export default {
           this.refreshDeleteExp(templateId);
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadDelete = false;
@@ -466,7 +466,7 @@ export default {
           this.refreshDeleteBs(templateId);
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadDelete = false;

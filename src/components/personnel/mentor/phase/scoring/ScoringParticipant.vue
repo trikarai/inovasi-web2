@@ -112,8 +112,8 @@ export default {
             this.dataList = { total: 0, list: [] };
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.tableLoad = false;
@@ -132,15 +132,14 @@ export default {
           this.formTemplate = res.data.data;
           this.setFormJSONTemplate(res.data.data);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.templateLoad = false;
         });
     },
     openScoring: function(item) {
-      console.log(item);
       this.scoringForm = true;
       this.formData = item;
       this.params.participant_id = item.id;
@@ -161,10 +160,7 @@ export default {
       this.templateLoad = true;
       this.axios
         .post(
-          config.baseUri +
-            "/tutor/" +
-            this.$route.params.mentorId +
-            "/score",
+          config.baseUri + "/tutor/" + this.$route.params.mentorId + "/score",
           {
             headers: auth.getAuthHeader()
           }
@@ -172,8 +168,8 @@ export default {
         .then(() => {
           this.scoringForm = false;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.templateLoad = false;
