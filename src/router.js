@@ -18,11 +18,11 @@ import TalentTeamCustomerSegment from "@/components/talent/team/idea/customerseg
 import TalentTeamPersona from "@/components/talent/team/idea/customersegment/persona/TeamIdeaPersona"
 import TalentTeamValueProposition from "@/components/talent/team/idea/customersegment/persona/valueproposition/TeamIdeaValueProposition"
 
-import TalentTeamValuePropositionBusinessAnalysis from "@/components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis"
-import TalentTeamValuePropositionJavelin from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Javelin"
-import TalentTeamValuePropositionMetric from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Metric"
-import TalentTeamValuePropositionDevelopmentPlan from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/DevelopmentPlan"
-import TalentTeamValuePropositionBusinessData from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/BusinessData"
+// import TalentTeamValuePropositionBusinessAnalysis from "@/components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis"
+// import TalentTeamValuePropositionJavelin from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Javelin"
+// import TalentTeamValuePropositionMetric from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Metric"
+// import TalentTeamValuePropositionDevelopmentPlan from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/DevelopmentPlan"
+// import TalentTeamValuePropositionBusinessData from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/BusinessData"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -144,27 +144,32 @@ export default new Router({
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/businessanalysis",
           name: "Team Business Analysis",
-          component: TalentTeamValuePropositionBusinessAnalysis
+          component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis')
+          // component: TalentTeamValuePropositionBusinessAnalysis
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/javelin",
           name: "Team Javelin",
-          component: TalentTeamValuePropositionJavelin
+          component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/Javelin')
+          // component: TalentTeamValuePropositionJavelin
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/metric",
           name: "Team Metric",
-          component: TalentTeamValuePropositionMetric
+          component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/Metric')
+          // component: TalentTeamValuePropositionMetric
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/developmentplan",
           name: "Team Development Plan",
-          component: TalentTeamValuePropositionDevelopmentPlan
+          component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/DevelopmentPlan')
+          // component: TalentTeamValuePropositionDevelopmentPlan
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/businessdata",
           name: "Team Business Data",
-          component: TalentTeamValuePropositionBusinessData
+          component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/BusinessData')
+          // component: TalentTeamValuePropositionBusinessData
         },
       ]
     },
