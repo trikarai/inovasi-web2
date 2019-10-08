@@ -16,6 +16,7 @@ import TalentTeamIdeaDetail from "@/components/talent/team/idea/TeamIdeaDetail"
 import TalentTeamCustomerSegment from "@/components/talent/team/idea/customersegment/TeamIdeaCustomersegment"
 import TalentTeamPersona from "@/components/talent/team/idea/customersegment/persona/TeamIdeaPersona"
 import TalentTeamValueProposition from "@/components/talent/team/idea/customersegment/persona/valueproposition/TeamIdeaValueProposition"
+import TalentTeamValuePropositionExperimentDetail from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/ExperimentDetail"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -169,6 +170,14 @@ export default new Router({
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId",
           name: "Team Value Proposition",
           component: TalentTeamValueProposition,
+          meta: {
+            level: 1
+          }
+        },
+        {
+          path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/experiment/:experimentId",
+          name: "Team Experiment Detail",
+          component: TalentTeamValuePropositionExperimentDetail,
           meta: {
             level: 1
           }
