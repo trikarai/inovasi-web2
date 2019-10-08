@@ -20,7 +20,7 @@ export default {
       // this.err_msg.error_details = [res.response.data.meta];
       switch (type) {
         case "error":
-          this.err_msg = res.response.data.meta;
+          this.err_msg.error_details = [res.response.data.meta];
           this.status.error = true;
           break;
         case "success":
@@ -32,7 +32,7 @@ export default {
           this.status.info = true;
           break;
         case "warning":
-          this.err_msg = res.response.data.meta;
+          this.err_msg.error_details = [res.response.data.meta];
           this.status.warning = true;
           break;
       }
