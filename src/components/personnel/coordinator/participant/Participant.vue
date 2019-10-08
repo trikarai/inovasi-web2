@@ -190,8 +190,7 @@ export default {
       // alert(id + " : " + action);
       this.axios
         .put(
-          config,
-          baseUri +
+          config.baseUri +
             "/programme/" +
             this.$route.params.programId +
             "/participant/" +
