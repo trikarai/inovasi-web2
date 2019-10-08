@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Home from "@/views/Home"
+
 import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
 import TalentDashboard from "@/components/talent/TalentDashboard"
@@ -48,7 +50,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: TalentLogin
+      component: Home
+    },
+    {
+      path: '/signup',
+      name: 'Sign Up',
+      component: () => import('./views/SignUp.vue')
     },
     {
       path: '/login',
