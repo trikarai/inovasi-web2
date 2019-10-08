@@ -863,7 +863,7 @@ export default {
           }
         })
         .catch(res => {
-          this.showError(res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loader = false;

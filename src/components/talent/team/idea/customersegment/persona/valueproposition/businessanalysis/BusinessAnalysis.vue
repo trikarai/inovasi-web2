@@ -775,12 +775,11 @@
 <script>
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import CanvasForm from "../BusinessForm";
 
 export default {
-  mixins: [notifMixins],
+  mixins: [],
   components: {
     CanvasForm
   },

@@ -147,14 +147,13 @@ import * as config from "@/config/app.config";
 import { experimentMixins } from "@/mixins/experimentMixins";
 // import { getexpMixins } from "@/mixins/getexpMixins";
 import { getbsMixins } from "@/mixins/getbsMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import ExperimentForm from "../ExperimentForm";
 import CanvasForm from "../BusinessForm";
 import CanvasList from "../CanvasListModul";
 
 export default {
-  mixins: [getbsMixins, experimentMixins, notifMixins],
+  mixins: [getbsMixins, experimentMixins],
   components: {
     ExperimentForm,
     CanvasForm,

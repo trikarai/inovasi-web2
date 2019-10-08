@@ -81,12 +81,11 @@
 import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
-import { notifMixins } from "@/mixins/notifMixins";
 import { formMixins } from "@/mixins/formMixins";
 import { uuid } from "vue-uuid";
 
 export default {
-  mixins: [notifMixins, formMixins],
+  mixins: [formMixins],
   props: ["field", "index"],
   components: {},
   data: function() {

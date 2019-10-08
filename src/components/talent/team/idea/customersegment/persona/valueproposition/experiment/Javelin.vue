@@ -251,12 +251,11 @@ import bus from "@/bus";
 import * as config from "@/config/app.config";
 import { experimentMixins } from "@/mixins/experimentMixins";
 import { getexpMixins } from "@/mixins/getexpMixins";
-import { notifMixins } from "@/mixins/notifMixins";
 
 import ExperimentForm from "../ExperimentForm";
 
 export default {
-  mixins: [getexpMixins, experimentMixins, notifMixins],
+  mixins: [getexpMixins, experimentMixins],
   components: {
     ExperimentForm
   },
