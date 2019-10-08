@@ -98,7 +98,7 @@
                       </tr>
                       <tr>
                         <th class="jbth">Tanggal</th>
-                        <td width="200px" v-for="javelin in reOrderDate(dataJavelin.list)">
+                        <td width="200px" v-for="javelin in reOrderDate(dataJavelin.list)" :key="javelin.id">
                           <span
                             style="color:#0085a4;font-weight:900;"
                           >{{javelin.date | moment("dddd")}}</span>
@@ -115,7 +115,7 @@
                           >{{reOrderField(dataJavelin.list[0].fields)[i].field_template.name}}</th>
                           <td
                             v-if="reOrderField(javelin.fields)[i].hasOwnProperty('selected_options')"
-                            v-for="javelin in reOrderDate(dataJavelin.list)"
+                            v-for="javelin in reOrderDate(dataJavelin.list)" :key="javelin.id"
                           >
                             <template
                               v-if="reOrderField(javelin.fields)[i].selected_options.length != 0"
@@ -123,8 +123,8 @@
                               <template
                                 v-for="opt in reOrderField(javelin.fields)[i].selected_options"
                               >
-                                <v-icon left v-if="opt.option.name == 'Pivot'">call_split</v-icon>
-                                <v-icon left v-if="opt.option.name == 'Persevere'">lock</v-icon>
+                                <v-icon :key="opt.id" left v-if="opt.option.name == 'Pivot'">call_split</v-icon>
+                                <v-icon :key="opt.id" left v-if="opt.option.name == 'Persevere'">lock</v-icon>
                                 {{opt.option.name}}
                               </template>
                             </template>

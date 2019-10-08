@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <template v-for="data in template.fields">
-        <v-card flat>
+        <v-card flat :key="data.id">
           <v-card-title class="subtitle-1">{{data.field_template.name}}</v-card-title>
           <v-card-text v-if="data.value" style="white-space: pre-wrap;" class="subtitle-1">
             {{data.value}}
@@ -15,7 +15,7 @@
               </vue-plyr>
             </template>
           </v-card-text>
-          <v-card-text v-for="data in data.attachment" class="subtitle-1">
+          <v-card-text v-for="data in data.attachment" class="subtitle-1" :key="data.id">
             <template v-if="getExtension(data.file_meta.file_path) == 'pdf'">
               <v-row>
                 <v-col md="4">

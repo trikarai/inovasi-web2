@@ -347,7 +347,7 @@ export default {
       this.getExpData(id);
       this.dialogExp = false;
     },
-    refreshDeleteBs(id) {
+    refreshDeleteBs() {
       this.dataBS = { total: 0, list: [] };
       this.dialogCanvas = false;
     }

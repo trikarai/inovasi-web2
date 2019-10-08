@@ -630,7 +630,7 @@ export default {
           "/businessanalysis"
       });
     },
-    gotoExpList: function(name) {
+    gotoExpList: function() {
       this.$router.push({
         path:
           "/talent/team/" +
@@ -853,8 +853,10 @@ export default {
     },
     getBusinessCanvas: function() {
       this.loader = true;
-      net
-        .getData(this, "/talent/forms?types[]=can")
+      this.axios
+        .get(config.baseUri + "/talent/forms?types[]=can", {
+          headers: auth.getAuthHeader()
+        })
         .then(res => {
           if (res.data.data) {
             this.canvas = res.data.data;
@@ -869,7 +871,7 @@ export default {
           this.loader = false;
         });
     },
-    gotoCanvas: function(id) {
+    gotoCanvas: function() {
       this.$router.push({
         path:
           "/talent/team/" +
@@ -887,8 +889,7 @@ export default {
     },
     getExperiments: function() {
       this.loader = true;
-      net
-        .getData(this, "/talent/forms?types[]=exp")
+      this.axios.get(config.baseUri + "/talent/forms?types[]=exp")
         .then(res => {
           if (res.data.data) {
             this.experiments = res.data.data;

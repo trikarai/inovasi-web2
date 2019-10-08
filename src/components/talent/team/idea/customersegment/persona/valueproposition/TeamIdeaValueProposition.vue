@@ -18,8 +18,8 @@
         <v-card class="pb-5" elevation="3" style="margin:10px" :loading="loadChild">
           <v-card-title></v-card-title>
           <v-card-text>
-            <v-list v-for="(menu, index) in menus">
-              <v-list-item :key="index">
+            <v-list v-for="(menu, index) in menus" :key="index">
+              <v-list-item>
                 <v-list-item-avatar>
                   <v-btn text small fab icon>
                     <v-icon>{{menu.icon}}</v-icon>

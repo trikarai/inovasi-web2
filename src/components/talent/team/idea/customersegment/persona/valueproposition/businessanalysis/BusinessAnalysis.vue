@@ -527,8 +527,8 @@
             </v-flex>
             <v-flex md12 v-else>
               <!-- {{dataMS}} -->
-              <v-list v-for="field in dataMS.fields">
-                <v-list-item three-line :key="field.id">
+              <v-list v-for="field in dataMS.fields" :key="field.id">
+                <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-subtitle>{{field.field_template.name}}</v-list-item-subtitle>
                     <v-list-item-title>{{field.value}}</v-list-item-title>
@@ -583,8 +583,8 @@
             </v-flex>
             <v-flex v-else>
               <!-- {{dataMA}} -->
-              <v-list v-for="field in dataMA.fields">
-                <v-list-item three-line :key="field.id">
+              <v-list v-for="field in dataMA.fields" :key="field.id">
+                <v-list-item three-line >
                   <v-list-item-content>
                     <v-list-item-subtitle>{{field.field_template.name}}</v-list-item-subtitle>
                     <v-list-item-title>{{field.value}}</v-list-item-title>
@@ -639,8 +639,8 @@
             </v-flex>
             <v-flex v-else>
               <!-- {{dataSwot}} -->
-              <v-list v-for="field in dataSwot.fields">
-                <v-list-item three-line :key="field.id">
+              <v-list v-for="field in dataSwot.fields" :key="field.id">
+                <v-list-item three-line >
                   <v-list-item-content>
                     <v-list-item-subtitle>{{field.field_template.name}}</v-list-item-subtitle>
                     <v-list-item-title>{{field.value}}</v-list-item-title>
@@ -720,9 +720,9 @@
               </v-card>
             </v-col>
             <v-col md12 v-else>
-              <v-list v-for="data in dataVC.fields">
+              <v-list v-for="data in dataVC.fields" :key="data.id">
                 <v-list-item
-                  :key="data.id"
+                  
                   style="padding-left:26px;padding-right:26px"
                   :three-line="true"
                 >
@@ -773,6 +773,7 @@
   </v-container>
 </template>
 <script>
+import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 
@@ -941,7 +942,7 @@ export default {
         .then(res => {
           this.dataSolution = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           this.dataSolution = { fields: [] };
           // bus.$emit("callNotif", "error", res);
         })
@@ -972,7 +973,7 @@ export default {
         .then(res => {
           this.dataLean = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           // bus.$emit("callNotif", "error", res);
           this.dataLean = { fields: [] };
         })
@@ -1003,7 +1004,7 @@ export default {
         .then(res => {
           this.dataBMC = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           // bus.$emit("callNotif", "error", res);
           this.dataBMC = { fields: [] };
         })
@@ -1034,7 +1035,7 @@ export default {
         .then(res => {
           this.dataMS = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           // bus.$emit("callNotif", "error", res);
           this.dataMS = { fields: [] };
         })
@@ -1065,7 +1066,7 @@ export default {
         .then(res => {
           this.dataMA = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           // bus.$emit("callNotif", "error", res);
           this.dataMA = { fields: [] };
         })
@@ -1126,7 +1127,7 @@ export default {
         .then(res => {
           this.dataVC = res.data.data;
         })
-        .catch(res => {
+        .catch(() => {
           // bus.$emit("callNotif", "error", res);
           this.dataVC = { fields: [] };
         })
