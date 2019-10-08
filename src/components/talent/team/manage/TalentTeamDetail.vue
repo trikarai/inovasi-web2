@@ -176,12 +176,27 @@ export default {
       search: "",
       tableLoad: false,
       teamLoad: false,
-      dataTeam: "",
+      dataTeam: {
+        name: "",
+        vision: "",
+        mission: "",
+        culture: "",
+        team: {
+          creator: {
+            name: ""
+          }
+        }
+      },
       params: {
         name: "",
         vision: "",
         mission: "",
-        culture: ""
+        culture: "",
+        team: {
+          creator: {
+            name: ""
+          }
+        }
       },
       rules: [v => !!v || "Team Name is required"],
       dataList: { total: 0, list: [] },
