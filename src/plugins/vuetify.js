@@ -6,8 +6,8 @@ import en from '@/config/lang/en';
 import id from '@/config/lang/id';
 
 //Themes selector
-import tema from './themes/innov';
-// import tema from './themes/startmikti';
+// import tema from './themes/innov';
+import tema from './themes/startmikti';
 
 Vue.use(Vuetify);
 
