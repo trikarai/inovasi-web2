@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from './views/Home.vue'
 
 import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
@@ -17,12 +16,6 @@ import TalentTeamIdeaDetail from "@/components/talent/team/idea/TeamIdeaDetail"
 import TalentTeamCustomerSegment from "@/components/talent/team/idea/customersegment/TeamIdeaCustomersegment"
 import TalentTeamPersona from "@/components/talent/team/idea/customersegment/persona/TeamIdeaPersona"
 import TalentTeamValueProposition from "@/components/talent/team/idea/customersegment/persona/valueproposition/TeamIdeaValueProposition"
-
-// import TalentTeamValuePropositionBusinessAnalysis from "@/components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis"
-// import TalentTeamValuePropositionJavelin from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Javelin"
-// import TalentTeamValuePropositionMetric from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/Metric"
-// import TalentTeamValuePropositionDevelopmentPlan from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/DevelopmentPlan"
-// import TalentTeamValuePropositionBusinessData from "@/components/talent/team/idea/customersegment/persona/valueproposition/experiment/BusinessData"
 
 import AdminLogin from "@/views/LoginAdmin"
 
@@ -79,97 +72,146 @@ export default new Router({
         {
           path: "/talent/dashboard",
           name: "Talent Dashboard",
-          component: TalentDashboard
+          component: TalentDashboard,
+          meta: {
+            level: 0
+          }
         },
         {
           path: "/talent/profile",
           name: "Talent Profile",
-          component: TalentDashboard
+          component: TalentDashboard,
+          meta: {
+            level: 0
+          }
         },
         {
           path: "/talent/team",
           name: "Team Membership",
-          component: TalentTeam
+          component: TalentTeam,
+          meta: {
+            level: 0
+          }
         },
         {
           path: "/talent/team/create",
           name: "Create Team",
-          component: TalentTeamCreate
+          component: TalentTeamCreate,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/membership/:membershipId",
           name: "Team Detail",
-          component: TalentTeamDetail
+          component: TalentTeamDetail,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/membership/:membershipId/search",
           name: "Talent Search",
-          component: TalentTeamSearch
+          component: TalentTeamSearch,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/participation",
           name: "Talent Program Participation",
-          component: TalentTeamParticipation
+          component: TalentTeamParticipation,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/participation/register",
           name: "Talent Register Program Participation",
-          component: TalentTeamParticipationRegister
+          component: TalentTeamParticipationRegister,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea",
           name: "Team Idea",
-          component: TalentTeamIdea
+          component: TalentTeamIdea,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId",
           name: "Team Idea Detail",
-          component: TalentTeamIdeaDetail
+          component: TalentTeamIdeaDetail,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId",
           name: "Team Customer Segment",
-          component: TalentTeamCustomerSegment
+          component: TalentTeamCustomerSegment,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId",
           name: "Team Persona",
-          component: TalentTeamPersona
+          component: TalentTeamPersona,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId",
           name: "Team Value Proposition",
-          component: TalentTeamValueProposition
+          component: TalentTeamValueProposition,
+          meta: {
+            level: 1
+          }
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/businessanalysis",
           name: "Team Business Analysis",
+          meta: {
+            level: 1
+          },
           component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/businessanalysis/BusinessAnalysis')
-          // component: TalentTeamValuePropositionBusinessAnalysis
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/javelin",
           name: "Team Javelin",
+          meta: {
+            level: 1
+          },
           component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/Javelin')
-          // component: TalentTeamValuePropositionJavelin
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/metric",
           name: "Team Metric",
+          meta: {
+            level: 1
+          },
           component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/Metric')
-          // component: TalentTeamValuePropositionMetric
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/developmentplan",
           name: "Team Development Plan",
+          meta: {
+            level: 1
+          },
           component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/DevelopmentPlan')
-          // component: TalentTeamValuePropositionDevelopmentPlan
         },
         {
           path: "/talent/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId/businessdata",
           name: "Team Business Data",
+          meta: {
+            level: 1
+          },
           component: () => import('./components/talent/team/idea/customersegment/persona/valueproposition/experiment/BusinessData')
-          // component: TalentTeamValuePropositionBusinessData
         },
       ]
     },
