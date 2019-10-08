@@ -9,12 +9,11 @@ import UUID from 'vue-uuid';
 import Moment from 'vue-moment'
 import VueLodash from 'vue-lodash'
 import VuePlyr from 'vue-plyr'
+import './registerServiceWorker'
 
 //global component
 import Notification from "@/components/Notification";
 Vue.component('notification', Notification);
-
-import './registerServiceWorker'
 
 Vue.mixin({
   data() {
