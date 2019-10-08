@@ -340,7 +340,12 @@
               color="primary"
               :disabled="valuepropositionId == ''"
               @click="gotoCanvas"
-            >Canvas List</v-btn>
+            >Business Analysis</v-btn>
+            <v-btn
+              color="primary"
+              :disabled="valuepropositionId == ''"
+              @click="gotoExp('businessdata')"
+            >Business Data</v-btn>
           </v-card-actions>
           <!-- <v-card-text>
             <v-layout row>
@@ -379,8 +384,19 @@
             <v-btn
               color="primary"
               :disabled="valuepropositionId == ''"
-              @click="gotoExp"
-            >Experment Form List</v-btn>
+              @click="gotoExp('javelin')"
+            >Experiment</v-btn>
+            <v-btn
+              color="primary"
+              :disabled="valuepropositionId == ''"
+              @click="gotoExp('metric')"
+            >Metric</v-btn>
+
+            <v-btn
+              color="primary"
+              :disabled="valuepropositionId == ''"
+              @click="gotoExp('developmentplan')"
+            >Development Plan</v-btn>
           </v-card-actions>
           <!-- <v-card-text>
             <v-layout row>
@@ -503,16 +519,18 @@ export default {
     },
     ideaId: function() {
       sessionStorage.ideaId = this.ideaId;
-      sessionStorage.removeItem("customersegmentId");
-      sessionStorage.removeItem("personaId");
+      // sessionStorage.removeItem("customersegmentId");
+      // sessionStorage.removeItem("personaId");
       sessionStorage.removeItem("valuepropositionId");
       this.getCustomerSegments();
     },
     customersegmentId: function() {
       sessionStorage.customersegmentId = this.customersegmentId;
-      sessionStorage.removeItem("personaId");
+      // sessionStorage.removeItem("personaId");
       sessionStorage.removeItem("valuepropositionId");
-      this.getPersona();
+      if (this.customersegmentId !== "") {
+        this.getPersona();
+      }
     },
     personaId: function() {
       sessionStorage.personaId = this.personaId;
@@ -537,48 +555,64 @@ export default {
   },
   methods: {
     gotoIdeaDetail: function() {
-      this.$router.push({
-        path: "/talent/team/" + localStorage.teamId + "/idea/" + this.ideaId
-      });
+      if (this.ideaId === "") {
+        bus.$emit("callNotif", "info", ["Idea Not Selected"]);
+      } else {
+        this.$router.push({
+          path: "/talent/team/" + localStorage.teamId + "/idea/" + this.ideaId
+        });
+      }
     },
     gotoCustomerSegmentDetail: function() {
-      this.$router.push({
-        path:
-          "/talent/team/" +
-          localStorage.teamId +
-          "/idea/" +
-          this.ideaId +
-          "/customersegment/" +
-          this.customersegmentId
-      });
+      if (this.customersegmentId === "") {
+        bus.$emit("callNotif", "info", ["Customer Segment Not Selected"]);
+      } else {
+        this.$router.push({
+          path:
+            "/talent/team/" +
+            localStorage.teamId +
+            "/idea/" +
+            this.ideaId +
+            "/customersegment/" +
+            this.customersegmentId
+        });
+      }
     },
     gotoPersonaDetail: function() {
-      this.$router.push({
-        path:
-          "/talent/team/" +
-          localStorage.teamId +
-          "/idea/" +
-          this.ideaId +
-          "/customersegment/" +
-          this.customersegmentId +
-          "/persona/" +
-          this.personaId
-      });
+      if (this.personaId === "") {
+        bus.$emit("callNotif", "info", ["Persona Not Selected"]);
+      } else {
+        this.$router.push({
+          path:
+            "/talent/team/" +
+            localStorage.teamId +
+            "/idea/" +
+            this.ideaId +
+            "/customersegment/" +
+            this.customersegmentId +
+            "/persona/" +
+            this.personaId
+        });
+      }
     },
     gotoValuepropositionDetail: function() {
-      this.$router.push({
-        path:
-          "/talent/team/" +
-          localStorage.teamId +
-          "/idea/" +
-          this.ideaId +
-          "/customersegment/" +
-          this.customersegmentId +
-          "/persona/" +
-          this.personaId +
-          "/vp/" +
-          this.valuepropositionId
-      });
+      if (this.valuepropositionId === "") {
+        bus.$emit("callNotif", "info", ["Value Proposition Not Selected"]);
+      } else {
+        this.$router.push({
+          path:
+            "/talent/team/" +
+            localStorage.teamId +
+            "/idea/" +
+            this.ideaId +
+            "/customersegment/" +
+            this.customersegmentId +
+            "/persona/" +
+            this.personaId +
+            "/valueproposition/" +
+            this.valuepropositionId
+        });
+      }
     },
     gotoCanvasList: function() {
       this.$router.push({
@@ -591,12 +625,12 @@ export default {
           this.customersegmentId +
           "/persona/" +
           this.personaId +
-          "/vp/" +
+          "/valueproposition/" +
           this.valuepropositionId +
-          "/analysis"
+          "/businessanalysis"
       });
     },
-    gotoExpList: function() {
+    gotoExpList: function(name) {
       this.$router.push({
         path:
           "/talent/team/" +
@@ -607,7 +641,7 @@ export default {
           this.customersegmentId +
           "/persona/" +
           this.personaId +
-          "/vp/" +
+          "/valueproposition/" +
           this.valuepropositionId +
           "/experiment"
       });
@@ -652,6 +686,12 @@ export default {
         .then(res => {
           if (res.data.data) {
             this.idea = res.data.data;
+            if (sessionStorage.ideaId) {
+              this.ideaId = sessionStorage.ideaId;
+            } else {
+              this.ideaId = this.idea.list[0].id;
+              sessionStorage.setItem("ideaId", this.idea.list[0].id);
+            }
           } else {
             this.idea = { total: 0, list: [] };
           }
@@ -683,13 +723,29 @@ export default {
         )
         .then(res => {
           if (res.data.data) {
-            this.customersegment = res.data.data;
-            this.$vuetify.goTo(this.$refs.customersegment, {
-              duration: 500,
-              offset: 10,
-              easing: "linear"
-            });
+            if (res.data.data.total === 0) {
+              this.customersegmentId = "";
+              sessionStorage.removeItem("customersegmentId");
+              this.customersegment = { total: 0, list: [] };
+            } else {
+              this.customersegment = res.data.data;
+              if (sessionStorage.customersegmentId) {
+                this.customersegmentId = sessionStorage.customersegmentId;
+              } else {
+                this.customersegmentId = this.customersegment.list[0].id;
+                sessionStorage.setItem(
+                  "customersegmentId",
+                  this.customersegment.list[0].id
+                );
+                this.$vuetify.goTo(this.$refs.customersegment, {
+                  duration: 500,
+                  offset: 10,
+                  easing: "linear"
+                });
+              }
+            }
           } else {
+            sessionStorage.removeItem("customersegmentId");
             this.customersegment = { total: 0, list: [] };
           }
         })
@@ -721,16 +777,25 @@ export default {
         .then(res => {
           if (res.data.data) {
             this.persona = res.data.data;
-            this.$vuetify.goTo(this.$refs.persona, {
-              duration: 500,
-              offset: 10,
-              easing: "linear"
-            });
+            if (sessionStorage.loaderPersona) {
+              this.personaId = sessionStorage.personaId;
+            } else {
+              this.personaId = this.persona.list[0].id;
+              sessionStorage.setItem("personaId", this.persona.list[0].id);
+
+              this.$vuetify.goTo(this.$refs.persona, {
+                duration: 500,
+                offset: 10,
+                easing: "linear"
+              });
+            }
           } else {
             this.persona = { total: 0, list: [] };
           }
         })
         .catch(res => {
+          this.personaId = "";
+          sessionStorage.removeItem("personaId");
           bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
@@ -838,7 +903,7 @@ export default {
           this.loader = false;
         });
     },
-    gotoExp: function(id) {
+    gotoExp: function(name) {
       this.$router.push({
         path:
           "/talent/team/" +
@@ -851,7 +916,8 @@ export default {
           this.personaId +
           "/valueproposition/" +
           this.valuepropositionId +
-          "/javelin"
+          "/" +
+          name
       });
     },
     openMentoring: function() {
