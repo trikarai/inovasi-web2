@@ -164,7 +164,7 @@
                     <v-flex md12>
                       <v-data-table class="ma-2" :headers="headers" :items="dataExp.list">
                         <template v-slot:item.action="{ item }">
-                          <v-btn color="accent" small class="ma-1">
+                          <v-btn color="accent" small class="ma-1" @click="gotoExpDetails(item.id)">
                             <v-icon small>zoom_in</v-icon>
                           </v-btn>
                           <v-btn

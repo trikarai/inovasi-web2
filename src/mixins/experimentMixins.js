@@ -32,5 +32,22 @@ export const experimentMixins = {
         reOrderDate: function (params) {
             return this._.orderBy(params, "date", "desc");
         },
+        gotoExpDetails(id) {
+            this.$router.push({
+                path:
+                    "/talent/team/" +
+                    this.$route.params.teamId +
+                    "/idea/" +
+                    this.$route.params.ideaId +
+                    "/customersegment/" +
+                    this.$route.params.customersegmentId +
+                    "/persona/" +
+                    this.$route.params.personaId +
+                    "/valueproposition/" +
+                    this.$route.params.valuepropositionId +
+                    "/experiment/" +
+                    id
+            });
+        }
     }
 }
