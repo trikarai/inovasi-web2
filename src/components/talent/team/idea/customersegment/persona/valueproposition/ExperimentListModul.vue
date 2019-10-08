@@ -79,9 +79,6 @@ export default {
   methods: {
     getExtension(filepath) {
       return filepath.split(".").pop();
-    },
-    inludesYoutube(str) {
-      return str.includes("youtube.com");
     }
   }
 };
