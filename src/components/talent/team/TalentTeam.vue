@@ -1,24 +1,28 @@
 <template>
   <v-container>
     <!-- {{dataList.list}} -->
-    <v-layout>
-      <v-flex md3>
+    <v-row>
+      <v-col cols="12" md="3">
         <v-btn color="primary" router to="/talent/team/create">
           <v-icon left>add</v-icon>
           {{ $vuetify.lang.t('$vuetify.action.create') }} {{ $vuetify.lang.t('$vuetify.team.team') }}
         </v-btn>
-      </v-flex>
-      <v-flex md2 class="ml-2 mr-2">
-        <v-select :label="'Status ' + $vuetify.lang.t('$vuetify.team.team')"></v-select>
-      </v-flex>
-      <v-flex md2 class="ml-2 mr-2">
-        <v-select :label="'Status Invitation'"></v-select>
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex md12>
+      </v-col>
+      <v-col md="2" class="ml-2 mr-2">
+        <v-select
+          v-model="teamStatus"
+          :label="'Status ' + $vuetify.lang.t('$vuetify.team.team')"
+          :items="teamStatusList"
+        ></v-select>
+      </v-col>
+      <v-col md="2" class="ml-2 mr-2">
+        <v-select v-model="invStatus" :label="'Status Invitation'" :items="invStatusList"></v-select>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-card class="elevation-0 mb-3">
-          <v-card-title>
+          <!-- <v-card-title>
             <div class="flex-grow-1"></div>
             <v-text-field
               v-model="search"
@@ -27,7 +31,7 @@
               single-line
               hide-details
             ></v-text-field>
-          </v-card-title>
+          </v-card-title>-->
           <!-- {{dataList}} -->
           <v-card-text>
             <v-data-table
@@ -70,8 +74,8 @@
             </v-data-table>
           </v-card-text>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
@@ -98,10 +102,24 @@ export default {
         { text: "Your Position", value: "position", sortable: false },
         { text: "Status", value: "status", sortable: false },
         { text: "", value: "action", sortable: false, align: "right" }
-      ]
+      ],
+      invStatusList: [
+        { value: "", text: "All" },
+        { value: "invited", text: "Invited" }
+      ],
+      invStatus: "",
+      teamStatusList: [
+        { value: "", text: "All" },
+        { value: "active", text: "Active" },
+        { value: "resigned", text: "Resigned" }
+      ],
+      teamStatus: "active"
     };
   },
-  watch: {},
+  watch: {
+    teamStatus: "getDataList",
+    invStatus: "getDataList"
+  },
   created: function() {},
   mounted: function() {
     this.getDataList();
@@ -109,11 +127,37 @@ export default {
   },
   methods: {
     getDataList: function() {
+      var status1, status2, join;
+      if (this.teamStatus === "") {
+        status1 = "";
+      } else {
+        status1 = "status[]=" + this.teamStatus;
+      }
+
+      if (this.teamStatus != "" && this.invStatus != "") {
+        join = "&";
+      } else {
+        join = "";
+      }
+
+      if (this.invStatus === "") {
+        status2 = "";
+      } else {
+        status2 = "status[]=" + this.invStatus;
+      }
+
       this.tableLoad = true;
       this.axios
-        .get(config.baseUri + "/talent/team/membership", {
-          headers: auth.getAuthHeader()
-        })
+        .get(
+          config.baseUri +
+            "/talent/team/membership?" +
+            encodeURI(status1) +
+            join +
+            encodeURI(status2),
+          {
+            headers: auth.getAuthHeader()
+          }
+        )
         .then(res => {
           if (res.data.data) {
             this.dataList = res.data.data;
