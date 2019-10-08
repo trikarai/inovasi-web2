@@ -26,7 +26,8 @@ var _default = {
     nextPage: 'Next page',
     prevPage: 'Previous page',
     firstPage: 'First page',
-    lastPage: 'Last page'
+    lastPage: 'Last page',
+    pageText: '{0}-{1} of {2}',
   },
   datePicker: {
     itemsSelected: '{0} selected'
@@ -104,7 +105,7 @@ var _default = {
     addMember: "Add Member",
     noProgram: "Your Program hasn't accepted by your Coordinator Program or you haven't register a program"
   },
-  program:{
+  program: {
     program: "Program",
     programParticipation: "Program Participation",
   },
@@ -151,7 +152,7 @@ var _default = {
     share: "Share"
   },
   feedback: {
-    feedback : "Feedback",
+    feedback: "Feedback",
     post: "Post",
     reply: "Reply"
   }

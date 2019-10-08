@@ -26,7 +26,8 @@ var _default = {
     nextPage: 'Halaman selanjutnya',
     prevPage: 'Halaman sebelumnya',
     firstPage: 'Halaman pertama',
-    lastPage: 'Halaman terakhir'
+    lastPage: 'Halaman terakhir',
+    pageText: '{0}-{1} dari {2}',
   },
   datePicker: {
     itemsSelected: '{0} dipilih'
