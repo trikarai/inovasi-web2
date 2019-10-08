@@ -11,15 +11,12 @@
       </v-btn>
     </v-app-bar>
 
-    <v-btn class="ml-3 mt-2 bm-2" text @click="goback()"><v-icon left>keyboard_backspace</v-icon>Back</v-btn>
+    <v-btn text class="ml-0 mt-3" v-if="$route.meta.level !== 0" @click="$router.go(-1) ">
+      <v-icon left>arrow_back</v-icon>Back
+    </v-btn>
     <p class="ml-3 mb-2">{{$route.name}}</p>
-    
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      color="sidebar"
-    >
+
+    <v-navigation-drawer app v-model="drawer" :mini-variant="miniVariant" color="sidebar">
       <!-- list head-->
       <v-list class="pa-1">
         <v-list-item v-if="miniVariant" @click.stop="miniVariant = !miniVariant">
@@ -29,7 +26,8 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+            <!-- <img src="https://randomuser.me/api/portraits/men/85.jpg" /> -->
+            <v-img src="https://start.mikti.id/dashboard/images/profile.png" />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{user.name}}</v-list-item-title>
