@@ -18,13 +18,13 @@ import * as config from "@/config/app.config";
 import { experimentMixins } from "@/mixins/experimentMixins";
 // import { getexpMixins } from "@/mixins/getexpMixins";
 
-import ExperimentForm from "../ExperimentForm";
+// import ExperimentForm from "../ExperimentForm";
 import ExpList from "../ExperimentListModul";
 export default {
   props: ["template"],
   mixins: [experimentMixins],
   components: {
-    ExperimentForm,
+    // ExperimentForm,
     ExpList
   },
   data() {
