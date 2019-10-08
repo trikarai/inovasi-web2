@@ -70,7 +70,7 @@
           </v-list-item-avatar>
           <v-list-item-content></v-list-item-content>
           <v-list-item-action>
-            <!-- <LocaleSwitcher /> -->
+            <LocaleSwitcher />
           </v-list-item-action>
         </v-list-item>
         <v-list-item>
@@ -88,6 +88,7 @@
 </template>
 <script>
 import auth from "@/config/auth";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 export default {
   data() {
@@ -116,6 +117,9 @@ export default {
         }
       ]
     };
+  },
+  components: {
+    LocaleSwitcher
   },
   created() {
     this.user = auth.getAuthData();
