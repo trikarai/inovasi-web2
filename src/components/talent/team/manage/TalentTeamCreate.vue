@@ -10,7 +10,7 @@
                 <v-text-field
                   position="absolute"
                   v-model="params.name"
-                  :rules="nameRules"
+                  :rules="rulesName"
                   :counter="25"
                   :label="$vuetify.lang.t('$vuetify.team.teamName')"
                   required
@@ -19,7 +19,7 @@
               <v-row>
                 <v-select
                   required
-                  :rules="posRules"
+                  :rules="rulesPosition"
                   v-model="params.position"
                   :items="item"
                   chips
@@ -136,7 +136,11 @@
 import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
+
+import { validationMixins } from "@/mixins/validationMixins";
+
 export default {
+  mixins: [validationMixins],
   data() {
     return {
       valid: false,
@@ -150,11 +154,6 @@ export default {
         position: ""
       },
       teamLoading: false,
-      posRules: [v => !!v || "Position is required"],
-      nameRules: [
-        v => !!v || "Name is required",
-        v => v.length <= 25 || "Name must be less than 10 characters"
-      ],
       item: ["Business", "Technical", "Designer"]
     };
   },
