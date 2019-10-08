@@ -253,24 +253,24 @@ export default {
     onSubmit: function() {
       this.$refs.invisibleRecaptcha.execute();
     },
-    onVerify: function(response) {
-      console.log("Verify: " + response);
+    onVerify: function() {
+      // console.log("Verify: " + response);
     },
     onExpired: function() {
-      console.log("Expired");
+      // console.log("Expired");
     },
     resetRecaptcha() {
       this.$refs.recaptcha.reset(); // Direct call reset method
     },
     submit() {
       if (this.$refs.form.validate()) {
-        this.signup();
+        this.signupAct();
       }
     },
-    signup: function() {
+    signupAct: function() {
       this.signupLoader = true;
       this.axios
-        .post(config.baseUri + "/signup")
+        .post(config.baseUri + "/signup", this.signup)
         .then(() => {
           this.$router.push({ path: "/login", query: { activate: true } });
         })

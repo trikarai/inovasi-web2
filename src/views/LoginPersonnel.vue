@@ -39,7 +39,7 @@
                         prepend-icon="person"
                         v-model="username"
                         autocomplete="username"
-                        :rules="usernameRules"
+                        :rules="rulesUsername"
                         required
                       ></v-text-field>
                     </v-layout>
@@ -51,7 +51,7 @@
                         min="8"
                         :append-icon="e1 ? 'visibility' : 'visibility_off'"
                         :type="e1 ? 'password' : 'text'"
-                        :rules="passwordRules"
+                        :rules="rulesPassword"
                         counter
                         required
                         @click:append="e1 = !e1"
@@ -84,8 +84,11 @@
 <script>
 import * as config from "@/config/app.config";
 import bus from "@/bus";
+import { validationMixins } from "@/mixins/validationMixins";
 
 export default {
+    mixins: [validationMixins],
+
   name: "Login",
   data: function() {
     return {
@@ -103,15 +106,7 @@ export default {
       e1: true,
       username: "",
       password: "",
-      usernameRules: [v => !!v || "Username is required"],
-      passwordRules: [v => !!v || "Password is required"],
       email: "",
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v =>
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-          "E-mail must be valid"
-      ],
       activate: this.$route.query.activate
     };
   },
