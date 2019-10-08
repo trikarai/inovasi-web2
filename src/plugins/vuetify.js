@@ -5,6 +5,10 @@ import Vuetify from 'vuetify/lib';
 import en from '@/config/lang/en';
 import id from '@/config/lang/id';
 
+//Themes selector
+import tema from './themes/innov';
+// import tema from './themes/startmikti';
+
 Vue.use(Vuetify);
 
 export default new Vuetify({
@@ -17,15 +21,6 @@ export default new Vuetify({
   },
   dark: false,
   theme: {
-    themes: {
-      light: {
-        primary: '#8bc751',
-        sidebar: '#e4e4e4',
-        bgcolor: "#f4f3ef"
-      },
-      dark: {
-        primary: '#8bc751'
-      }
-    }
+    themes: tema
   }
 });
