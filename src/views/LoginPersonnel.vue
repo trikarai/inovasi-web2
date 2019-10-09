@@ -19,9 +19,9 @@
                 </h4>
               </v-toolbar-title>
               <v-toolbar-title class="ml-auto">
-                <router-link v-bind:to="'/signup'">
+                <!-- <router-link v-bind:to="'/signup'">
                   <v-icon class="white--text mb-2">person_add</v-icon>
-                </router-link>
+                </router-link>-->
                 <router-link v-bind:to="'/'">
                   <v-icon class="white--text mb-2 ml-3">home</v-icon>
                 </router-link>
@@ -87,8 +87,7 @@ import bus from "@/bus";
 import { validationMixins } from "@/mixins/validationMixins";
 
 export default {
-    mixins: [validationMixins],
-
+  mixins: [validationMixins],
   name: "Login",
   data: function() {
     return {
