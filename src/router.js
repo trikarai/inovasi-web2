@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from "@/views/Home"
+// import Home from "@/views/Home"
 
 import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
@@ -34,7 +34,9 @@ import MentorPhaseScoring from "@/components/personnel/mentor/phase/scoring/Scor
 import MentorPhaseScoringParticipant from "@/components/personnel/mentor/phase/scoring/ScoringParticipant"
 
 import Coordinatorship from "@/components/personnel/coordinator/Coordinatorship"
-import CoordinatorProgramPartisipant from "@/components/personnel/coordinator/participant/Participant"
+import CoordinatorProgramParticipant from "@/components/personnel/coordinator/participant/Participant"
+import CoordinatorProgramParticipantTeamDetail from "@/components/personnel/coordinator/participant/detail/TeamMembership"
+import CoordinatorProgramParticipantTalentDetail from "@/components/personnel/coordinator/participant/detail/TalentProfile"
 import CoordinatorProgramRegistration from "@/components/personnel/coordinator/registration/Registration"
 import CoordinatorProgramPhase from "@/components/personnel/coordinator/phase/Phase"
 import CoordinatorProgramPhaseMentoring from "@/components/personnel/coordinator/phase/mentoring/Mentoring"
@@ -50,7 +52,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: PersonnelLogin
     },
     {
       path: '/signup',
@@ -279,7 +281,17 @@ export default new Router({
         {
           path: "/personnel/coordinator/:coordinatorId/program/:programId/participant",
           name: "Program Participant",
-          component: CoordinatorProgramPartisipant
+          component: CoordinatorProgramParticipant
+        },
+        {
+          path: "/personnel/coordinator/participant/:teamId",
+          name: "Program Participant Membership",
+          component: CoordinatorProgramParticipantTeamDetail
+        },
+        {
+          path: "/personnel/coordinator/participant/:teamId/talent/:talentId",
+          name: "Program Participant Membership",
+          component: CoordinatorProgramParticipantTalentDetail
         },
         {
           path: "/personnel/coordinator/:coordinatorId/program/:programId/registration",

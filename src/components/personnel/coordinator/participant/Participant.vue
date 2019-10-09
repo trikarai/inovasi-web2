@@ -16,8 +16,16 @@
               :items="participant.list"
               class="elevation-1"
             >
-              <template v-slot:item.team.name="{item}">
-                <!-- <v-btn icon><v-icon>zoom_in</v-icon></v-btn> -->
+              <template v-slot:item.name="{item}">
+                <v-btn
+                  class="elevation-0 mr-2"
+                  fab
+                  x-small
+                  color="primary"
+                  @click="gotoTeamDetail(item.team.id)"
+                >
+                  <v-icon>zoom_in</v-icon>
+                </v-btn>
                 {{item.team.name | truncate(30)}}
               </template>
               <template v-slot:item.status="{item}">
@@ -121,7 +129,7 @@ export default {
       tableLoad: false,
       participant: { total: 0, list: [] },
       headers: [
-        { text: "Team", value: "team.name", sortable: false },
+        { text: "Team", value: "name", sortable: false },
         {
           text: "Registration Time",
           value: "registration_time",
@@ -210,6 +218,11 @@ export default {
           this.tableLoad = false;
           this.dialogPass = false;
         });
+    },
+    gotoTeamDetail(id) {
+      this.$router.push({
+        path: "/personnel/coordinator/participant/" + id
+      });
     }
   }
 };
