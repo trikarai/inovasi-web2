@@ -11,7 +11,9 @@
       </v-btn>
     </v-app-bar>
 
-    <v-btn class="ml-3 mt-2 mb-2" text @click="goback()"><v-icon left>keyboard_backspace</v-icon>back</v-btn>
+    <v-btn class="ml-3 mt-2 mb-2" text @click="goback()">
+      <v-icon left>keyboard_backspace</v-icon>back
+    </v-btn>
 
     <p class="ml-3">{{$route.name}}</p>
 
@@ -95,7 +97,9 @@ export default {
       miniVariant: false,
       clipped: false,
       fixed: false,
-      user: "",
+      user: {
+        name: ""
+      },
       links: [
         {
           icon: "dashboard",
