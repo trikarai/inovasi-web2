@@ -221,7 +221,7 @@ export default {
     },
     gotoTeamDetail(id) {
       this.$router.push({
-        path: "/personnel/coordinator/participant/" + id
+        path: "/personnel/participant/" + id
       });
     }
   }

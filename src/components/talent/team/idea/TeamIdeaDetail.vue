@@ -6,7 +6,7 @@
           <v-card-title>{{parentData.name}}</v-card-title>
           <v-card-text>{{parentData.description}}</v-card-text>
           <v-card-text>{{parentData.initator.talent.name}}</v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="isTalent">
             <v-btn color="primary" small fab @click="openIdeaForm()">
               <v-icon>edit</v-icon>
             </v-btn>
@@ -28,7 +28,7 @@
                   <v-list-item-title>{{data.name}}</v-list-item-title>
                   <v-list-item-subtitle>{{data.description}}</v-list-item-subtitle>
                 </v-list-item-content>
-                <v-list-item-action>
+                <v-list-item-action v-if="isTalent">
                   <v-btn small color="warning" @click="deleteAct(data.id)">
                     <v-icon small>delete</v-icon>
                   </v-btn>
@@ -36,7 +36,7 @@
               </v-list-item>
             </v-list>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="isTalent">
             <v-btn color="accent" @click="openCS">
               <v-icon>add</v-icon>
               {{$vuetify.lang.t('$vuetify.action.add')}} {{$vuetify.lang.t('$vuetify.idea.customersegment')}}
@@ -85,11 +85,13 @@
 import auth from "@/config/auth";
 import bus from "@/bus";
 import * as config from "@/config/app.config";
+import { roleCheckMixins } from "@/mixins/roleCheckMixins";
 
 import IdeaForm from "./IdeaForm";
 import CustomersegmentForm from "./customersegment/CustomerSegmentForm";
 
 export default {
+  mixins: [roleCheckMixins],
   data() {
     return {
       dialogDelete: "",
@@ -116,6 +118,12 @@ export default {
     IdeaForm,
     CustomersegmentForm
   },
+  created() {
+    this.role = localStorage.getItem("role");
+    if (this.role !== "Talent") {
+      this.isTalent = false;
+    }
+  },
   mounted() {
     this.getParentData();
     this.getChildData();
@@ -126,6 +134,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -149,6 +158,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -214,15 +224,29 @@ export default {
       this.getChildData();
     },
     gotoChild(id) {
-      this.$router.push({
-        path:
-          "/talent/team/" +
-          this.$route.params.teamId +
-          "/idea/" +
-          this.$route.params.ideaId +
-          "/customersegment/" +
-          id
-      });
+      if (this.isTalent) {
+        this.$router.push({
+          path:
+            "/talent/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customersegment/" +
+            id
+        });
+      } else {
+        this.$router.push({
+          path:
+            "/personnel/mentor/" +
+            this.$route.params.mentorId +
+            "/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customersegment/" +
+            id
+        });
+      }
     }
   }
 };

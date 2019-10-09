@@ -79,7 +79,7 @@ export default {
     gotoProfileDetail(id) {
       this.$router.push({
         path:
-          "/personnel/coordinator/participant/" +
+          "/personnel/participant/" +
           this.$route.params.teamId +
           "/talent/" +
           id

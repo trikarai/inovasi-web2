@@ -27,6 +27,7 @@ import Personnel from "@/views/Personnel"
 import PersonnelDashboard from "@/components/personnel/PersonnelDashboard"
 
 import Mentorship from "@/components/personnel/mentor/Mentorship"
+import MentorshipParticipant from "@/components/personnel/mentor/participant/Participant"
 import MentoringSession from "@/components/personnel/mentor/mentoring/MentoringSession"
 import MentorPhase from "@/components/personnel/mentor/phase/Phase"
 import MentorPhaseScore from "@/components/personnel/mentor/phase/score/Score"
@@ -249,6 +250,36 @@ export default new Router({
           component: Mentorship
         },
         {
+          path: "/personnel/mentor/:mentorId/program/:programId/participant",
+          name: "Mentorship Participant",
+          component: MentorshipParticipant
+        },
+        {
+          path: "/personnel/mentor/:mentorId/team/:teamId/idea",
+          name: "Mentorship Participant Idea",
+          component: TalentTeamIdea
+        },
+        {
+          path: "/personnel/mentor/:mentorId/team/:teamId/idea/:ideaId",
+          name: "Mentorship Participant Idea Detail",
+          component: TalentTeamIdeaDetail
+        },
+        {
+          path: "/personnel/mentor/:mentorId/team/:teamId/idea/:ideaId/customersegment/:customersegmentId",
+          name: "Mentorship Participant Customer Segment",
+          component: TalentTeamCustomerSegment
+        },
+        {
+          path: "/personnel/mentor/:mentorId/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId",
+          name: "Mentorship Participant Persona",
+          component: TalentTeamPersona
+        },
+        {
+          path: "/personnel/mentor/:mentorId/team/:teamId/idea/:ideaId/customersegment/:customersegmentId/persona/:personaId/valueproposition/:valuepropositionId",
+          name: "Mentorship Participant Value Proposition",
+          component: TalentTeamValueProposition
+        },
+        {
           path: "/personnel/mentor/:mentorId/mentoring",
           name: "Mentoring Session",
           component: MentoringSession
@@ -284,12 +315,12 @@ export default new Router({
           component: CoordinatorProgramParticipant
         },
         {
-          path: "/personnel/coordinator/participant/:teamId",
+          path: "/personnel/participant/:teamId",
           name: "Program Participant Membership",
           component: CoordinatorProgramParticipantTeamDetail
         },
         {
-          path: "/personnel/coordinator/participant/:teamId/talent/:talentId",
+          path: "/personnel/participant/:teamId/talent/:talentId",
           name: "Program Participant Membership",
           component: CoordinatorProgramParticipantTalentDetail
         },

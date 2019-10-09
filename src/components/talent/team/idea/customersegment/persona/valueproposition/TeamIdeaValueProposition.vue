@@ -7,7 +7,7 @@
           <v-card-title>Value Proposition</v-card-title>
           <v-card-text style="white-space: pre-wrap;">{{parentData.description}}</v-card-text>
 
-          <v-card-actions>
+          <v-card-actions v-if="isTalent">
             <v-btn color="primary" small fab @click="openParentForm()">
               <v-icon>edit</v-icon>
             </v-btn>
@@ -61,10 +61,12 @@
 import auth from "@/config/auth";
 import bus from "@/bus";
 import * as config from "@/config/app.config";
+import { roleCheckMixins } from "@/mixins/roleCheckMixins";
 
 import ValuepropositionForm from "./ValuePropositionForm";
 
 export default {
+  mixins: [roleCheckMixins],
   data() {
     return {
       dialogDelete: "",
@@ -122,6 +124,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +

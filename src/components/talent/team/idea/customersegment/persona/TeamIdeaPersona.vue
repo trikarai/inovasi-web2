@@ -37,7 +37,7 @@
               </v-expansion-panels>
             </v-row>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="isTalent">
             <v-btn color="primary" small fab @click="openParentForm()">
               <v-icon>edit</v-icon>
             </v-btn>
@@ -60,22 +60,24 @@
                   <!-- <v-list-item-title>{{data.name}}</v-list-item-title> -->
                   <v-list-item-subtitle>{{data.description}}</v-list-item-subtitle>
                 </v-list-item-content>
-                <v-list-item-action>
+                <v-list-item-action v-if="isTalent">
                   <div>
                     <v-btn @click="setMain(data.id)" small class="mr-2" v-if="!data.is_active">
                       <v-icon small>star</v-icon>
                     </v-btn>
                     <v-icon v-else large class="mr-4" color="yellow">star</v-icon>
-
                     <v-btn small color="warning" @click="deleteAct(data.id)">
                       <v-icon small>delete</v-icon>
                     </v-btn>
                   </div>
                 </v-list-item-action>
+                <v-list-item-action v-else>
+                  <v-icon large class="mr-4" color="yellow" v-if="data.is_active">star</v-icon>
+                </v-list-item-action>
               </v-list-item>
             </v-list>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="isTalent">
             <v-btn color="accent" @click="openChildForm">
               <v-icon>add</v-icon>
               {{$vuetify.lang.t('$vuetify.action.add')}} Value Proposition
@@ -124,11 +126,13 @@
 import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
+import { roleCheckMixins } from "@/mixins/roleCheckMixins";
 
 import PersonaForm from "./PersonaForm";
 import ValuepropositionForm from "./valueproposition/ValuePropositionForm";
 
 export default {
+  mixins: [roleCheckMixins],
   data() {
     return {
       dialogDelete: "",
@@ -160,6 +164,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -187,6 +192,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -290,19 +296,37 @@ export default {
       this.getChildData();
     },
     gotoChild(id) {
-      this.$router.push({
-        path:
-          "/talent/team/" +
-          this.$route.params.teamId +
-          "/idea/" +
-          this.$route.params.ideaId +
-          "/customersegment/" +
-          this.$route.params.customersegmentId +
-          "/persona/" +
-          this.$route.params.personaId +
-          "/valueproposition/" +
-          id
-      });
+      if (this.isTalent) {
+        this.$router.push({
+          path:
+            "/talent/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customersegment/" +
+            this.$route.params.customersegmentId +
+            "/persona/" +
+            this.$route.params.personaId +
+            "/valueproposition/" +
+            id
+        });
+      } else {
+        this.$router.push({
+          path:
+            "/personnel/mentor/" +
+            this.$route.params.mentorId +
+            "/team/" +
+            this.$route.params.teamId +
+            "/idea/" +
+            this.$route.params.ideaId +
+            "/customersegment/" +
+            this.$route.params.customersegmentId +
+            "/persona/" +
+            this.$route.params.personaId +
+            "/valueproposition/" +
+            id
+        });
+      }
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- {{dataList.list}} -->
-    <v-layout class="mb-3">
+    <v-layout class="mb-3" v-if="isTalent">
       <v-flex md3>
         <v-btn color="primary" @click="openIdeaForm()">
           <v-icon left>add</v-icon>
@@ -32,9 +32,21 @@
               class="elevation-1"
             >
               <template v-slot:item.menu="{ item }">
-                <div>
+                <div v-if="isTalent">
                   <v-btn
                     @click="gotoIdeaDetail(item.id)"
+                    class="ma-2 elevation-0"
+                    small
+                    fab
+                    color="primary"
+                  >
+                    <v-icon>zoom_in</v-icon>
+                  </v-btn>
+                </div>
+                <div v-else>
+                  <v-btn
+                    :disabled="!item.is_main_idea"
+                    @click="gotoIdeaDetail2(item.id)"
                     class="ma-2 elevation-0"
                     small
                     fab
@@ -46,11 +58,11 @@
               </template>
               <template v-slot:item.main="{ item }">
                 <v-icon large v-if="item.is_main_idea" color="#FFDF00">star</v-icon>
-                <v-btn small @click="setMain(item.id)" v-else>
+                <v-btn :disabled="!isTalent" small @click="setMain(item.id)" v-else>
                   <v-icon small>star</v-icon>
                 </v-btn>
               </template>
-              <template v-slot:item.action="{ item }">
+              <template v-slot:item.action="{ item }" v-if="isTalent">
                 <v-btn small color="red" @click="deleteAct(item.id)">
                   <v-icon small left>delete</v-icon>
                   {{$vuetify.lang.t('$vuetify.action.delete')}}
@@ -85,11 +97,12 @@ import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { statusMixins } from "@/mixins/statusMixins";
+import { roleCheckMixins } from "@/mixins/roleCheckMixins";
 
 import IdeaForm from "./IdeaForm";
 
 export default {
-  mixins: [statusMixins],
+  mixins: [statusMixins, roleCheckMixins],
   components: {
     IdeaForm
   },
@@ -139,9 +152,21 @@ export default {
   },
   methods: {
     getDataList: function() {
+      var Uri = "/team/" + this.$route.params.teamId + "/idea";
+      if (this.isTalent) {
+        Uri = "/team/" + this.$route.params.teamId + "/idea";
+      } else {
+        Uri =
+          "/tutor/" +
+          this.$route.params.mentorId +
+          "/team/" +
+          this.$route.params.teamId +
+          "/idea";
+      }
+
       this.tableLoad = true;
       this.axios
-        .get(config.baseUri + "/team/" + this.$route.params.teamId + "/idea", {
+        .get(config.baseUri + Uri, {
           headers: auth.getAuthHeader()
         })
         .then(res => {
@@ -208,6 +233,17 @@ export default {
     gotoIdeaDetail(id) {
       this.$router.push({
         path: "/talent/team/" + this.$route.params.teamId + "/idea/" + id
+      });
+    },
+    gotoIdeaDetail2(id) {
+      this.$router.push({
+        path:
+          "/personnel/mentor/" +
+          this.$route.params.mentorId +
+          "/team/" +
+          this.$route.params.teamId +
+          "/idea/" +
+          id
       });
     },
     openIdeaForm() {

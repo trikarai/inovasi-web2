@@ -61,12 +61,14 @@
               <template v-if="!loadSolution">
                 <template v-if="dataSolution.fields.length == 0">
                   <v-btn
+                    v-if="ifTalent"
                     @click="openBsForm('1dbe1d6c-04cc-4c5a-9d22-46e97c9ffc69', 'Solution')"
                     class="ma-2"
                     color="primary"
                   >
                     <v-icon>add</v-icon>Add Solution
                   </v-btn>
+                  <template v-else>talent no yet add solution</template>
                 </template>
                 <template v-else>
                   <v-flex>
@@ -105,7 +107,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card flat>
-                      <v-card-actions>
+                      <v-card-actions v-if="isTalent">
                         <!-- <div class="flex-grow-1"></div> -->
                         <v-btn
                           :loading="loadDelete"
@@ -209,6 +211,7 @@
           <v-layout>
             <v-flex v-if="dataLean.fields.length == 0 ">
               <v-btn
+                v-if="isTalent"
                 color="primary"
                 class="ma-3"
                 @click="openBsForm('51b8c9f3-dd4b-47f0-ab9d-cd23f416e8d9', 'Lean Canvas')"
@@ -334,7 +337,7 @@
               </div>
             </v-flex>
             <v-card flat>
-              <v-card-actions>
+              <v-card-actions v-if="isTalent">
                 <!-- <div class="flex-grow-1"></div> -->
                 <v-btn
                   :loading="loadDelete"
@@ -370,6 +373,7 @@
             <!-- {{dataBMC}} -->
             <v-flex v-if="dataBMC.fields.length == 0">
               <v-btn
+                v-if="isTalent"
                 color="primary"
                 class="ma-3"
                 @click="openBsForm('947500a2-4fe1-4891-acca-a5e1f5e088a3', 'Business Model Canvas')"
@@ -486,6 +490,7 @@
               <v-card-actions>
                 <!-- <div class="flex-grow-1"></div> -->
                 <v-btn
+                  v-if="isTalent"
                   :loading="loadDelete"
                   @click="deleteBS(dataBMC.id, 'Business Model Canvas')"
                   small
@@ -518,6 +523,7 @@
           <v-layout v-else>
             <v-flex md12 v-if="dataMS.fields.length == 0">
               <v-btn
+                v-if="isTalent"
                 color="primary"
                 class="ma-3"
                 @click="openBsForm('7b80797b-10c8-4a96-9235-196707ddcd87', 'Market Size')"
@@ -538,7 +544,7 @@
             </v-flex>
             <v-flex md12 v-if="dataMS.fields.length != 0">
               <v-card flat class="elevation-0">
-                <v-card-actions>
+                <v-card-actions v-if="isTalent">
                   <!-- <div class="flex-grow-1"></div> -->
                   <v-btn
                     :loading="loadDelete"
@@ -574,6 +580,7 @@
           <v-layout v-else>
             <v-flex v-if="dataMA.fields.length == 0">
               <v-btn
+                v-if="isTalent"
                 color="primary"
                 class="ma-3"
                 @click="openBsForm('d15cb7bc-c85d-4883-bd5f-7b109fb6df2d', 'Market Analysis')"
@@ -584,7 +591,7 @@
             <v-flex v-else>
               <!-- {{dataMA}} -->
               <v-list v-for="field in dataMA.fields" :key="field.id">
-                <v-list-item three-line >
+                <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-subtitle>{{field.field_template.name}}</v-list-item-subtitle>
                     <v-list-item-title>{{field.value}}</v-list-item-title>
@@ -594,7 +601,7 @@
             </v-flex>
             <v-flex md12 v-if="dataMA.fields.length != 0">
               <v-card flat>
-                <v-card-actions>
+                <v-card-actions v-if="isTalent">
                   <!-- <div class="flex-grow-1"></div> -->
                   <v-btn
                     :loading="loadDelete"
@@ -630,6 +637,7 @@
           <v-layout v-else>
             <v-flex v-if="dataSwot.fields.length == 0">
               <v-btn
+                v-if="isTalent"
                 color="primary"
                 class="ma-3"
                 @click="openBsForm('a08c05ef-60ff-409c-8d19-3dbf477fe825', 'SWOT Analysis')"
@@ -640,7 +648,7 @@
             <v-flex v-else>
               <!-- {{dataSwot}} -->
               <v-list v-for="field in dataSwot.fields" :key="field.id">
-                <v-list-item three-line >
+                <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-subtitle>{{field.field_template.name}}</v-list-item-subtitle>
                     <v-list-item-title>{{field.value}}</v-list-item-title>
@@ -649,7 +657,7 @@
               </v-list>
             </v-flex>
             <v-card flat>
-              <v-card-actions>
+              <v-card-actions v-if="isTalent">
                 <!-- <div class="flex-grow-1"></div> -->
                 <v-btn
                   :loading="loadDelete"
@@ -677,7 +685,7 @@
           <v-row>
             <v-col>
               <v-card md12 flat v-if="dataVC.fields.length != 0">
-                <v-card-actions>
+                <v-card-actions v-if="isTalent">
                   <!-- <div class="flex-grow-1"></div> -->
                   <v-btn
                     :loading="loadDelete"
@@ -711,6 +719,7 @@
             <v-col v-if="dataVC.fields.length == 0">
               <v-card flat>
                 <v-btn
+                  v-if="isTalent"
                   color="primary"
                   class="ma-3"
                   @click="openBsForm('4e208600-abab-41ac-8864-a950ff74e0fb', 'Value Curve')"
@@ -721,11 +730,7 @@
             </v-col>
             <v-col md12 v-else>
               <v-list v-for="data in dataVC.fields" :key="data.id">
-                <v-list-item
-                  
-                  style="padding-left:26px;padding-right:26px"
-                  :three-line="true"
-                >
+                <v-list-item style="padding-left:26px;padding-right:26px" :three-line="true">
                   <v-list-item-content>
                     <v-list-item-title>{{data.field_template.name}}</v-list-item-title>
                     <!-- <span class="grey--text font-weight-light" v-if="data.value">{{data.value}}</span> -->
@@ -776,11 +781,12 @@
 import bus from "@/bus";
 import auth from "@/config/auth";
 import * as config from "@/config/app.config";
+import { roleCheckMixins } from "@/mixins/roleCheckMixins";
 
 import CanvasForm from "../BusinessForm";
 
 export default {
-  mixins: [],
+  mixins: [roleCheckMixins],
   components: {
     CanvasForm
   },
@@ -849,6 +855,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -876,6 +883,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -901,6 +909,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -925,6 +934,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -935,7 +945,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -956,6 +967,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -966,7 +978,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -987,6 +1000,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -997,7 +1011,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -1018,6 +1033,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -1028,7 +1044,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -1049,6 +1066,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -1059,7 +1077,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -1080,6 +1099,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -1090,7 +1110,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
@@ -1110,6 +1131,7 @@ export default {
       this.axios
         .get(
           config.baseUri +
+            this.mentorUri +
             "/team/" +
             this.$route.params.teamId +
             "/idea/" +
@@ -1120,7 +1142,8 @@ export default {
             this.$route.params.personaId +
             "/value_proposition/" +
             this.$route.params.valuepropositionId +
-            "/business_structure/template_name/" +
+            "/business_structure/template_name" +
+            this.mentorUri2 +
             encodeURI(canvasname),
           { headers: auth.getAuthHeader() }
         )
