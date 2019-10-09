@@ -93,7 +93,7 @@ export default {
             "/approve",
           { headers: auth.getAuthHeader() }
         )
-        .then(res => {
+        .then(() => {
           this.getDataList();
         })
         .catch(res => {
@@ -118,7 +118,7 @@ export default {
         .then(() => {
           this.getDataList();
         })
-        .catch(error => {
+        .catch(res => {
           bus.$emit("callNotif", "error", res);
         })
         .finally(() => {

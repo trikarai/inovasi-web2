@@ -181,6 +181,7 @@ export default {
         })
         .catch(res => {
           this.uploaded = false;
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.progressShow = false;
