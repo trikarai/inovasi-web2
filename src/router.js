@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// import Home from "@/views/Home"
+import Home from "@/views/Home"
 
 import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
@@ -53,7 +53,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: PersonnelLogin
+      component: Home
     },
     {
       path: '/signup',
