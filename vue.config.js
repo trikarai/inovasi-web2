@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/v2'
+  publicPath: ''
 }
