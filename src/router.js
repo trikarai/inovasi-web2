@@ -5,6 +5,7 @@ import Home from "@/views/Home"
 
 import TalentLogin from "@/views/LoginTalent"
 import Talent from "@/views/Talent"
+import TalentProfile from "@/components/talent/profile/TalentProfile"
 import TalentDashboard from "@/components/talent/TalentDashboard"
 import TalentTeam from "@/components/talent/team/TalentTeam"
 import TalentTeamCreate from "@/components/talent/team/manage/TalentTeamCreate"
@@ -91,7 +92,7 @@ export default new Router({
         {
           path: "/talent/profile",
           name: "Talent Profile",
-          component: TalentDashboard,
+          component: TalentProfile,
           meta: {
             level: 0
           }

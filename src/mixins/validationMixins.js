@@ -31,6 +31,11 @@ export const validationMixins = {
                 () =>
                     this.cpassword === this.signup.password || "Password does not match"
             ],
+            rulesChangePasswordConfirmation: [
+                v => !!v || "Confirmation Password is required",
+                () =>
+                    this.cpassword === this.pass.new_password || "Password does not match"
+            ],
         };
     },
 };

@@ -82,7 +82,7 @@ var _default = {
     previousPassword: "Sandi Sebelumnya",
     newPassword: "Sandi Baru",
     confirmPassword: "Konfirmasi Ulang Sandi",
-    email: "Email",
+    email: "Surel",
     phone: "Nomor Handphone",
     cityOfOrigin: "Kota Asal",
     birthDate: "Tanggal Lahir",
