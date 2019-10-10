@@ -15,6 +15,13 @@ export const validationMixins = {
                     return pattern.test(v) || "Number Only";
                 }
             ],
+            rulesYear: [
+                v => !!v || "Year is required",
+                v => {
+                    const pattern = /^[0-9]*$/;
+                    return pattern.test(v) || "Number Only";
+                }
+            ],
             phoneMask: "(###) ##########",
             rulesEmail: [v => !!v || "E-mail is required",
             value => {

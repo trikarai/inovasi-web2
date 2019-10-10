@@ -175,7 +175,7 @@
             <v-card flat tile>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openEducationForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -193,7 +193,7 @@
             <v-card flat tile>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openEntrepreneurshipForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -211,7 +211,7 @@
             <v-card flat tile>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openOrganizationForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -229,7 +229,7 @@
             <v-card flat tile>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openTrainingForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -247,7 +247,7 @@
             <v-card flat tile>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openWorkingForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -263,10 +263,10 @@
           </v-tab-item>
           <v-tab-item value="tab-6">
             <v-card flat tile>
-              {{expanded[0]}}
+              <!-- {{expanded[0]}} -->
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="accent" class="ma-3">
+                <v-btn color="accent" class="ma-3" @click="openSkillForm">
                   <v-icon left>add</v-icon>Add
                 </v-btn>
               </v-card-actions>
@@ -278,15 +278,75 @@
                   :headers="headers6"
                   :items="dataList6.list"
                   class="elevation-1"
-                  show-expand
-                  @click:row="expandRow"
                 >
                   <template v-slot:item.score="{item}">
                     <v-rating readonly :value="item.score"></v-rating>
                   </template>
                   <template v-slot:expanded-item="{ headers }">
-                    <td :colspan="headers.length">{{skillId}}</td>
-                    <!-- Cetfificate Place holder -->
+                    <template v-if="loadCertificate">
+                      <td :colspan="headers.length">
+                        <v-progress-linear :indeterminate="true" color="accent"></v-progress-linear>
+                      </td>
+                    </template>
+                    <template v-else>
+                      <td :colspan="headers.length">
+                        <v-btn x-small color="accent" class="ma-3">
+                          <v-icon small>add</v-icon>
+                        </v-btn>
+                        <v-simple-table dense class="mt-2 bm-2" v-if="dataCertificate.total !== 0">
+                          <template v-slot:default>
+                            <thead>
+                              <tr>
+                                <th class="text-left">Name</th>
+                                <th class="text-left">Organizer</th>
+                                <th class="text-left">Issued</th>
+                                <th class="text-left">Valid Until</th>
+                                <th class="text-right"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="item in dataCertificate.list" :key="item.id">
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.organizer }}</td>
+                                <td>{{ item.issued_date }}</td>
+                                <td>{{ item.valid_until }}</td>
+                                <td>
+                                  <v-btn x-small color="accent" class="mr-2">
+                                    <v-icon small>edit</v-icon>
+                                  </v-btn>
+                                  <v-btn x-small color="warning">
+                                    <v-icon small>delete</v-icon>
+                                  </v-btn>
+                                </td>
+                              </tr>
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <td colspan="5"></td>
+                              </tr>
+                            </tfoot>
+                          </template>
+                        </v-simple-table>
+                        <template v-else>No Certificate Data</template>
+                      </td>
+                    </template>
+                  </template>
+                  <template v-slot:item.actions="{item}">
+                    <v-btn small class="mr-2" color="warning">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-if="item.id !== skillId"
+                      icon
+                      small
+                      color="info"
+                      @click="expandRow(item)"
+                    >
+                      <v-icon>keyboard_arrow_down</v-icon>
+                    </v-btn>
+                    <v-btn icon small color="info" @click="hideRow" v-else>
+                      <v-icon>keyboard_arrow_up</v-icon>
+                    </v-btn>
                   </template>
                 </v-data-table>
               </v-card-text>
@@ -295,6 +355,43 @@
         </v-tabs>
       </v-col>
     </v-row>
+
+    <education-form
+      v-if="dialogEducation"
+      :edit="edit"
+      @close="dialogEducation = false"
+      @refresh="refreshEducation"
+    />
+    <entrepreneurship-form
+      v-if="dialogEntrepreneurship"
+      :edit="edit"
+      @close="dialogEntrepreneurship = false"
+      @refresh="refreshEntrepreneurship"
+    />
+    <organization-form
+      v-if="dialogOrganization"
+      :edit="edit"
+      @close="dialogOrganization = false"
+      @refresh="refreshOrganization"
+    />
+    <training-form
+      v-if="dialogTraining"
+      :edit="edit"
+      @close="dialogTraining = false"
+      @refresh="refreshTraining"
+    />
+    <working-form
+      v-if="dialogWorking"
+      :edit="edit"
+      @close="dialogWorking = false"
+      @refresh="refreshWorking"
+    />
+    <skill-form
+      v-if="dialogSkill"
+      :edit="edit"
+      @close="dialogSkill = false"
+      @refresh="refreshSkill"
+    />
   </v-container>
 </template>
 <script>
@@ -303,8 +400,25 @@ import auth from "@/config/auth";
 import * as config from "@/config/app.config";
 import { validationMixins } from "@/mixins/validationMixins";
 
+import { profileMixins } from "./profileMixins";
+
+import EducationForm from "./form/Education";
+import EntrepreneurshipForm from "./form/Entrepreneurship";
+import OrganizationForm from "./form/Organization";
+import TrainingForm from "./form/Training";
+import WorkingForm from "./form/Working";
+import SkillForm from "./form/Skill";
+
 export default {
-  mixins: [validationMixins],
+  mixins: [validationMixins, profileMixins],
+  components: {
+    EducationForm,
+    EntrepreneurshipForm,
+    OrganizationForm,
+    TrainingForm,
+    WorkingForm,
+    SkillForm
+  },
   data() {
     return {
       e1: false,
@@ -368,9 +482,12 @@ export default {
         { text: "End Year", value: "end_year", sortable: false }
       ],
       dataList6: { total: 0, list: [] },
+      dataCertificate: { total: 0, list: [] },
+      loadCertificate: false,
       headers6: [
         { text: "Skill Name", value: "skill_reference.name", sortable: false },
-        { text: "Score", value: "score", sortable: false }
+        { text: "Score", value: "score", sortable: false },
+        { text: "", value: "actions", sortable: false, align: "right" }
       ],
       tableLoad6: false,
       expanded: [],
@@ -396,7 +513,7 @@ export default {
   mounted() {
     this.getData();
     this.getEducation();
-    this.getEnterpreneurship();
+    this.getEntrepreneurship();
     this.getOrganization();
     this.getTraining();
     this.getWorking();
@@ -434,7 +551,7 @@ export default {
           this.tableLoad1 = false;
         });
     },
-    getEnterpreneurship: function() {
+    getEntrepreneurship: function() {
       this.tableLoad2 = true;
       this.axios
         .get(config.baseUri + "/talent/entrepreneurship", {
@@ -535,7 +652,36 @@ export default {
         });
     },
     expandRow(item) {
-      console.log(item);
+      this.skillId = item.id;
+      this.expanded = item === this.expanded[0] ? [] : [item];
+      this.getCertificate();
+    },
+    hideRow() {
+      this.skillId = null;
+      this.expanded = [];
+    },
+    getCertificate() {
+      this.loadCertificate = true;
+      this.axios
+        .get(
+          config.baseUri + "/talent/skill/" + this.skillId + "/certificate",
+          {
+            headers: auth.getAuthHeader()
+          }
+        )
+        .then(res => {
+          if (res.data.data) {
+            this.dataCertificate = res.data.data;
+          } else {
+            this.dataCertificate = { total: 0, list: [] };
+          }
+        })
+        .catch(res => {
+          bus.$emit("callNotif", "error", res);
+        })
+        .finally(() => {
+          this.loadCertificate = false;
+        });
     },
     updatePassword() {
       this.loadPassword = true;
@@ -543,8 +689,8 @@ export default {
         .post(config.baseUri + "/talent/change_password", this.pass, {
           headers: auth.getAuthHeader()
         })
-        .then(res => {
-          this.dialogPassword = false;
+        .then(() => {
+          this.resetPasswordDialog();
         })
         .catch(res => {
           bus.$emit("callNotif", "error", res);
