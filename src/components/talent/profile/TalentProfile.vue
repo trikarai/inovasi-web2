@@ -263,6 +263,7 @@
           </v-tab-item>
           <v-tab-item value="tab-6">
             <v-card flat tile>
+              {{expanded[0]}}
               <v-card-actions>
                 <div class="flex-grow-1"></div>
                 <v-btn color="accent" class="ma-3">
@@ -272,12 +273,20 @@
               <v-card-text>
                 <v-data-table
                   :loading="tableLoad6"
+                  :single-expand="true"
+                  :expanded.sync="expanded"
                   :headers="headers6"
                   :items="dataList6.list"
                   class="elevation-1"
+                  show-expand
+                  @click:row="expandRow"
                 >
                   <template v-slot:item.score="{item}">
                     <v-rating readonly :value="item.score"></v-rating>
+                  </template>
+                  <template v-slot:expanded-item="{ headers }">
+                    <td :colspan="headers.length">{{skillId}}</td>
+                    <!-- Cetfificate Place holder -->
                   </template>
                 </v-data-table>
               </v-card-text>
@@ -298,6 +307,10 @@ export default {
   mixins: [validationMixins],
   data() {
     return {
+      e1: false,
+      e2: false,
+      e3: false,
+      loadPassword: false,
       tab: null,
       validPassword: false,
       pass: {
@@ -360,6 +373,8 @@ export default {
         { text: "Score", value: "score", sortable: false }
       ],
       tableLoad6: false,
+      expanded: [],
+      skillId: "",
       profile: {
         id: "",
         username: "",
@@ -518,6 +533,9 @@ export default {
         .finally(() => {
           this.tableLoad6 = false;
         });
+    },
+    expandRow(item) {
+      console.log(item);
     },
     updatePassword() {
       this.loadPassword = true;
