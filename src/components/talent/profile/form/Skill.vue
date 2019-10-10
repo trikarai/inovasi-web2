@@ -125,7 +125,7 @@ export default {
     getTrack() {
       this.loadTrack = true;
       this.axios
-        .post(config.baseUri + "/track", this.params, {
+        .get(config.baseUri + "/track", this.params, {
           headers: auth.getAuthHeader()
         })
         .then(res => {
@@ -145,7 +145,7 @@ export default {
     getSkill() {
       this.loadSkill = true;
       this.axios
-        .post(
+        .get(
           config.baseUri +
             "/track/" +
             this.params.track_id +
