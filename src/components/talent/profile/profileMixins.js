@@ -1,3 +1,7 @@
+import bus from "@/bus";
+import auth from "@/config/auth";
+import * as config from "@/config/app.config";
+
 export const profileMixins = {
     data() {
         return {
@@ -9,12 +13,20 @@ export const profileMixins = {
             dialogWorking: false,
             dialogSkill: false,
             dialogCertificate: false,
+            deleteId: "",
+            deletename: "",
+            deletepath: ""
         }
     },
     methods: {
         openEducationForm() {
             this.dialogEducation = true;
             this.edit = false;
+        },
+        deleteEducation(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/education/"
         },
         refreshEducation() {
             this.dialogEducation = false;
@@ -66,6 +78,19 @@ export const profileMixins = {
         },
         refreshCertificate() {
             this.dialogCertificate = false;
+        },
+        deleteAct() {
+            this.loaderDelete = true;
+            this.axios.delete(config.baseUri + "/talent/" + this.deletepath + this.deleteId, { headers: auth.getAuthHeader() })
+                .then(() => {
+                    this.dialogDelete = false;
+                    this.refreshEducation();
+                }).catch(res => {
+                    bus.$emit("callNotif", "error", res);
+                })
+                .finally(() => {
+                    this.loaderDelete = false;
+                });
         }
     },
 }

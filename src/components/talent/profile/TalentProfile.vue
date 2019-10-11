@@ -185,7 +185,13 @@
                   :headers="headers1"
                   :items="dataList1.list"
                   class="elevation-1"
-                ></v-data-table>
+                >
+                  <template v-slot:item.action="{item}">
+                    <v-btn small color="warning" @click.native.stop="deleteEducation(item)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -399,6 +405,21 @@
       @close="dialogCertificate = false"
       @refresh="refreshCertificate"
     />
+
+    <v-layout row justify-center>
+      <!-- <v-btn color="primary" dark @click.native.stop="dialogDelete = true">Open Dialog</v-btn> -->
+      <v-dialog v-model="dialogDelete" max-width="290">
+        <v-card :loading="loaderDelete">
+          <v-card-title class="headline">Delete</v-card-title>
+          <v-card-text></v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="red" @click.native="deleteAct">Yes</v-btn>
+            <v-btn @click.native="dialogDelete = false">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </v-container>
 </template>
 <script>
@@ -430,6 +451,7 @@ export default {
   },
   data() {
     return {
+      dialogDelete: false,
       e1: false,
       e2: false,
       e3: false,
@@ -450,7 +472,8 @@ export default {
         { text: "Major", value: "major", sortable: false },
         { text: "Start Year", value: "start_year", sortable: false },
         { text: "End Year", value: "end_year", sortable: false },
-        { text: "Note", value: "Note", sortable: false }
+        { text: "Note", value: "Note", sortable: false },
+        { text: "", value: "action", sortable: false }
       ],
       dataList2: { total: 0, list: [] },
       tableLoad2: { total: 0, list: [] },
@@ -516,7 +539,8 @@ export default {
         },
         gender: "",
         signup_time: ""
-      }
+      },
+      loaderDelete: false
     };
   },
   mounted() {
