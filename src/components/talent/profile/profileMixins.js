@@ -8,6 +8,7 @@ export const profileMixins = {
             dialogTraining: false,
             dialogWorking: false,
             dialogSkill: false,
+            dialogCertificate: false,
         }
     },
     methods: {
@@ -58,6 +59,13 @@ export const profileMixins = {
         refreshSkill() {
             this.dialogSkill = false;
             this.getSkill();
+        },
+        openCertificateForm() {
+            this.dialogCertificate = true;
+            this.edit = false;
+        },
+        refreshCertificate() {
+            this.dialogCertificate = false;
         }
     },
 }

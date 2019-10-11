@@ -290,7 +290,7 @@
                     </template>
                     <template v-else>
                       <td :colspan="headers.length">
-                        <v-btn x-small color="accent" class="ma-3">
+                        <v-btn x-small color="accent" class="ma-3" @click="openCertificateForm">
                           <v-icon small>add</v-icon>
                         </v-btn>
                         <v-simple-table dense class="mt-2 bm-2" v-if="dataCertificate.total !== 0">
@@ -392,6 +392,13 @@
       @close="dialogSkill = false"
       @refresh="refreshSkill"
     />
+    <certificate-form
+      v-if="dialogCertificate"
+      :skillId="skillId"
+      :edit="edit"
+      @close="dialogCertificate = false"
+      @refresh="refreshCertificate"
+    />
   </v-container>
 </template>
 <script>
@@ -408,6 +415,7 @@ import OrganizationForm from "./form/Organization";
 import TrainingForm from "./form/Training";
 import WorkingForm from "./form/Working";
 import SkillForm from "./form/Skill";
+import CertificateForm from "./form/Certificate";
 
 export default {
   mixins: [validationMixins, profileMixins],
@@ -417,7 +425,8 @@ export default {
     OrganizationForm,
     TrainingForm,
     WorkingForm,
-    SkillForm
+    SkillForm,
+    CertificateForm
   },
   data() {
     return {
