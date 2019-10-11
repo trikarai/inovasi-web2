@@ -7,7 +7,7 @@
         <v-switch v-model="reverse" label="Toggle reverse"></v-switch>
       </v-col>
       <v-col md2>
-        <v-switch v-model="dense" label="Toggle dense"></v-switch>
+        <v-switch v-model="dense" label="Toggle dense" class="hidden-sm-and-down"></v-switch>
       </v-col>
     </v-row>
 
@@ -336,16 +336,22 @@
             >Create or Join Team First</v-alert>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              color="primary"
-              :disabled="valuepropositionId == ''"
-              @click="gotoCanvas"
-            >Business Analysis</v-btn>
-            <v-btn
-              color="primary"
-              :disabled="valuepropositionId == ''"
-              @click="gotoExp('businessdata')"
-            >Business Data</v-btn>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-btn
+                  color="primary"
+                  :disabled="valuepropositionId == ''"
+                  @click="gotoCanvas"
+                >Business Analysis</v-btn>
+              </v-col>
+              <v-col sm="6">
+                <v-btn
+                  color="primary"
+                  :disabled="valuepropositionId == ''"
+                  @click="gotoExp('businessdata')"
+                >Business Data</v-btn>
+              </v-col>
+            </v-row>
           </v-card-actions>
           <!-- <v-card-text>
             <v-layout row>
@@ -381,22 +387,29 @@
             >Create or Join Team First</v-alert>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              color="primary"
-              :disabled="valuepropositionId == ''"
-              @click="gotoExp('javelin')"
-            >Experiment</v-btn>
-            <v-btn
-              color="primary"
-              :disabled="valuepropositionId == ''"
-              @click="gotoExp('metric')"
-            >Metric</v-btn>
-
-            <v-btn
-              color="primary"
-              :disabled="valuepropositionId == ''"
-              @click="gotoExp('developmentplan')"
-            >Development Plan</v-btn>
+            <v-row>
+              <v-col cols="12" sm="4" md="2" lg="4">
+                <v-btn
+                  color="primary"
+                  :disabled="valuepropositionId == ''"
+                  @click="gotoExp('javelin')"
+                >Experiment</v-btn>
+              </v-col>
+              <v-col sm="4" md="2" lg="3">
+                <v-btn
+                  color="primary"
+                  :disabled="valuepropositionId == ''"
+                  @click="gotoExp('metric')"
+                >Metric</v-btn>
+              </v-col>
+              <v-col sm="4" md="4" lg="5">
+                <v-btn
+                  color="primary"
+                  :disabled="valuepropositionId == ''"
+                  @click="gotoExp('developmentplan')"
+                >Development Plan</v-btn>
+              </v-col>
+            </v-row>
           </v-card-actions>
           <!-- <v-card-text>
             <v-layout row>
@@ -484,7 +497,7 @@ export default {
     loaderVp: false,
     loaderProgram: false,
     reverse: false,
-    dense: false,
+    dense: true,
     items: [
       { title: "Education", to: "/talent/education" },
       { title: "Work", to: "/talent/work" },
@@ -512,7 +525,9 @@ export default {
     experiments: { total: 0, list: [] }
   }),
   components: {},
+  computed: {},
   watch: {
+    "$vuetify.breakpoint.name": "checkDense",
     teamId: function() {
       this.getProgramList();
       this.getIdea();
@@ -547,6 +562,9 @@ export default {
       });
     }
   },
+  created() {
+    this.checkDense();
+  },
   mounted: function() {
     if (localStorage.teamId) {
       this.getProgramList();
@@ -554,6 +572,27 @@ export default {
     }
   },
   methods: {
+    checkDense() {
+      // console.log(this.$vuetify.breakpoint.name);
+      var bp = this.$vuetify.breakpoint.name;
+      switch (bp) {
+        case "xs":
+          this.dense = true;
+          break;
+        case "sm":
+          this.dense = true;
+          break;
+        case "md":
+          this.dense = false;
+          break;
+        case "lg":
+          this.dense = false;
+          break;
+        case "xl":
+          this.dense = false;
+          break;
+      }
+    },
     gotoIdeaDetail: function() {
       if (this.ideaId === "") {
         bus.$emit("callNotif", "info", ["Idea Not Selected"]);
@@ -889,7 +928,8 @@ export default {
     },
     getExperiments: function() {
       this.loader = true;
-      this.axios.get(config.baseUri + "/talent/forms?types[]=exp")
+      this.axios
+        .get(config.baseUri + "/talent/forms?types[]=exp")
         .then(res => {
           if (res.data.data) {
             this.experiments = res.data.data;
