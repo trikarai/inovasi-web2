@@ -136,7 +136,7 @@ export default {
           }
         })
         .catch(res => {
-          // bus.$emit("callNotif", "error", res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadTrack = false;
@@ -163,7 +163,7 @@ export default {
           }
         })
         .catch(res => {
-          // bus.$emit("callNotif", "error", res);
+          bus.$emit("callNotif", "error", res);
         })
         .finally(() => {
           this.loadSkill = false;
