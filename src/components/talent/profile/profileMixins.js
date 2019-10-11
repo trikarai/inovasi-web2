@@ -36,6 +36,11 @@ export const profileMixins = {
             this.dialogEntrepreneurship = true;
             this.edit = false;
         },
+        deleteEntrepreneurship(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/entrepreneurship/"
+        },
         refreshEntrepreneurship() {
             this.dialogEntrepreneurship = false;
             this.getEntrepreneurship();
@@ -43,6 +48,11 @@ export const profileMixins = {
         openOrganizationForm() {
             this.dialogOrganization = true;
             this.edit = false;
+        },
+        deleteOrganization(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/organization/"
         },
         refreshOrganization() {
             this.dialogOrganization = false;
@@ -52,6 +62,11 @@ export const profileMixins = {
             this.dialogTraining = true;
             this.edit = false;
         },
+        deleteTraining(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/training_experience/"
+        },
         refreshTraining() {
             this.dialogTraining = false;
             this.getTraining();
@@ -59,6 +74,11 @@ export const profileMixins = {
         openWorkingForm() {
             this.dialogWorking = true;
             this.edit = false;
+        },
+        deleteWorking(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/working_experience/"
         },
         refreshWorking() {
             this.dialogWorking = false;
@@ -68,6 +88,11 @@ export const profileMixins = {
             this.dialogSkill = true;
             this.edit = false;
         },
+        deleteSkill(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/skill/"
+        },
         refreshSkill() {
             this.dialogSkill = false;
             this.getSkill();
@@ -76,15 +101,43 @@ export const profileMixins = {
             this.dialogCertificate = true;
             this.edit = false;
         },
+        deleteCertificate(item) {
+            this.deleteId = item.id;
+            this.dialogDelete = true;
+            this.deletepath = "/skill/" + this.skillId + "/certificate/"
+        },
         refreshCertificate() {
             this.dialogCertificate = false;
+            this.getCertificate();
         },
         deleteAct() {
             this.loaderDelete = true;
             this.axios.delete(config.baseUri + "/talent/" + this.deletepath + this.deleteId, { headers: auth.getAuthHeader() })
                 .then(() => {
                     this.dialogDelete = false;
-                    this.refreshEducation();
+                    switch (this.deletepath) {
+                        case "/education/":
+                            this.refreshEducation();
+                            break;
+                        case "/entrepreneurship/":
+                            this.refreshEntrepreneurship();
+                            break;
+                        case "/organization/":
+                            this.refreshOrganization();
+                            break;
+                        case "/training_experience/":
+                            this.refreshTraining();
+                            break;
+                        case "/working_experience/":
+                            this.refreshWorking();
+                            break;
+                        case "/skill/":
+                            this.refreshSkill();
+                            break;
+                        default:
+                            this.refreshCertificate();
+                            break;
+                    }
                 }).catch(res => {
                     bus.$emit("callNotif", "error", res);
                 })

@@ -209,7 +209,13 @@
                   :headers="headers2"
                   :items="dataList2.list"
                   class="elevation-1"
-                ></v-data-table>
+                >
+                  <template v-slot:item.action="{item}">
+                    <v-btn small color="warning" @click.native.stop="deleteEntrepreneurship(item)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -227,7 +233,13 @@
                   :headers="headers3"
                   :items="dataList3.list"
                   class="elevation-1"
-                ></v-data-table>
+                >
+                  <template v-slot:item.action="{item}">
+                    <v-btn small color="warning" @click.native.stop="deleteOrganization(item)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -245,7 +257,13 @@
                   :headers="headers4"
                   :items="dataList4.list"
                   class="elevation-1"
-                ></v-data-table>
+                >
+                  <template v-slot:item.action="{item}">
+                    <v-btn small color="warning" @click.native.stop="deleteTraining(item)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -263,7 +281,13 @@
                   :headers="headers5"
                   :items="dataList5.list"
                   class="elevation-1"
-                ></v-data-table>
+                >
+                  <template v-slot:item.action="{item}">
+                    <v-btn small color="warning" @click.native.stop="deleteWorking(item)">
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -320,7 +344,7 @@
                                   <v-btn x-small color="accent" class="mr-2">
                                     <v-icon small>edit</v-icon>
                                   </v-btn>
-                                  <v-btn x-small color="warning">
+                                  <v-btn x-small color="warning" @click="deleteCertificate(item)">
                                     <v-icon small>delete</v-icon>
                                   </v-btn>
                                 </td>
@@ -487,7 +511,8 @@ export default {
         },
         { text: "Position", value: "position", sortable: false },
         { text: "Start Year", value: "start_year", sortable: false },
-        { text: "End Year", value: "end_year", sortable: false }
+        { text: "End Year", value: "end_year", sortable: false },
+        { text: "", value: "action", sortable: false }
       ],
       dataList3: { total: 0, list: [] },
       tableLoad3: { total: 0, list: [] },
@@ -495,14 +520,16 @@ export default {
         { text: "Name", value: "name", sortable: false },
         { text: "Position", value: "position", sortable: false },
         { text: "Start Year", value: "start_year", sortable: false },
-        { text: "End Year", value: "end_year", sortable: false }
+        { text: "End Year", value: "end_year", sortable: false },
+        { text: "", value: "action", sortable: false }
       ],
       dataList4: { total: 0, list: [] },
       tableLoad4: { total: 0, list: [] },
       headers4: [
         { text: "Training Name", value: "name", sortable: false },
         { text: "Organizer", value: "organizer", sortable: false },
-        { text: "Role", value: "year", sortable: false }
+        { text: "Role", value: "year", sortable: false },
+        { text: "", value: "action", sortable: false }
       ],
       dataList5: { total: 0, list: [] },
       tableLoad5: { total: 0, list: [] },
@@ -511,7 +538,8 @@ export default {
         { text: "Position", value: "position", sortable: false },
         { text: "Role", value: "role", sortable: false },
         { text: "Start Year", value: "start_year", sortable: false },
-        { text: "End Year", value: "end_year", sortable: false }
+        { text: "End Year", value: "end_year", sortable: false },
+        { text: "", value: "action", sortable: false }
       ],
       dataList6: { total: 0, list: [] },
       dataCertificate: { total: 0, list: [] },
@@ -519,7 +547,8 @@ export default {
       headers6: [
         { text: "Skill Name", value: "skill_reference.name", sortable: false },
         { text: "Score", value: "score", sortable: false },
-        { text: "", value: "actions", sortable: false, align: "right" }
+        { text: "", value: "actions", sortable: false, align: "right" },
+        { text: "", value: "action", sortable: false }
       ],
       tableLoad6: false,
       expanded: [],
