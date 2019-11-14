@@ -56,9 +56,7 @@
 
     <v-content>
       <section>
-        <v-parallax 
-        :src="baseUrl + '/img/ino-landingpage2.jpg'"
-        height="670">
+        <v-parallax :src="baseUrl + '/img/ino-landingpage2.jpg'" height="670">
           <v-container grid-list-xl style="margin-top:100px" class="d-flex d-sm-none">
             <v-layout row wrap>
               <v-flex xs12 sm12 md7></v-flex>
