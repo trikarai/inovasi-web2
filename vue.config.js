@@ -1,3 +1,7 @@
 module.exports = {
-  publicPath: '/v2'
+  publicPath: '',
+
+  pluginOptions: {
+    cordovaPath: 'temp'
+  }
 }
